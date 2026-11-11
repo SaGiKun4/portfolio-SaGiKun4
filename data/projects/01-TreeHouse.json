@@ -1,0 +1,1048 @@
+{
+  "schemaVersion": 2,
+  "id": "01-TreeHouse",
+  "doc": "TreeHouse_기술문서.md",
+  "title": "TreeHouse",
+  "tagline": "\"낮에는 하늘 탐험, 밤에는 둥지 방어\"로 재해석한 2D 탐험 + 디펜스 게임",
+  "cover": "images/cover.jpg",
+  "team": {
+    "type": "solo",
+    "size": "1인",
+    "role": ""
+  },
+  "meta": [
+    {
+      "label": "장르",
+      "value": "2D 탐험 + 디펜스"
+    },
+    {
+      "label": "기간",
+      "value": "2주 (개인 프로젝트)"
+    },
+    {
+      "label": "인원",
+      "value": "1인"
+    },
+    {
+      "label": "환경",
+      "value": "Unity 6000.3.15f1 (URP 2D, New Input System, TextMeshPro)"
+    }
+  ],
+  "tags": [
+    "Unity 6.3",
+    "URP 2D",
+    "A* 길찾기",
+    "구역별 그리드",
+    "FSM 몬스터 AI",
+    "ScriptableObject",
+    "New Input System"
+  ],
+  "links": {
+    "github": "https://github.com/KooHoo-Dev/3rd-2D-Project-SaGiKun4",
+    "video": "https://youtu.be/rVk8w-42GYg",
+    "extra": []
+  },
+  "intent": {
+    "text": "이 게임의 핵심 재미는 \"탐험\" 입니다. 디펜스는 탐험의 재미를 확장하는 수단으로 두었습니다.",
+    "verbatim": true
+  },
+  "highlights": [
+    {
+      "title": "몬스터 길찾기",
+      "what": "몬스터가 자기 구역의 그리드에서 A* 경로를 받아 벽을 돌아 플레이어를 추적합니다.",
+      "how": "구역 콜라이더(`area`) 범위로 노드 그리드를 만들고(벽 레이어 겹침 검사), 열린 목록에서 총비용이 가장 작은 노드를 확장하는 A*로 경로를 계산합니다. 플레이어와 25 이상 떨어지면 휴면, 추격 중에는 플레이어 노드가 바뀔 때만 재탐색합니다.",
+      "why": "맵 전체 단일 그리드는 참새 10마리에서 30~50FPS로 떨어졌고, 그리드·경로 공유는 몬스터가 한곳에 뭉쳐 부자연스러워 구역별 그리드 분할을 선택했습니다. 구역 밖으로 추격하지 못하는 제약은 \"자기 구역을 지키는 새\"라는 정체성으로 활용했습니다.",
+      "section": "3.1 몬스터 길찾기",
+      "image": {
+        "src": "images/pathfinding.gif",
+        "w": 544,
+        "h": 306,
+        "caption": "벽을 돌아 추적하는 몬스터"
+      }
+    },
+    {
+      "title": "탐험 압박: 체력 = 산소",
+      "what": "체력이 시간에 따라 줄어듭니다. 기본 초당 1/3, 달리기 중 1, 한계 고도를 넘으면 2입니다.",
+      "how": "달리기 여부와 고도에 따라 초당 감소량(`drainPerSecond`)을 바꾸고, 한계 고도는 허브 강화로 늘어납니다.",
+      "why": "단순 시간제한만 두면 운 좋게 높은 고도의 새를 잡는 상황이 생기므로 한계 고도 초과 시 추가 감소로 구간별 제한을 두고, 사냥에 난이도를 주려고 달리기 시 추가 감소를 넣었습니다.",
+      "section": "3.2 탐험 압박: 체력 = 산소",
+      "image": {
+        "src": "images/pressure.gif",
+        "w": 544,
+        "h": 306,
+        "caption": "탐험 중 체력 감소"
+      }
+    },
+    {
+      "title": "귀환과 획득물 확정",
+      "what": "탐험 중 주운 깃털은 임시 인벤토리에 두고, 귀환에 성공해야만 확정·해금되며 사망하면 모두 버립니다.",
+      "how": "`AdventureManager.QuitAdventure()`가 임시 인벤토리를 확정 인벤토리에 병합(`Merge`)하며 해금 목록에 등록하고, `FailAdventure()`는 임시 인벤토리를 비웁니다. 해금된 깃털이 없는데 빈손으로 귀환하면 실패로 처리합니다.",
+      "why": "획득 즉시 반영하면 높은 등급 깃털을 한 번 터치하고 일부러 죽는 플레이로 여러 깃털을 해금할 수 있어, \"탐험에 성공해야 디펜스에 반영된다\"는 규칙을 지키려고 진행 중 획득물과 확정 획득물을 나눴습니다.",
+      "section": "3.4 귀환과 획득물 확정",
+      "image": null
+    },
+    {
+      "title": "유닛 장착",
+      "what": "유닛 하나에 깃털을 장착하면 행동 방식·외형·애니메이션·사거리·공격력이 한 번에 바뀝니다.",
+      "how": "`Unit.EquipItem()`이 깃털(`Item`, ScriptableObject)의 `attackData`(`UnitAttack`)·스프라이트·애니메이터·사거리·데미지를 통째로 교체합니다. 렌치(`Infinite` 등급)는 같은 장착 경로를 재사용해 해제합니다.",
+      "why": "모든 유닛의 행동이 \"범위 내의 적에게 스킬을 수행한다\"로 같아, 종류마다 클래스·프리팹을 두면 깃털 수만큼 늘어나므로 유닛 하나 + 깃털 데이터 교체를 선택했습니다. 덕분에 기본 유닛의 재화 생산(`MoneyMaker`)도 같은 틀에 넣었습니다.",
+      "section": "3.5 유닛 장착",
+      "image": {
+        "src": "images/equip.gif",
+        "w": 544,
+        "h": 306,
+        "caption": "깃털 장착"
+      }
+    }
+  ],
+  "troubleshooting": [
+    {
+      "title": "맵 전체 단일 그리드에서 프레임 하락",
+      "problem": "공부할 때 작성한 A*를 맵 전체 하나의 그리드에 적용하자 참새 10마리에서 30~50FPS로 떨어지고, 15~20마리를 넘으면 게임이 동작하지 않았습니다.",
+      "cause": "몬스터마다 맵 전체 그리드를 탐색해 탐색 범위가 넓었습니다(2.4·5.1: 무거움의 원인은 알고리즘 자체보다 탐색 범위 등에 있었음).",
+      "solution": "맵을 구역으로 나누고 몬스터마다 자기 구역 그리드만 탐색하게 했습니다(대안 B. 구역별 그리드 분할).",
+      "result": "32마리(탐험 씬 전체)에서 약 120FPS. 특정 시점 20~30FPS 순간 하락은 남았습니다(5.1).",
+      "lesson": "",
+      "section": "4.1 몬스터 길찾기: 그리드를 어떻게 나눌 것인가"
+    },
+    {
+      "title": "몬스터 길찾기 순간 프레임 하락",
+      "problem": "구역별 그리드 적용 후에도 특정 시점에 20~30FPS로 순간 하락",
+      "cause": "여러 몬스터의 길찾기가 같은 시점에 몰려 실행됨",
+      "solution": "플레이어와 25 이상 떨어진 몬스터는 휴면 상태로 길찾기 중단, 추격 중에는 플레이어 노드가 바뀔 때만 재탐색",
+      "result": "순간 하락이 약 70~80FPS 수준으로 완화. 완전히 사라지지는 않음",
+      "lesson": "",
+      "section": "5.2 트러블슈팅: 몬스터 길찾기 순간 프레임 하락"
+    },
+    {
+      "title": "돌진 스킬이 벽을 통과하는 문제",
+      "problem": "프로젝트 막바지에 까마귀가 돌진하면서 벽을 뚫고 나가는 현상을 발견했지만 수정하지 못했습니다.",
+      "cause": "새의 몸체 콜라이더가 트리거라 벽과 부딪히지 않고, 돌진은 A* 그리드를 거치지 않고 속도로 직선 이동해 벽을 통과합니다. 스킬 진행 중 상태 판단이 바로 빠져나가는 우선순위 문제도 있었습니다.",
+      "solution": "(개선 계획) 돌진 전에 벽 레이어로 레이캐스트해 목표 지점을 벽 앞으로 보정, 또는 벽에 닿으면 스킬 종료. 스킬의 종료·취소 조건을 `BirdSkill` 부모 클래스에서 공통으로 보장",
+      "result": "",
+      "lesson": "이동 방식이 여러 개(경로 기반, 직선 속도)일 때 \"벽을 막는 책임\"이 한 방식에만 있으면, 그 방식을 거치지 않는 이동에서 구멍이 생깁니다.",
+      "section": "5.3 트러블슈팅: 돌진 스킬이 벽을 통과하는 문제"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "images/pathfinding.gif",
+      "w": 544,
+      "h": 306,
+      "caption": "벽을 돌아 추적하는 몬스터"
+    },
+    {
+      "src": "images/pressure.gif",
+      "w": 544,
+      "h": 306,
+      "caption": "탐험 중 체력 감소"
+    },
+    {
+      "src": "images/equip.gif",
+      "w": 544,
+      "h": 306,
+      "caption": "깃털 장착"
+    },
+    {
+      "src": "images/reroll.gif",
+      "w": 544,
+      "h": 306,
+      "caption": "상점 리롤"
+    },
+    {
+      "src": "images/dash.gif",
+      "w": 544,
+      "h": 306,
+      "caption": "까마귀 돌진"
+    }
+  ],
+  "retro": {
+    "section": "5. 결과 및 배운 점",
+    "achieved": [
+      "2주 동안 탐험·디펜스 두 모드와, 깃털로 이어지는 순환 구조(획득 → 확정·해금 → 장착 → 재화 → 강화)를 완성했습니다.",
+      "구역별 그리드 + 거리 기반 휴면·노드 변경 시에만 재탐색으로 32마리에서 약 120FPS, 순간 하락을 약 70~80FPS로 완화했습니다(Unity Profiler 기준).",
+      "\"A*가 실제 게임에서 얼마나 무거운가\"를 몬스터 수와 그리드 구성별 수치로 확인했습니다. 원인은 알고리즘 자체보다 탐색 범위, 동시 호출, 반복 호출 시 남는 상태에 있었습니다."
+    ],
+    "regrets": [
+      "열린 목록을 `List`로 구현해 매번 전체를 훑어 최소 비용 노드를 찾음",
+      "탐색할 때마다 노드 비용을 초기화하지 않아 이전 탐색 값이 남음",
+      "인접 노드를 구할 때마다 새 `List`를 만들어 GC 부담 발생",
+      "다른 클래스의 인스턴스를 직접 호출하는 곳이 많아(33개 파일, 130곳) 게임 로직이 UI를 알아야 하고 갱신을 빠뜨릴 위험이 큼"
+    ],
+    "plans": [
+      "비용 기준 우선순위 큐(최소 힙)로 교체",
+      "탐색 번호로 노드 비용 초기화",
+      "인접 노드 리스트 재사용",
+      "포인트 변경을 한 곳(추가·사용 메서드)으로 모으고, 값이 바뀌면 이벤트를 발생시켜 UI는 그 이벤트만 구독"
+    ]
+  },
+  "deck": {
+    "chapters": [
+      {"key": "overview", "title": "개요", "sectionPath": ["1. 개요"]},
+      {"key": "arch", "title": "시스템 구조", "sectionPath": ["2. 시스템 구조"]},
+      {"key": "core", "title": "핵심 기능", "sectionPath": ["3. 핵심 기능"]},
+      {"key": "choice", "title": "고민과 선택", "sectionPath": ["4. 고민과 선택"]},
+      {"key": "result", "title": "결과 및 배운 점", "sectionPath": ["5. 결과 및 배운 점"]}
+    ],
+    "slides": [
+      {
+        "key": "core-loop",
+        "chapter": "overview",
+        "layout": "visual",
+        "tab": "개요",
+        "title": {"text": "1.1 무엇을 만들었나 (What)", "verbatim": true},
+        "lead": {
+          "text": "Dave the Diver의 \"낮에는 심해 잠수, 밤에는 초밥집 경영\" 구조를 \"낮에는 하늘 탐험, 밤에는 둥지 방어\" 로 재해석한 2D 게임입니다.",
+          "verbatim": true
+        },
+        "sectionPath": ["1.1 무엇을 만들었나 (What)"],
+        "points": [
+          {
+            "label": "핵심 루프",
+            "text": "플레이어는 새가 되어 하늘을 탐험하며 다른 새를 사냥해 깃털을 모으고, 밤에는 모은 깃털로 유닛을 강화해 둥지를 노리는 야생동물을 막습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart LR"}]
+      },
+      {
+        "key": "why",
+        "chapter": "overview",
+        "layout": "overview",
+        "tab": "개요",
+        "title": {"text": "1.2 왜 만들었나 (Why)", "verbatim": true},
+        "lead": {"text": "이 게임의 핵심 재미는 \"탐험\" 입니다. 디펜스는 탐험의 재미를 확장하는 수단으로 두었습니다.", "verbatim": true},
+        "sectionPath": ["1.2 왜 만들었나 (Why)"],
+        "points": [
+          {"label": "탐험", "text": "리스크를 감수하며 미지의 공간을 개척하고, 아이템을 발견하는 재미", "verbatim": true},
+          {"label": "디펜스", "text": "탐험에서 얻은 자원으로 효율적인 전략을 구성하는 재미", "verbatim": true},
+          {"label": "", "text": "탐험에서 귀환에 성공해야만 깃털이 디펜스에 반영되는 구조로 설계했습니다.", "verbatim": true},
+          {"label": "", "text": "A*가 실제 게임에서 얼마나 무거운지 직접 확인하는 것도 이 프로젝트의 기술적 목표였습니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/cover.jpg",
+            "w": 1702,
+            "h": 957,
+            "caption": {"text": "대표 이미지", "verbatim": true},
+            "sectionPath": ["TreeHouse 기술 문서"]
+          }
+        ]
+      },
+      {
+        "key": "feather-flow",
+        "chapter": "arch",
+        "layout": "visual",
+        "tab": "흐름",
+        "title": {"text": "2.1 깃털 데이터의 흐름", "verbatim": true},
+        "lead": {"text": "두 모드를 잇는 것은 \"깃털\"입니다. 깃털이 어디서 생기고 어디로 가는지를 기준으로 구조를 나눴습니다.", "verbatim": true},
+        "sectionPath": ["2.1 깃털 데이터의 흐름"],
+        "points": [],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart LR"}]
+      },
+      {
+        "key": "ai-structure",
+        "chapter": "arch",
+        "layout": "visual",
+        "tab": "구조",
+        "title": {"text": "2.2 몬스터 AI와 길찾기 구조", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["2.2 몬스터 AI와 길찾기 구조"],
+        "points": [],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "classDiagram"}]
+      },
+      {
+        "key": "unit-structure",
+        "chapter": "arch",
+        "layout": "visual",
+        "tab": "구조",
+        "title": {"text": "2.3 유닛과 깃털 구조", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["2.3 유닛과 깃털 구조"],
+        "points": [],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "classDiagram"}]
+      },
+      {
+        "key": "split-reason",
+        "chapter": "arch",
+        "layout": "overview",
+        "tab": "선택",
+        "title": {"text": "이렇게 나눈 이유", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["2.4 핵심 클래스 역할 분담"],
+        "points": [
+          {
+            "label": "",
+            "text": "그리드를 `PathFinder`가 아니라 구역별 `GridManager`가 갖게 한 것은, 몬스터마다 자기 구역만 탐색하게 해서 탐색 범위를 줄이기 위해서입니다",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "이론 구조를 그대로 실제 게임에 적용했을 때 어떤 문제가 생기는지 확인하는 것이 목적이었기 때문에 별도의 `PathFinder.Instance`로 부르는 구조를 일부러 유지했습니다",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "유닛의 행동을 `Unit` 안에 쓰지 않고 `UnitAttack`으로 분리한 것은, 모든 유닛이 \"범위 내 적에게 행동한다\"는 같은 구조이고 행동 방식만 다르기 때문입니다",
+            "verbatim": true
+          },
+          {"label": "", "text": "확정 인벤토리와 임시 인벤토리를 나눈 것은, 귀환에 성공했을 때만 깃털이 해금되게 하기 위해서입니다", "verbatim": true}
+        ],
+        "visuals": []
+      },
+      {
+        "key": "path-api",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.1 몬스터 길찾기", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.1 몬스터 길찾기", "사용법 (API)"],
+        "points": [
+          {
+            "label": "사용법",
+            "text": "몬스터(`BirdMovement`)는 자기 구역의 `GridManager`를 인스펙터에서 지정받고, 경로가 필요할 때 그 그리드를 넘겨 요청합니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {"kind": "code", "n": 1, "fp": "// 그리드와 시작·목표 좌표를 넘기면 경로(노드 목록)를 돌려준다. 갈 수 없으면 null"},
+          {
+            "kind": "image",
+            "src": "images/pathfinding.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "벽을 돌아 추적하는 몬스터", "verbatim": true},
+            "sectionPath": ["3.1 몬스터 길찾기"]
+          }
+        ]
+      },
+      {
+        "key": "grid",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "핵심 동작: 구역 그리드 생성", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.1 몬스터 길찾기", "핵심 동작: 구역 그리드 생성"],
+        "points": [
+          {"label": "구현", "text": "그리드의 범위는 맵 전체가 아니라 각 구역의 콜라이더(`area`) 입니다.", "verbatim": true},
+          {"label": "구현", "text": "각 칸의 중심에서 벽 레이어와 겹치는지 검사해 이동 가능 여부를 정합니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "code", "n": 1, "lines": [3, 19], "fp": "private void CreateGrid()"}]
+      },
+      {
+        "key": "astar",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "핵심 동작: A* 탐색", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.1 몬스터 길찾기", "핵심 동작: A* 탐색"],
+        "points": [
+          {"label": "구현", "text": "열린 목록에서 총비용(`hereCost + remainCost`)이 가장 작은 노드를 꺼내 확장합니다.", "verbatim": true},
+          {"label": "이유", "text": "열린 목록은 인덱스를 직접 다루고 내부를 점검하기 쉬운 `List`로 구현했습니다", "verbatim": true},
+          {"label": "구현", "text": "비용은 직선 10, 대각선 14로 정수 근사해 √2 계산을 피했습니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "code", "n": 1, "lines": [1, 20], "fp": "while (openSet.Count > 0)"}]
+      },
+      {
+        "key": "pressure",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.2 탐험 압박: 체력 = 산소", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.2 탐험 압박: 체력 = 산소"],
+        "points": [
+          {"label": "기능", "text": "체력은 시간에 따라 줄어듭니다. 기본 초당 1/3, 달리기 중 1, 한계 고도를 넘으면 2입니다.", "verbatim": true},
+          {"label": "이유", "text": "탐험은 리스크를 동반해야 한다고 보고, 플레이어의 움직임을 계속 압박하는 매개체로 원작의 산소 시스템을 가져왔습니다.", "verbatim": true},
+          {
+            "label": "이유",
+            "text": "단순 시간제한만 두면 운 좋게 높은 고도의 새를 잡는 상황이 생기므로, 한계 고도 초과 시 추가 감소로 구간별 제한을 두었습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {"kind": "code", "n": 1, "fp": "float drainPerSecond = 1f / 3f;"},
+          {
+            "kind": "image",
+            "src": "images/pressure.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "탐험 중 체력 감소", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "return",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.4 귀환과 획득물 확정", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.4 귀환과 획득물 확정", "핵심 동작"],
+        "points": [
+          {
+            "label": "구현",
+            "text": "탐험 중 주운 깃털은 임시 인벤토리에만 들어갑니다. 귀환에 성공하면 확정 인벤토리에 병합되고, 병합(`Merge`)하면서 해금 목록에도 등록됩니다.",
+            "verbatim": true
+          },
+          {"label": "예외 처리", "text": "해금된 깃털이 하나도 없는데 빈손으로 귀환하면 실패로 처리합니다.", "verbatim": true},
+          {"label": "이유", "text": "사망하면 이번 탐험의 획득물을 모두 버립니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "code", "n": 1, "fp": "public void QuitAdventure()"}]
+      },
+      {
+        "key": "equip",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.5 유닛 장착", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.5 유닛 장착", "핵심 동작"],
+        "points": [
+          {
+            "label": "구현",
+            "text": "유닛 클래스를 종류마다 나누지 않고, 깃털 데이터 하나로 행동 방식·외형·애니메이션·사거리·공격력을 한 번에 바꿉니다.",
+            "verbatim": true
+          },
+          {"label": "구현", "text": "렌치(`Infinite` 등급)는 별도 입력을 만들지 않고 같은 장착 경로를 재사용해 해제 동작으로 처리했습니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {"kind": "code", "n": 1, "lines": [1, 19], "fp": "public void EquipItem(Item item)"},
+          {
+            "kind": "image",
+            "src": "images/equip.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "깃털 장착", "verbatim": true},
+            "sectionPath": ["3.5 유닛 장착"]
+          }
+        ]
+      },
+      {
+        "key": "skill",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.7 몬스터 스킬 구조", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.7 몬스터 스킬 구조"],
+        "points": [
+          {"label": "구현", "text": "공격 상태에서 몬스터에 붙은 스킬 중 사용 가능한 것을 실행하고, 없으면 추격합니다.", "verbatim": true},
+          {
+            "label": "이유",
+            "text": "스킬을 컴포넌트로 붙인 이유는, Unity 에디터에서 몬스터가 어떤 스킬을 쓸 수 있는지 바로 확인할 수 있어서입니다.",
+            "verbatim": true
+          },
+          {"label": "", "text": "현재 스킬은 까마귀의 돌진(`DashSkill`: 3초 차지 → 직선 돌진 → 쿨타임 8초) 하나입니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {"kind": "code", "n": 1, "fp": "foreach (BirdSkill skill in skills)"},
+          {
+            "kind": "image",
+            "src": "images/dash.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "까마귀 돌진", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "grid-choice",
+        "chapter": "choice",
+        "layout": "full",
+        "tab": "선택",
+        "title": {"text": "4.1 몬스터 길찾기: 그리드를 어떻게 나눌 것인가", "verbatim": true},
+        "lead": {"text": "참새 10마리에서 30~50FPS로 떨어졌고, 15~20마리를 넘으면 게임이 동작하지 않았습니다.", "verbatim": true},
+        "sectionPath": ["4.1 몬스터 길찾기: 그리드를 어떻게 나눌 것인가"],
+        "points": [
+          {"label": "이유", "text": "A*를 도입한 목적인 \"자연스러운 움직임\"을 해치지 않습니다.", "verbatim": true},
+          {"label": "감수한 단점", "text": "구역 밖으로 추격하지 못하는 제약은, \"자기 구역을 지키는 새\"라는 게임의 정체성으로 활용했습니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 그리드·경로 공유|대안 B. 구역별 그리드 분할"}]
+      },
+      {
+        "key": "unit-choice",
+        "chapter": "choice",
+        "layout": "full",
+        "tab": "선택",
+        "title": {"text": "4.3 유닛을 종류마다 나눌 것인가", "verbatim": true},
+        "lead": {"text": "모든 유닛의 행동은 \"범위 내의 적에게 스킬을 수행한다\"로 같고 외형만 다릅니다.", "verbatim": true},
+        "sectionPath": ["4.3 유닛을 종류마다 나눌 것인가"],
+        "points": [
+          {
+            "label": "",
+            "text": "행동 방식을 `UnitAttack`으로 분리해 두었기 때문에, \"공격하지 않는 행동\"(`MoneyMaker`)도 같은 틀에 그대로 넣을 수 있었습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 유닛 종류마다 클래스·프리팹|대안 B. 유닛 하나 + 깃털 데이터로 교체"}]
+      },
+      {
+        "key": "data-split",
+        "chapter": "choice",
+        "layout": "overview",
+        "tab": "선택",
+        "title": {"text": "4.4 깃털 데이터를 얼마나 나눌 것인가", "verbatim": true},
+        "lead": {"text": "디펜스 쪽을 상속으로 나누는 것은 좋다고 보았고, \"나중에 문제가 될 바엔 미리 분리하자\"는 생각으로 탐험 쪽까지 나눴습니다.", "verbatim": true},
+        "sectionPath": ["4.4 깃털 데이터를 얼마나 나눌 것인가"],
+        "points": [
+          {"label": "문제", "text": "상속으로 나눠 읽기 좋게 만들려고 했는데, 스크립트가 늘면서 오히려 읽기 어려워지고 있다.", "verbatim": true},
+          {"label": "최종 선택", "text": "하나의 아이템으로 다시 결합", "verbatim": true},
+          {"label": "배운 점", "text": "분리 수준은 분리하려는 목적(여기서는 가독성) 을 기준으로 판단해야 합니다.", "verbatim": true}
+        ],
+        "visuals": []
+      },
+      {
+        "key": "peck-choice",
+        "chapter": "choice",
+        "layout": "full",
+        "tab": "선택",
+        "title": {"text": "4.5 플레이어 근접 공격: 한 장에 그릴 것인가, 머리와 몸통을 나눌 것인가", "verbatim": true},
+        "lead": {"text": "새는 날면서 공격하므로, 날갯짓과 쪼기가 동시에 따로 움직여야 했습니다.", "verbatim": true},
+        "sectionPath": ["4.5 플레이어 근접 공격: 한 장에 그릴 것인가, 머리와 몸통을 나눌 것인가"],
+        "points": [{"label": "이유", "text": "위치와 피벗을 다시 잡는 불편이 있었지만, 결과물이 자연스러운 것이 더 중요하다고 판단해 감수했습니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 날갯짓 타이밍마다 공격 이미지|대안 B. 공격 시 머리를 옮긴 이미지로 교체|대안 C. 머리와 몸통을 분리"}]
+      },
+      {
+        "key": "peck-result",
+        "chapter": "choice",
+        "layout": "screens",
+        "tab": "결과",
+        "title": {"text": "4.5 플레이어 근접 공격: 한 장에 그릴 것인가, 머리와 몸통을 나눌 것인가", "verbatim": true},
+        "lead": {"text": "날갯짓이 끊기지 않은 채 머리만 앞으로 쪼는 공격 모션을 만들었습니다.", "verbatim": true},
+        "sectionPath": ["4.5 플레이어 근접 공격: 한 장에 그릴 것인가, 머리와 몸통을 나눌 것인가"],
+        "points": [{"label": "구현", "text": "히트박스가 머리에 붙어 있어서 판정도 쪼는 머리와 함께 움직입니다.", "verbatim": true}],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/peck.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "날갯짓을 유지한 채 머리만 앞으로 내밀어 쪼는 공격", "verbatim": true}
+          },
+          {
+            "kind": "image",
+            "src": "images/peck-split.png",
+            "w": 1288,
+            "h": 656,
+            "caption": {"text": "위부터 몸통 5프레임, 머리 5프레임, 둘을 겹친 모습", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "result",
+        "chapter": "result",
+        "layout": "full",
+        "tab": "결과",
+        "title": {"text": "5.1 결과", "verbatim": true},
+        "lead": {"text": "길찾기 최적화 결과 (Unity Profiler 기준)", "verbatim": true},
+        "sectionPath": ["5.1 결과"],
+        "points": [
+          {
+            "label": "",
+            "text": "무거움의 원인은 알고리즘 자체보다 탐색 범위, 동시 호출, 반복 호출 시 남는 상태처럼 이론에서 다루지 않던 부분에 있었습니다",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "table", "n": 1, "fp": "단계|몬스터 수|결과"}]
+      },
+      {
+        "key": "ts-frame",
+        "chapter": "result",
+        "layout": "problem",
+        "tab": "문제 해결",
+        "title": {"text": "5.2 트러블슈팅: 몬스터 길찾기 순간 프레임 하락", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["5.2 트러블슈팅: 몬스터 길찾기 순간 프레임 하락"],
+        "points": [
+          {"label": "문제", "text": "구역별 그리드 적용 후에도 특정 시점에 20~30FPS로 순간 하락", "verbatim": true},
+          {"label": "원인", "text": "여러 몬스터의 길찾기가 같은 시점에 몰려 실행됨", "verbatim": true},
+          {"label": "해결", "text": "플레이어와 25 이상 떨어진 몬스터는 휴면 상태로 길찾기 중단, 추격 중에는 플레이어 노드가 바뀔 때만 재탐색", "verbatim": true},
+          {"label": "결과", "text": "순간 하락이 약 70~80FPS 수준으로 완화. 완전히 사라지지는 않음", "verbatim": true}
+        ],
+        "visuals": [
+          {
+            "kind": "code",
+            "n": 1,
+            "fp": "if (currentState == State.None)",
+            "sectionPath": ["3.1 몬스터 길찾기", "핵심 동작: 연산을 줄이는 상태 판단"]
+          }
+        ]
+      },
+      {
+        "key": "ts-dash",
+        "chapter": "result",
+        "layout": "problem",
+        "tab": "문제 해결",
+        "title": {"text": "5.3 트러블슈팅: 돌진 스킬이 벽을 통과하는 문제", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["5.3 트러블슈팅: 돌진 스킬이 벽을 통과하는 문제"],
+        "points": [
+          {"label": "문제", "text": "까마귀가 돌진하면서 벽을 뚫고 나가는 현상을 발견", "verbatim": true},
+          {"label": "원인", "text": "새의 몸체 콜라이더가 트리거라 벽과 물리적으로 부딪히지 않음", "verbatim": true},
+          {"label": "개선 계획", "text": "돌진 전에 벽 레이어로 레이캐스트해 목표 지점을 벽 앞으로 보정, 또는 벽에 닿으면 스킬 종료", "verbatim": true},
+          {
+            "label": "배운 점",
+            "text": "이동 방식이 여러 개(경로 기반, 직선 속도)일 때 \"벽을 막는 책임\"이 한 방식에만 있으면, 그 방식을 거치지 않는 이동에서 구멍이 생깁니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "code", "n": 1, "fp": "if (isDash)"}]
+      }
+    ],
+    "base": [
+      {
+        "key": "core-loop",
+        "chapter": "overview",
+        "layout": "visual",
+        "tab": "개요",
+        "title": {"text": "1.1 무엇을 만들었나 (What)", "verbatim": true},
+        "lead": {
+          "text": "Dave the Diver의 \"낮에는 심해 잠수, 밤에는 초밥집 경영\" 구조를 \"낮에는 하늘 탐험, 밤에는 둥지 방어\" 로 재해석한 2D 게임입니다.",
+          "verbatim": true
+        },
+        "sectionPath": ["1.1 무엇을 만들었나 (What)"],
+        "points": [
+          {
+            "label": "핵심 루프",
+            "text": "플레이어는 새가 되어 하늘을 탐험하며 다른 새를 사냥해 깃털을 모으고, 밤에는 모은 깃털로 유닛을 강화해 둥지를 노리는 야생동물을 막습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart LR"}]
+      },
+      {
+        "key": "why",
+        "chapter": "overview",
+        "layout": "overview",
+        "tab": "개요",
+        "title": {"text": "1.2 왜 만들었나 (Why)", "verbatim": true},
+        "lead": {"text": "이 게임의 핵심 재미는 \"탐험\" 입니다. 디펜스는 탐험의 재미를 확장하는 수단으로 두었습니다.", "verbatim": true},
+        "sectionPath": ["1.2 왜 만들었나 (Why)"],
+        "points": [
+          {"label": "탐험", "text": "리스크를 감수하며 미지의 공간을 개척하고, 아이템을 발견하는 재미", "verbatim": true},
+          {"label": "디펜스", "text": "탐험에서 얻은 자원으로 효율적인 전략을 구성하는 재미", "verbatim": true},
+          {"label": "", "text": "탐험에서 귀환에 성공해야만 깃털이 디펜스에 반영되는 구조로 설계했습니다.", "verbatim": true},
+          {"label": "", "text": "A*가 실제 게임에서 얼마나 무거운지 직접 확인하는 것도 이 프로젝트의 기술적 목표였습니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/cover.jpg",
+            "w": 1702,
+            "h": 957,
+            "caption": {"text": "대표 이미지", "verbatim": true},
+            "sectionPath": ["TreeHouse 기술 문서"]
+          }
+        ]
+      },
+      {
+        "key": "feather-flow",
+        "chapter": "arch",
+        "layout": "visual",
+        "tab": "흐름",
+        "title": {"text": "2.1 깃털 데이터의 흐름", "verbatim": true},
+        "lead": {"text": "두 모드를 잇는 것은 \"깃털\"입니다. 깃털이 어디서 생기고 어디로 가는지를 기준으로 구조를 나눴습니다.", "verbatim": true},
+        "sectionPath": ["2.1 깃털 데이터의 흐름"],
+        "points": [],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart LR"}]
+      },
+      {
+        "key": "ai-structure",
+        "chapter": "arch",
+        "layout": "visual",
+        "tab": "구조",
+        "title": {"text": "2.2 몬스터 AI와 길찾기 구조", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["2.2 몬스터 AI와 길찾기 구조"],
+        "points": [],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "classDiagram"}]
+      },
+      {
+        "key": "unit-structure",
+        "chapter": "arch",
+        "layout": "visual",
+        "tab": "구조",
+        "title": {"text": "2.3 유닛과 깃털 구조", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["2.3 유닛과 깃털 구조"],
+        "points": [],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "classDiagram"}]
+      },
+      {
+        "key": "roles",
+        "chapter": "arch",
+        "layout": "full",
+        "tab": "구조",
+        "title": {"text": "2.4 핵심 클래스 역할 분담", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["2.4 핵심 클래스 역할 분담"],
+        "points": [],
+        "visuals": [{"kind": "table", "n": 1, "fp": "클래스|역할"}]
+      },
+      {
+        "key": "split-reason",
+        "chapter": "arch",
+        "layout": "overview",
+        "tab": "선택",
+        "title": {"text": "이렇게 나눈 이유", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["2.4 핵심 클래스 역할 분담"],
+        "points": [
+          {
+            "label": "",
+            "text": "그리드를 `PathFinder`가 아니라 구역별 `GridManager`가 갖게 한 것은, 몬스터마다 자기 구역만 탐색하게 해서 탐색 범위를 줄이기 위해서입니다",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "이론 구조를 그대로 실제 게임에 적용했을 때 어떤 문제가 생기는지 확인하는 것이 목적이었기 때문에 별도의 `PathFinder.Instance`로 부르는 구조를 일부러 유지했습니다",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "유닛의 행동을 `Unit` 안에 쓰지 않고 `UnitAttack`으로 분리한 것은, 모든 유닛이 \"범위 내 적에게 행동한다\"는 같은 구조이고 행동 방식만 다르기 때문입니다",
+            "verbatim": true
+          },
+          {"label": "", "text": "확정 인벤토리와 임시 인벤토리를 나눈 것은, 귀환에 성공했을 때만 깃털이 해금되게 하기 위해서입니다", "verbatim": true}
+        ],
+        "visuals": []
+      },
+      {
+        "key": "path-api",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.1 몬스터 길찾기", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.1 몬스터 길찾기", "사용법 (API)"],
+        "points": [
+          {
+            "label": "사용법",
+            "text": "몬스터(`BirdMovement`)는 자기 구역의 `GridManager`를 인스펙터에서 지정받고, 경로가 필요할 때 그 그리드를 넘겨 요청합니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {"kind": "code", "n": 1, "fp": "// 그리드와 시작·목표 좌표를 넘기면 경로(노드 목록)를 돌려준다. 갈 수 없으면 null"},
+          {
+            "kind": "image",
+            "src": "images/pathfinding.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "벽을 돌아 추적하는 몬스터", "verbatim": true},
+            "sectionPath": ["3.1 몬스터 길찾기"]
+          }
+        ]
+      },
+      {
+        "key": "grid",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "핵심 동작: 구역 그리드 생성", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.1 몬스터 길찾기", "핵심 동작: 구역 그리드 생성"],
+        "points": [
+          {"label": "구현", "text": "그리드의 범위는 맵 전체가 아니라 각 구역의 콜라이더(`area`) 입니다.", "verbatim": true},
+          {"label": "구현", "text": "각 칸의 중심에서 벽 레이어와 겹치는지 검사해 이동 가능 여부를 정합니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "code", "n": 1, "lines": [3, 19], "fp": "private void CreateGrid()"}]
+      },
+      {
+        "key": "astar",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "핵심 동작: A* 탐색", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.1 몬스터 길찾기", "핵심 동작: A* 탐색"],
+        "points": [
+          {"label": "구현", "text": "열린 목록에서 총비용(`hereCost + remainCost`)이 가장 작은 노드를 꺼내 확장합니다.", "verbatim": true},
+          {"label": "이유", "text": "열린 목록은 인덱스를 직접 다루고 내부를 점검하기 쉬운 `List`로 구현했습니다", "verbatim": true},
+          {"label": "구현", "text": "비용은 직선 10, 대각선 14로 정수 근사해 √2 계산을 피했습니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "code", "n": 1, "lines": [1, 20], "fp": "while (openSet.Count > 0)"}]
+      },
+      {
+        "key": "pressure",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.2 탐험 압박: 체력 = 산소", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.2 탐험 압박: 체력 = 산소"],
+        "points": [
+          {"label": "기능", "text": "체력은 시간에 따라 줄어듭니다. 기본 초당 1/3, 달리기 중 1, 한계 고도를 넘으면 2입니다.", "verbatim": true},
+          {"label": "이유", "text": "탐험은 리스크를 동반해야 한다고 보고, 플레이어의 움직임을 계속 압박하는 매개체로 원작의 산소 시스템을 가져왔습니다.", "verbatim": true},
+          {
+            "label": "이유",
+            "text": "단순 시간제한만 두면 운 좋게 높은 고도의 새를 잡는 상황이 생기므로, 한계 고도 초과 시 추가 감소로 구간별 제한을 두었습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {"kind": "code", "n": 1, "fp": "float drainPerSecond = 1f / 3f;"},
+          {
+            "kind": "image",
+            "src": "images/pressure.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "탐험 중 체력 감소", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "return",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.4 귀환과 획득물 확정", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.4 귀환과 획득물 확정", "핵심 동작"],
+        "points": [
+          {
+            "label": "구현",
+            "text": "탐험 중 주운 깃털은 임시 인벤토리에만 들어갑니다. 귀환에 성공하면 확정 인벤토리에 병합되고, 병합(`Merge`)하면서 해금 목록에도 등록됩니다.",
+            "verbatim": true
+          },
+          {"label": "예외 처리", "text": "해금된 깃털이 하나도 없는데 빈손으로 귀환하면 실패로 처리합니다.", "verbatim": true},
+          {"label": "이유", "text": "사망하면 이번 탐험의 획득물을 모두 버립니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "code", "n": 1, "fp": "public void QuitAdventure()"}]
+      },
+      {
+        "key": "equip",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.5 유닛 장착", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.5 유닛 장착", "핵심 동작"],
+        "points": [
+          {
+            "label": "구현",
+            "text": "유닛 클래스를 종류마다 나누지 않고, 깃털 데이터 하나로 행동 방식·외형·애니메이션·사거리·공격력을 한 번에 바꿉니다.",
+            "verbatim": true
+          },
+          {"label": "구현", "text": "렌치(`Infinite` 등급)는 별도 입력을 만들지 않고 같은 장착 경로를 재사용해 해제 동작으로 처리했습니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {"kind": "code", "n": 1, "lines": [1, 19], "fp": "public void EquipItem(Item item)"},
+          {
+            "kind": "image",
+            "src": "images/equip.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "깃털 장착", "verbatim": true},
+            "sectionPath": ["3.5 유닛 장착"]
+          }
+        ]
+      },
+      {
+        "key": "shop",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.6 디펜스 상점", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.6 디펜스 상점"],
+        "points": [
+          {"label": "구현", "text": "유닛 소환은 항상 상점 후보에 들어가고, 깃털은 탐험에서 해금한 것만 들어갑니다.", "verbatim": true},
+          {
+            "label": "이유",
+            "text": "운빨존많겜의 완전 무작위 소환은 랜덤성이 너무 커서, 전략적 팀 전투처럼 일정량의 운에 재화 활용을 더한 상점을 접목했습니다.",
+            "verbatim": true
+          },
+          {"label": "이유", "text": "아직 발견하지 않은 깃털이 상점에 나오면 발견의 가치가 사라지므로, 해금된 깃털만 나오게 했습니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {"kind": "code", "n": 1, "fp": "foreach (Item defenceItem in allItems)"},
+          {
+            "kind": "image",
+            "src": "images/reroll.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "상점 리롤", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "skill",
+        "chapter": "core",
+        "layout": "code",
+        "tab": "구현",
+        "title": {"text": "3.7 몬스터 스킬 구조", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["3.7 몬스터 스킬 구조"],
+        "points": [
+          {"label": "구현", "text": "공격 상태에서 몬스터에 붙은 스킬 중 사용 가능한 것을 실행하고, 없으면 추격합니다.", "verbatim": true},
+          {
+            "label": "이유",
+            "text": "스킬을 컴포넌트로 붙인 이유는, Unity 에디터에서 몬스터가 어떤 스킬을 쓸 수 있는지 바로 확인할 수 있어서입니다.",
+            "verbatim": true
+          },
+          {"label": "", "text": "현재 스킬은 까마귀의 돌진(`DashSkill`: 3초 차지 → 직선 돌진 → 쿨타임 8초) 하나입니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {"kind": "code", "n": 1, "fp": "foreach (BirdSkill skill in skills)"},
+          {
+            "kind": "image",
+            "src": "images/dash.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "까마귀 돌진", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "grid-choice",
+        "chapter": "choice",
+        "layout": "full",
+        "tab": "선택",
+        "title": {"text": "4.1 몬스터 길찾기: 그리드를 어떻게 나눌 것인가", "verbatim": true},
+        "lead": {"text": "참새 10마리에서 30~50FPS로 떨어졌고, 15~20마리를 넘으면 게임이 동작하지 않았습니다.", "verbatim": true},
+        "sectionPath": ["4.1 몬스터 길찾기: 그리드를 어떻게 나눌 것인가"],
+        "points": [
+          {"label": "이유", "text": "A*를 도입한 목적인 \"자연스러운 움직임\"을 해치지 않습니다.", "verbatim": true},
+          {"label": "감수한 단점", "text": "구역 밖으로 추격하지 못하는 제약은, \"자기 구역을 지키는 새\"라는 게임의 정체성으로 활용했습니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 그리드·경로 공유|대안 B. 구역별 그리드 분할"}]
+      },
+      {
+        "key": "unit-choice",
+        "chapter": "choice",
+        "layout": "full",
+        "tab": "선택",
+        "title": {"text": "4.3 유닛을 종류마다 나눌 것인가", "verbatim": true},
+        "lead": {"text": "모든 유닛의 행동은 \"범위 내의 적에게 스킬을 수행한다\"로 같고 외형만 다릅니다.", "verbatim": true},
+        "sectionPath": ["4.3 유닛을 종류마다 나눌 것인가"],
+        "points": [
+          {
+            "label": "",
+            "text": "행동 방식을 `UnitAttack`으로 분리해 두었기 때문에, \"공격하지 않는 행동\"(`MoneyMaker`)도 같은 틀에 그대로 넣을 수 있었습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 유닛 종류마다 클래스·프리팹|대안 B. 유닛 하나 + 깃털 데이터로 교체"}]
+      },
+      {
+        "key": "data-split",
+        "chapter": "choice",
+        "layout": "overview",
+        "tab": "선택",
+        "title": {"text": "4.4 깃털 데이터를 얼마나 나눌 것인가", "verbatim": true},
+        "lead": {"text": "디펜스 쪽을 상속으로 나누는 것은 좋다고 보았고, \"나중에 문제가 될 바엔 미리 분리하자\"는 생각으로 탐험 쪽까지 나눴습니다.", "verbatim": true},
+        "sectionPath": ["4.4 깃털 데이터를 얼마나 나눌 것인가"],
+        "points": [
+          {"label": "문제", "text": "상속으로 나눠 읽기 좋게 만들려고 했는데, 스크립트가 늘면서 오히려 읽기 어려워지고 있다.", "verbatim": true},
+          {"label": "최종 선택", "text": "하나의 아이템으로 다시 결합", "verbatim": true},
+          {"label": "배운 점", "text": "분리 수준은 분리하려는 목적(여기서는 가독성) 을 기준으로 판단해야 합니다.", "verbatim": true}
+        ],
+        "visuals": []
+      },
+      {
+        "key": "peck-choice",
+        "chapter": "choice",
+        "layout": "full",
+        "tab": "선택",
+        "title": {"text": "4.5 플레이어 근접 공격: 한 장에 그릴 것인가, 머리와 몸통을 나눌 것인가", "verbatim": true},
+        "lead": {"text": "새는 날면서 공격하므로, 날갯짓과 쪼기가 동시에 따로 움직여야 했습니다.", "verbatim": true},
+        "sectionPath": ["4.5 플레이어 근접 공격: 한 장에 그릴 것인가, 머리와 몸통을 나눌 것인가"],
+        "points": [{"label": "이유", "text": "위치와 피벗을 다시 잡는 불편이 있었지만, 결과물이 자연스러운 것이 더 중요하다고 판단해 감수했습니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 날갯짓 타이밍마다 공격 이미지|대안 B. 공격 시 머리를 옮긴 이미지로 교체|대안 C. 머리와 몸통을 분리"}]
+      },
+      {
+        "key": "peck-result",
+        "chapter": "choice",
+        "layout": "screens",
+        "tab": "결과",
+        "title": {"text": "4.5 플레이어 근접 공격: 한 장에 그릴 것인가, 머리와 몸통을 나눌 것인가", "verbatim": true},
+        "lead": {"text": "날갯짓이 끊기지 않은 채 머리만 앞으로 쪼는 공격 모션을 만들었습니다.", "verbatim": true},
+        "sectionPath": ["4.5 플레이어 근접 공격: 한 장에 그릴 것인가, 머리와 몸통을 나눌 것인가"],
+        "points": [{"label": "구현", "text": "히트박스가 머리에 붙어 있어서 판정도 쪼는 머리와 함께 움직입니다.", "verbatim": true}],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/peck.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "날갯짓을 유지한 채 머리만 앞으로 내밀어 쪼는 공격", "verbatim": true}
+          },
+          {
+            "kind": "image",
+            "src": "images/peck-split.png",
+            "w": 1288,
+            "h": 656,
+            "caption": {"text": "위부터 몸통 5프레임, 머리 5프레임, 둘을 겹친 모습", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "result",
+        "chapter": "result",
+        "layout": "full",
+        "tab": "결과",
+        "title": {"text": "5.1 결과", "verbatim": true},
+        "lead": {"text": "길찾기 최적화 결과 (Unity Profiler 기준)", "verbatim": true},
+        "sectionPath": ["5.1 결과"],
+        "points": [
+          {
+            "label": "",
+            "text": "무거움의 원인은 알고리즘 자체보다 탐색 범위, 동시 호출, 반복 호출 시 남는 상태처럼 이론에서 다루지 않던 부분에 있었습니다",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "table", "n": 1, "fp": "단계|몬스터 수|결과"}]
+      },
+      {
+        "key": "ts-frame",
+        "chapter": "result",
+        "layout": "problem",
+        "tab": "문제 해결",
+        "title": {"text": "5.2 트러블슈팅: 몬스터 길찾기 순간 프레임 하락", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["5.2 트러블슈팅: 몬스터 길찾기 순간 프레임 하락"],
+        "points": [
+          {"label": "문제", "text": "구역별 그리드 적용 후에도 특정 시점에 20~30FPS로 순간 하락", "verbatim": true},
+          {"label": "원인", "text": "여러 몬스터의 길찾기가 같은 시점에 몰려 실행됨", "verbatim": true},
+          {"label": "해결", "text": "플레이어와 25 이상 떨어진 몬스터는 휴면 상태로 길찾기 중단, 추격 중에는 플레이어 노드가 바뀔 때만 재탐색", "verbatim": true},
+          {"label": "결과", "text": "순간 하락이 약 70~80FPS 수준으로 완화. 완전히 사라지지는 않음", "verbatim": true}
+        ],
+        "visuals": [
+          {
+            "kind": "code",
+            "n": 1,
+            "fp": "if (currentState == State.None)",
+            "sectionPath": ["3.1 몬스터 길찾기", "핵심 동작: 연산을 줄이는 상태 판단"]
+          }
+        ]
+      },
+      {
+        "key": "ts-dash",
+        "chapter": "result",
+        "layout": "problem",
+        "tab": "문제 해결",
+        "title": {"text": "5.3 트러블슈팅: 돌진 스킬이 벽을 통과하는 문제", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["5.3 트러블슈팅: 돌진 스킬이 벽을 통과하는 문제"],
+        "points": [
+          {"label": "문제", "text": "까마귀가 돌진하면서 벽을 뚫고 나가는 현상을 발견", "verbatim": true},
+          {"label": "원인", "text": "새의 몸체 콜라이더가 트리거라 벽과 물리적으로 부딪히지 않음", "verbatim": true},
+          {"label": "개선 계획", "text": "돌진 전에 벽 레이어로 레이캐스트해 목표 지점을 벽 앞으로 보정, 또는 벽에 닿으면 스킬 종료", "verbatim": true},
+          {
+            "label": "배운 점",
+            "text": "이동 방식이 여러 개(경로 기반, 직선 속도)일 때 \"벽을 막는 책임\"이 한 방식에만 있으면, 그 방식을 거치지 않는 이동에서 구멍이 생깁니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "code", "n": 1, "fp": "if (isDash)"}]
+      }
+    ],
+    "applied": "24473442e4340f36"
+  }
+}

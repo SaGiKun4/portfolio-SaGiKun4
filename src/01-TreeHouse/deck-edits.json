@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "pin": [],
+  "hide": [
+    {
+      "key": "shop",
+      "from": {
+        "key": "shop",
+        "sectionPath": ["3.6 디펜스 상점"],
+        "sig": ["3.6 디펜스 상점|code|1|foreach (Item defenceItem in allItems)", "3.6 디펜스 상점|image|images/reroll.gif|1"]
+      }
+    },
+    {
+      "key": "roles",
+      "from": {"key": "roles", "sectionPath": ["2.4 핵심 클래스 역할 분담"], "sig": ["2.4 핵심 클래스 역할 분담|table|1|클래스|역할"]}
+    }
+  ]
+}
