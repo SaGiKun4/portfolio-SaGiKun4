@@ -146,15 +146,31 @@
         "visuals": []
       },
       {
+        "key": "card-load",
+        "chapter": "arch",
+        "layout": "visual",
+        "tab": "흐름",
+        "title": { "text": "2.1 카드 데이터의 흐름", "verbatim": true },
+        "lead": { "text": "먼저 게임을 시작할 때 표를 한 번 읽어 카드 정의로 만듭니다.", "verbatim": true },
+        "sectionPath": ["2.1 카드 데이터의 흐름"],
+        "points": [
+          { "label": "DTO → Def", "text": "표 한 줄은 먼저 칸 글자 그대로 DTO에 담기고, 게임에서 쓰는 값(enum, 이펙트 프리팹)으로 바뀐 Def가 되어 `CardTable`에 보관됩니다.", "verbatim": true }
+        ],
+        "visuals": [{ "kind": "mermaid", "n": 1, "fp": "flowchart LR" }]
+      },
+      {
         "key": "card-flow",
         "chapter": "arch",
         "layout": "visual",
         "tab": "흐름",
         "title": { "text": "2.1 카드 데이터의 흐름", "verbatim": true },
-        "lead": { "text": "카드는 표(TSV)에서 만들어져 덱을 거쳐 발사체에 실립니다.", "verbatim": true },
+        "lead": { "text": "그다음 정의로 카드 객체를 만들어 덱에 넣고, 발사할 때 발사체에 싣습니다.", "verbatim": true },
         "sectionPath": ["2.1 카드 데이터의 흐름"],
-        "points": [],
-        "visuals": [{ "kind": "mermaid", "n": 1, "fp": "flowchart LR" }]
+        "points": [
+          { "label": "카드 생성", "text": "`CardFactory`는 정의의 Kind 칸을 보고 맞는 카드 클래스를 만듭니다.", "verbatim": true },
+          { "label": "스펙 조회", "text": "스펙 수치는 카드에 복사하지 않고, 카드가 쓸 때 카드 ID와 스펙 레벨로 `CardTable`에서 찾아옵니다.", "verbatim": true }
+        ],
+        "visuals": [{ "kind": "mermaid", "n": 2, "fp": "flowchart TB" }]
       },
       {
         "key": "exec-order",
@@ -167,9 +183,10 @@
         "points": [
           { "label": "반응", "text": "부딪힌 순간 운동량이 어떻게 되는지 정합니다. 한 충돌은 반응 카드 한 장만 맡습니다.", "verbatim": true },
           { "label": "조향", "text": "진행 방향을 바꿉니다.", "verbatim": true },
-          { "label": "효과", "text": "피해·분열처럼 결과를 만듭니다.", "verbatim": true }
+          { "label": "효과", "text": "피해·분열처럼 결과를 만듭니다.", "verbatim": true },
+          { "label": "충돌", "text": "세 역할이 한 시점에 모두 모일 수 있는 곳은 충돌뿐이라, 이 순서가 실제로 결과를 가르는 곳도 충돌입니다.", "verbatim": true }
         ],
-        "visuals": [{ "kind": "mermaid", "n": 1, "fp": "flowchart LR" }]
+        "visuals": [{ "kind": "table", "n": 1, "fp": "시점|반응|조향|효과" }]
       },
       {
         "key": "split-reason",
