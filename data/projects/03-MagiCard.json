@@ -173,7 +173,7 @@
         "visuals": [{ "kind": "mermaid", "n": 2, "fp": "flowchart TB" }]
       },
       {
-        "key": "exec-order",
+        "key": "timing-cycle",
         "chapter": "arch",
         "layout": "visual",
         "tab": "구조",
@@ -181,12 +181,24 @@
         "lead": { "text": "발사체는 카드를 시점별로 미리 나눠 두고, 같은 시점 안에서는 역할 순서대로, 같은 역할 안에서는 쌓은 순서대로 실행합니다.", "verbatim": true },
         "sectionPath": ["2.2 발사체 안의 카드 실행 순서"],
         "points": [
-          { "label": "반응", "text": "부딪힌 순간 운동량이 어떻게 되는지 정합니다. 한 충돌은 반응 카드 한 장만 맡습니다.", "verbatim": true },
-          { "label": "조향", "text": "진행 방향을 바꿉니다.", "verbatim": true },
-          { "label": "효과", "text": "피해·분열처럼 결과를 만듭니다.", "verbatim": true },
-          { "label": "충돌", "text": "세 역할이 한 시점에 모두 모일 수 있는 곳은 충돌뿐이라, 이 순서가 실제로 결과를 가르는 곳도 충돌입니다.", "verbatim": true }
+          { "label": "시점", "text": "시점은 발사체 한 개가 발사되어 소멸할 때까지의 한 주기입니다.", "verbatim": true },
+          { "label": "충돌 이후", "text": "충돌한 뒤 반응 카드(관통·반사)가 계속 날게 하면 다시 비행으로 돌아가고, 반응 카드가 없으면 소멸합니다.", "verbatim": true }
         ],
-        "visuals": [{ "kind": "table", "n": 1, "fp": "시점|반응|조향|효과" }]
+        "visuals": [{ "kind": "mermaid", "n": 1, "fp": "flowchart LR" }]
+      },
+      {
+        "key": "exec-order",
+        "chapter": "arch",
+        "layout": "full",
+        "tab": "구조",
+        "title": { "text": "2.2 발사체 안의 카드 실행 순서", "verbatim": true },
+        "lead": { "text": "역할은 이 주기의 한 시점 안에서 카드의 실행 순서를 정합니다.", "verbatim": true },
+        "sectionPath": ["2.2 발사체 안의 카드 실행 순서"],
+        "points": [
+          { "label": "실행 순서", "text": "같은 시점에 여러 역할의 카드가 실리면 위에서부터 실행합니다.", "verbatim": true },
+          { "label": "충돌", "text": "효과 카드는 시점 변경으로 충돌에 옮겨 올 수 있어서, 세 역할이 모두 모이는 곳은 충돌입니다.", "verbatim": true }
+        ],
+        "visuals": [{ "kind": "table", "n": 1, "fp": "순서|역할|하는 일|카드 (기본 시점)" }]
       },
       {
         "key": "split-reason",
