@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11",
+  "generatedAt": "2026-11-12",
   "profile": {
     "name": "신성건",
     "nameEn": "SeongGeon Sin",
@@ -15,29 +15,127 @@
   },
   "skills": [
     {
-      "name": "Unity",
+      "name": "Unity · C#",
       "evidence": [
-        { "text": "구역 그리드를 `Physics2D.OverlapBox`로 벽 판정해 A* 길찾기 구현", "project": "01-TreeHouse" },
-        { "text": "7개 파츠 래그돌을 `AddForce`로 움직이는 물리 기반 조작 구현", "project": "02-WeGotOne" },
-        { "text": "종료 동작이 Disable인 파티클을 `OnDisable` 풀 반환으로 고쳐 이펙트 누수 해결", "project": "03-MagiCard" }
+        {
+          "text": "회전축을 직접 지정해야 하는 `AddTorque` 대신 Joint + `AddForce`로 7개 파츠 래그돌 조작 구현",
+          "project": "02-WeGotOne"
+        },
+        {
+          "text": "손에 들어온 잡기 대상을 중간 제거가 쉬운 `List`로 관리해, 판자를 옮기다 다른 플레이어와 부딪혀도 놓치지 않게 함",
+          "project": "02-WeGotOne"
+        },
+        {
+          "text": "몸통과 머리의 Animator를 나누고 애니메이션이 머리 히트박스를 켜게 해, 날갯짓을 유지한 채 쪼는 공격 구현",
+          "project": "01-TreeHouse"
+        }
       ]
     },
     {
-      "name": "C#",
+      "name": "성능 최적화 (Profiler · 오브젝트 풀링 · 상한 설계)",
       "evidence": [
-        { "text": "`EquipItem(Item item)`으로 깃털 데이터를 통째로 교체하는 장착 구현", "project": "01-TreeHouse" },
-        { "text": "`OnTriggerEnter2D`·`OnTriggerExit2D`로 잡기 대상 리스트 관리", "project": "02-WeGotOne" },
-        { "text": "`BuildTimingSlots`로 카드를 시점·역할 순으로 미리 나누는 실행 순서 설계", "project": "03-MagiCard" }
+        {
+          "text": "맵 전체 그리드를 구역별 그리드로 나눠 10마리 30~50FPS → 32마리 약 120FPS (Unity Profiler)",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "거리 기반 휴면과 노드가 바뀔 때만 재탐색해 길찾기 순간 하락을 20~30 → 70~80FPS로 완화",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "대량 발사체를 예상해 첫 프로토타입 직후 오브젝트 풀링 도입, 동시 발사체 상한 500을 넘는 분열은 위력으로 흡수하는 규칙 설계",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "프레임당·종류당 이펙트 수를 제한하고 넘으면 이펙트만 생략하는 이펙트 예산 설계, 상한 40은 플레이로 결정",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "책장과 책을 패턴 5종의 단일 메시로 바꿔 Renderer 1,652 → 78 (결합 기준은 직접 설계, 결합 작업은 AI)",
+          "project": "03-MagiCard"
+        }
       ]
     },
     {
-      "name": "디자인 패턴",
+      "name": "멀티플레이 동기화 (WebSocket · 호스트 기반)",
       "evidence": [
-        { "text": "추상 `UnitAttack`을 상속한 `TargetAttack`·`MultiAttack`으로 공격 방식 분리", "project": "01-TreeHouse" },
-        { "text": "먹이 판정을 상위 계층으로 옮기고 FSM을 조절해 패턴 충돌 해결", "project": "02-WeGotOne" },
-        { "text": "오브젝트 풀링을 도입해 대량 발사체의 생성 비용·GC 부담 감소", "project": "03-MagiCard" }
+        {
+          "text": "Unity 물리를 클라이언트에서 그대로 쓰도록, 호스트 하나가 연산해 배포하는 구조를 제안",
+          "project": "02-WeGotOne"
+        },
+        {
+          "text": "클라이언트마다 손 위치가 다른 문제를, Body만 보내던 상태에서 부위별(몸통·상완·하완)·좌우 잡기 상태 전송으로 바꿔 해결",
+          "project": "02-WeGotOne"
+        },
+        {
+          "text": "플레이어 조작에 필요한 서버 프로토콜(`Protocol.cs`)을 직접 수정",
+          "project": "02-WeGotOne"
+        }
+      ]
+    },
+    {
+      "name": "게임 AI · 길찾기 (A* · FSM)",
+      "evidence": [
+        {
+          "text": "구역 그리드를 `Physics2D.OverlapBox`로 벽 판정해 A* 길찾기 구현, 구역 밖 추격 불가 제약은 복귀 상태와 \"자기 구역을 지키는 새\"라는 정체성으로 활용",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "A*가 무거운 원인을 알고리즘보다 탐색 범위·동시 호출·남는 상태·GC 할당에서 찾아 개선 계획 정리",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "먹이 추적과 돌진 패턴을 무한히 오가는 문제를, 먹이 판정을 상위 계층으로 옮기고 FSM을 조절해 해결",
+          "project": "02-WeGotOne"
+        }
+      ]
+    },
+    {
+      "name": "데이터·구조 설계 (ScriptableObject · TSV)",
+      "evidence": [
+        {
+          "text": "유닛 하나에 깃털(ScriptableObject)을 통째로 교체하고 행동은 `UnitAttack`으로 분리해, 공격하지 않는 `MoneyMaker`도 같은 틀에 넣음",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "미리 상속 3단으로 나눈 깃털 데이터가 가독성을 해치자 하나의 아이템으로 다시 합침",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "관통·반사 충돌을 \"역할\" 축으로 다시 정의해 카드를 시점 × 역할 순으로 실행 (재정의는 직접, 구조 정리는 AI)",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "추가가 잦은 카드는 TSV 표로, 고정적인 맵은 프리팹으로 저장 방식 분리",
+          "project": "03-MagiCard"
+        }
+      ]
+    },
+    {
+      "name": "AI 협업",
+      "evidence": [
+        {
+          "text": "목적·설계·검증은 직접, 구현은 AI로 나누고 \"설명받고 승인한 것만 코드로\" 규칙 운영",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "우선순위 조정만 제안하던 AI와 달리 문제를 다시 정의해 관통·반사 충돌을 해결, 거절한 AI 제안 4건의 이유를 기록",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "AI가 사용자와 같은 모델을 떠올리게 하는 3D 모델 제작 프롬프트 규칙 설계",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "길찾기에서 설계 주도권을 놓친 경험을 \"문제가 생기면 어디를 봐야 하는지 먼저 말할 수 있어야 내 설계\"라는 기준으로 정리",
+          "project": "03-MagiCard"
+        }
       ]
     }
   ],
-  "projects": ["01-TreeHouse", "02-WeGotOne", "03-MagiCard"]
+  "projects": [
+    "01-TreeHouse",
+    "02-WeGotOne",
+    "03-MagiCard"
+  ]
 }
