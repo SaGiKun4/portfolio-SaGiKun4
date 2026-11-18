@@ -112,5 +112,20 @@
     return null;
   }
 
-  PF.md = { parse, index, findSection, pick, fpOf, firstVisual, isRelative, decode };
+  // 다이어그램 선을 직각으로 — Mermaid ELK 배치(@mermaid-js/layout-elk 0.1.7, mermaid 11.4.1과 짝). flowchart·stateDiagram에만 적용(시퀀스는 원래 직선)
+  //   한 번만 받아 등록하고 true. CDN이 막히면 false → 기본 배치(곡선)로 그대로 그림
+  let elkReady = null;
+  function loadElk() {
+    if (!elkReady) elkReady = (async () => {
+      if (!window.mermaid?.registerLayoutLoaders) return false;
+      try {
+        const m = await import('https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.7/dist/mermaid-layout-elk.esm.min.mjs');
+        mermaid.registerLayoutLoaders(m.default);
+        return true;
+      } catch (err) { console.warn('[md] ELK 배치를 불러오지 못해 기본 배치로 그립니다:', err); return false; }
+    })();
+    return elkReady;
+  }
+
+  PF.md = { parse, index, findSection, pick, fpOf, firstVisual, isRelative, decode, loadElk };
 })();

@@ -25,8 +25,22 @@
     };
   };
   window.PFDoc = Object.assign(window.PFDoc || {}, { whenReady: () => whenReady, report });
+  // 다이어그램 색 손잡이(--t-diagram-node·-border·-line·-note)가 theme.css에 있으면 Mermaid 'base' 테마로 그 색을 씁니다. 없으면 기본 테마 그대로.
+  function mermaidTheme() {
+    const cs = getComputedStyle(document.documentElement), v = (k) => cs.getPropertyValue(k).trim();
+    const hex = (s) => (/^#[0-9a-f]{6}$/i.test(s) ? s : '');
+    const node = hex(v('--t-diagram-node')), line = hex(v('--t-diagram-line')), border = hex(v('--t-diagram-border')) || line, note = hex(v('--t-diagram-note'));
+    if (!node && !line && !note) return { theme: 'default' };
+    const ink = hex(v('--t-ink')) || '#222222', bg = hex(v('--t-diagram')) || '#FFFFFF';
+    const tv = { background: bg, fontFamily: 'Pretendard, sans-serif', primaryTextColor: ink, textColor: ink, titleColor: ink };
+    if (node) Object.assign(tv, { primaryColor: node, mainBkg: node, secondaryColor: node, tertiaryColor: bg, actorBkg: node, labelBoxBkgColor: node, classText: ink, nodeTextColor: ink, actorTextColor: ink });
+    if (border) Object.assign(tv, { primaryBorderColor: border, nodeBorder: border, actorBorder: border, labelBoxBorderColor: border, clusterBorder: border });
+    if (line) Object.assign(tv, { lineColor: line, signalColor: line, actorLineColor: line, edgeLabelBackground: bg, signalTextColor: ink, labelTextColor: ink, loopTextColor: ink });
+    if (note) Object.assign(tv, { noteBkgColor: note, noteBorderColor: border || note, noteTextColor: ink });
+    return { theme: 'base', themeVariables: tv };
+  }
   // Mermaid가 페이지 load 때 스스로 그리지 않게 맨 먼저 끕니다(아래 await 사이에 load가 오면 기본 설정으로 먼저 그려 버림)
-  if (window.mermaid) mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose', fontFamily: 'Pretendard, sans-serif' });
+  if (window.mermaid) mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', fontFamily: 'Pretendard, sans-serif', ...mermaidTheme() });
   if (PF.guardFileProtocol(root)) { errors.push('file:// — 로컬 서버로 열어야 합니다'); return done(); }
 
   const { esc, inline, link, markNewTab } = PF;
@@ -210,6 +224,7 @@
     markPrintWide();
     document.fonts?.addEventListener('loadingdone', markPrintWide);
     if (window.mermaid && figs.length) {                                // 설정(startOnLoad 끔)은 파일 맨 위에서 이미 함
+      if (await PF.md.loadElk()) mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', fontFamily: 'Pretendard, sans-serif', ...mermaidTheme(), layout: 'elk' });
       try { await mermaid.run({ nodes: doc.querySelectorAll('.mermaid') }); }
       catch (err) { console.warn('[doc] Mermaid 렌더 오류:', err); errors.push(`mermaid: ${String(err?.message || err).split('\n')[0].slice(0, 160)}`); }
     } else if (figs.length) errors.push('mermaid: 다이어그램 라이브러리(Mermaid)를 불러오지 못했습니다');

@@ -108,10 +108,25 @@
   // ── 원문 블록 → 장면에 넣을 준비(이미지 크기·다이어그램 SVG를 미리 구함) ──
   let mmdHost = null;
   const svgCache = new Map();
+  // 다이어그램 색 손잡이(--t-diagram-node·-border·-line·-note)가 theme.css에 있으면 Mermaid 'base' 테마로 그 색을 씁니다. 없으면 기본 테마 그대로.
+  function mermaidTheme() {
+    const cs = getComputedStyle(document.documentElement), v = (k) => cs.getPropertyValue(k).trim();
+    const hex = (s) => (/^#[0-9a-f]{6}$/i.test(s) ? s : '');
+    const node = hex(v('--t-diagram-node')), line = hex(v('--t-diagram-line')), border = hex(v('--t-diagram-border')) || line, note = hex(v('--t-diagram-note'));
+    if (!node && !line && !note) return { theme: 'default' };
+    const ink = hex(v('--t-ink')) || '#222222', bg = hex(v('--t-diagram')) || '#FFFFFF';
+    const tv = { background: bg, fontFamily: 'Pretendard, sans-serif', primaryTextColor: ink, textColor: ink, titleColor: ink };
+    if (node) Object.assign(tv, { primaryColor: node, mainBkg: node, secondaryColor: node, tertiaryColor: bg, actorBkg: node, labelBoxBkgColor: node, classText: ink, nodeTextColor: ink, actorTextColor: ink });
+    if (border) Object.assign(tv, { primaryBorderColor: border, nodeBorder: border, actorBorder: border, labelBoxBorderColor: border, clusterBorder: border });
+    if (line) Object.assign(tv, { lineColor: line, signalColor: line, actorLineColor: line, edgeLabelBackground: bg, signalTextColor: ink, labelTextColor: ink, loopTextColor: ink });
+    if (note) Object.assign(tv, { noteBkgColor: note, noteBorderColor: border || note, noteTextColor: ink });
+    return { theme: 'base', themeVariables: tv };
+  }
   async function renderMermaid(els) {
     if (!els.length) return;
     if (!window.mermaid) { els.forEach((el) => svgCache.set(el, { error: 'Mermaid를 불러오지 못했습니다' })); return; }
-    mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose', fontFamily: 'Pretendard, sans-serif', suppressErrorRendering: true });
+    const elk = await PF.md.loadElk();
+    mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', fontFamily: 'Pretendard, sans-serif', suppressErrorRendering: true, ...mermaidTheme(), ...(elk ? { layout: 'elk' } : {}) });
     if (!mmdHost) { mmdHost = document.createElement('div'); mmdHost.setAttribute('aria-hidden', 'true'); Object.assign(mmdHost.style, { position: 'absolute', left: '-20000px', top: '0', width: '1280px', visibility: 'hidden' }); document.body.appendChild(mmdHost); }
     let n = 0;
     for (const el of els) {
