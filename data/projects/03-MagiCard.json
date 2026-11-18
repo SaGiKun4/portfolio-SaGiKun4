@@ -70,10 +70,10 @@
       "why": "처치 수 최고값을 이미지로 띄우는 안(공격 단위)과 시간에 따라 흐르는 막대그래프 안(시간 단위)을 합쳐, 막대 하나가 공격 하나를 뜻하게 했습니다.",
       "section": "5.1 막대 하나가 공격 하나",
       "image": {
-        "src": "images/combat.gif",
+        "src": "images/kill-graph.gif",
         "w": 544,
         "h": 306,
-        "caption": "공격할 때마다 오른쪽 위 킬 그래프에 그 공격의 처치 수가 막대로 쌓이는 장면"
+        "caption": "공격할 때마다 오른쪽 위 킬 그래프에 처치 수가 막대로 쌓이고, 처치 수가 늘며 막대 색이 바뀌는 장면"
       }
     },
     {
@@ -118,10 +118,10 @@
       "caption": "강화 카드를 한 장씩 쏘아 강화를 쌓은 뒤 공격 카드로 한 번에 쏘는 장면"
     },
     {
-      "src": "images/combat.gif",
+      "src": "images/kill-graph.gif",
       "w": 544,
       "h": 306,
-      "caption": "공격할 때마다 오른쪽 위 킬 그래프에 그 공격의 처치 수가 막대로 쌓이는 장면"
+      "caption": "공격할 때마다 오른쪽 위 킬 그래프에 처치 수가 막대로 쌓이고, 처치 수가 늘며 막대 색이 바뀌는 장면"
     },
     {
       "src": "images/bookshelf-patterns.png",
@@ -639,11 +639,11 @@
         "visuals": [
           {
             "kind": "image",
-            "src": "images/combat.gif",
+            "src": "images/kill-graph.gif",
             "w": 544,
             "h": 306,
             "caption": {
-              "text": "공격할 때마다 오른쪽 위 킬 그래프에 그 공격의 처치 수가 막대로 쌓이는 장면",
+              "text": "공격할 때마다 오른쪽 위 킬 그래프에 처치 수가 막대로 쌓이고, 처치 수가 늘며 막대 색이 바뀌는 장면",
               "verbatim": true
             }
           }
