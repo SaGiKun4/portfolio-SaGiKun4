@@ -235,6 +235,9 @@ table.kv td.role { color: var(--accent-ink); font-weight: 800; }
 .vbox[data-kind="mermaid"] .vmedia { background: var(--diagram-bg); border-color: var(--diagram-bg); }   /* 다이어그램은 밝은 판(학생 문서의 밝은 mermaid 테마가 그대로 읽히게) */
 .vbox[data-kind="image"] .vmedia img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .vbox[data-kind="mermaid"] .vmedia svg { width: 100% !important; height: 100% !important; max-width: none !important; display: block; }
+/* 다이어그램 글자는 검정 — 밝은 다이어그램 판 위에서 또렷하게(상세 문서와 같음) */
+.vbox[data-kind="mermaid"] .vmedia svg :is(text, tspan) { fill: #000 !important; }
+.vbox[data-kind="mermaid"] .vmedia svg foreignObject * { color: #000 !important; }
 .vbox[data-kind="code"] .vmedia { display: block; background: var(--code-bg); border: 0; box-shadow: inset 0 0 0 1px var(--line); }
 .vbox[data-kind="table"] .vmedia { display: block; background: transparent; border: 0; border-radius: 0; }
 .fit-in { transform-origin: 0 0; }
