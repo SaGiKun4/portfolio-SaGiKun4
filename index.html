@@ -1,26 +1,325 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>포트폴리오</title>
-<link rel="icon" href="data:," /><!-- 아이콘 파일 없음: 브라우저가 /favicon.ico를 요청해 404가 나지 않게 -->
-<!-- 고정 렌더러 — 포트폴리오 페이지(아래로 읽는 한 페이지, A4 인쇄 = 제출 PDF). 내용은 data/portfolio.json · data/projects/*.json에서 읽습니다. 이 파일은 고치지 않아도 됩니다.
-     주소: #<절 id>(cover · intro · stack · p-<폴더> · p-<폴더>-core · glance · contact). 예전 포트폴리오 슬라이드 주소(#s=<장면 id> · #<번호>)는 같은 절로 넘어갑니다.
-     슬라이드는 project.html?p=<폴더>, 프로젝트 상세 문서는 doc.html?p=<폴더>. CDN은 버전 고정(Pretendard v1.3.9, Montserrat 5.2.8 — 영문 라벨, D2Coding 1.3.2) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.2.8/latin-700.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.2.8/latin-800.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/d2coding@1.3.2/d2coding-subset.css" />
-<link rel="stylesheet" href="assets/portfolio.css" />
-<link rel="stylesheet" href="theme/theme.css" /><!-- 테마(색·모양·영문 글꼴): /portfolio-theme가 씀. /portfolio-update가 건드리지 않음 -->
+<!-- 포트폴리오 메인 페이지(넷마블 디자인). 내용은 data/*.json에서만 읽고, 색은 theme/theme.css(--t-* 손잡이)를 따릅니다.
+     라이트/다크는 assets/nm/netmarble-mode.js. 기본(원본) 포트폴리오는 git 브랜치 basic-portfolio에 보관. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script src="assets/nm/netmarble-mode.js?v=20261123"></script><script>NM.apply()</script><!-- 라이트/다크: 그리기 전에 먼저 정함(깜빡임 없게) -->
+<link rel="stylesheet" href="theme/theme.css?v=20261123">
+<style>
+:root{
+  --bg: var(--t-bg, #fff);
+  --page: color-mix(in srgb, var(--t-surface, #f5f5f7) 100%, transparent);
+  --card: var(--t-card, #fff);
+  --accent-fill: var(--t-accent, #0071e3);   /* 흰 글자를 올리는 칠(버튼·플레이 표시) — 다크에서도 CI 브라운 그대로 */
+  --ink: var(--t-ink, #1d1d1f);
+  --body: var(--t-body, #424245);
+  --muted: var(--t-muted, #6e6e73);
+  --line: var(--t-line, #e5e5ea);
+  --accent: var(--t-accent, #0071e3);
+  --dot: var(--t-accent-2, #ffc928);
+  --r: var(--t-radius, 18px);
+  color-scheme: light;
+}
+/* 다크: 강조색을 글자로 쓰는 곳(라벨·링크)은 브라운이 검정 바탕에서 안 보이므로 밝은 캐러멜로. 칠(버튼)은 브라운 그대로 */
+:root[data-theme="dark"]{--accent:#D9A574;color-scheme:dark}
+:root[data-theme="dark"] .btns a.pri,:root[data-theme="dark"] .play-badge{box-shadow:0 0 0 1px var(--line-2)}
+:root[data-theme="dark"] .play-badge{box-shadow:0 0 0 1.5px rgb(255 255 255/.75),0 8px 22px rgb(0 0 0/.5)}
+.mode-btn{all:unset;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink);border:1px solid var(--line-2);border-radius:999px;padding:4px 11px;white-space:nowrap}
+.mode-btn:hover{border-color:var(--accent)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px;background:var(--page)}
+body{margin:0;background:var(--page);color:var(--body);font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+a{color:inherit;text-decoration:none}
+code{font-family:D2Coding,ui-monospace,monospace;font-size:.92em;background:var(--page);padding:0 .3em;border-radius:5px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+/* 네비게이터 */
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:48px;font-size:13px}
+.nav .me{font-weight:700;color:var(--ink);margin-right:auto}
+.nav a.l{color:var(--body);opacity:.85}
+.nav a.l:hover{opacity:1;color:var(--ink)}
+
+/* 머리 구역 */
+/* 머리 구역: 5칸 = 왼쪽 2칸(이름·소개) + 오른쪽 3칸(프로젝트 바로가기) */
+.hero{padding:56px 0 28px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:32px;align-items:end}
+.hero .me-col{grid-column:span 2}
+.hero h1{margin:0;font-size:clamp(48px,6.4vw,76px);font-weight:700;color:var(--ink);letter-spacing:-.035em;line-height:1.02}
+.hero h1 .en{display:block;font-size:15px;font-weight:600;color:var(--muted);letter-spacing:.02em;margin-bottom:12px}
+.hero .hl{margin:18px 0 0;font-size:17px;font-weight:600;line-height:1.4;color:var(--ink)}
+.hero .intro{margin:8px 0 0;font-size:13.5px;line-height:1.65;color:var(--body);white-space:pre-line}
+.hero .contact{margin-top:14px;display:flex;gap:16px;font-size:13px;font-weight:600}
+.hero .contact a{color:var(--accent)}
+.jump{grid-column:span 3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.jump a{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 12px var(--t-shadow,rgb(0 0 0/.06));transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.jump a:hover{transform:translateY(-3px);box-shadow:0 10px 26px var(--t-shadow,rgb(0 0 0/.12))}
+.jump .th{aspect-ratio:4/3;background:var(--page);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.jump .th img{width:100%;height:100%;object-fit:cover;display:block}
+.jump .th b{font-size:22px;font-weight:700;color:var(--muted);letter-spacing:-.02em}
+.jump .cap{padding:12px 14px 14px}
+.jump .cap strong{display:block;font-size:15px;color:var(--ink)}
+.jump .cap span{display:block;margin-top:3px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:860px){.hero{grid-template-columns:1fr}.hero .me-col,.jump{grid-column:auto}}
+@media (max-width:520px){.jump{gap:8px}.jump .cap{padding:8px 9px 10px}.jump .cap strong{font-size:13px}.jump .cap span{font-size:11px}.jump .th b{font-size:14px}}
+
+/* 줄 제목: "굵은 제목. 회색 부제." */
+.shelf{padding:36px 0 8px}
+.shelf h2{margin:0 0 18px;font-size:clamp(22px,3vw,28px);font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.25}
+.shelf h2 span{color:var(--muted)}
+.shelf .meta{margin:-10px 0 18px;font-size:13px;color:var(--muted)}
+
+/* 기술 스택 카드 줄 (펼치기) */
+.chips{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.chip{all:unset;cursor:pointer;background:var(--card);border-radius:var(--r);padding:18px 16px 16px;display:flex;flex-direction:column;gap:8px;min-height:116px;box-shadow:0 2px 12px var(--t-shadow,rgb(0 0 0/.06));transition:transform .25s,box-shadow .25s;position:relative}
+.chip:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--t-shadow,rgb(0 0 0/.1))}
+.chip .n{font-size:16px;font-weight:700;color:var(--ink);line-height:1.3}
+.chip .k{font-size:12px;color:var(--muted);line-height:1.45}
+.chip .c{margin-top:auto;font-size:12px;font-weight:600;color:var(--accent)}
+.chip[aria-expanded=true]{outline:2px solid var(--accent);outline-offset:-2px}
+.chip[aria-expanded=true] .c::after{content:" 닫기"}
+.chip[aria-expanded=false] .c::after{content:" 펼치기"}
+.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.panel.open{grid-template-rows:1fr}
+.panel>div{overflow:hidden}
+.panel .in{margin-top:14px;background:var(--card);border-radius:var(--r);padding:22px 26px}
+.panel h3{margin:0 0 12px;font-size:17px;color:var(--ink)}
+.panel ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.panel li{display:flex;gap:12px;align-items:baseline;font-size:15px;line-height:1.55}
+.panel li .p{flex:none;font-size:11px;font-weight:700;letter-spacing:.02em;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:2px 9px;cursor:pointer}
+
+/* 프로젝트 카드 줄 (가로 스크롤) */
+.row{position:relative}
+.scroller{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 22px 30px;margin:0 -22px;scrollbar-width:none}
+.scroller::-webkit-scrollbar{display:none}
+.card{flex:none;scroll-snap-align:start;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 12px var(--t-shadow,rgb(0 0 0/.06));transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
+.card:hover{transform:scale(1.012);box-shadow:0 10px 30px var(--t-shadow,rgb(0 0 0/.12))}
+.card.lead{width:min(480px,86vw)}
+.card.feat{width:min(340px,78vw)}
+.card .img{aspect-ratio:16/9;background:var(--page);overflow:hidden}
+.card .img img{width:100%;height:100%;object-fit:cover;display:block}
+.card .img.play{display:block;position:relative}
+.card .img.play img{transition:transform .4s}
+.card .img.play:hover img{transform:scale(1.03)}
+/* 플레이 표시: 브라운 판 + 노란 재생 원(넷마블 대표색 두 가지). 게임 그림 위에서도 떨어져 보이게 흰 테두리·그림자 */
+.play-badge{position:absolute;left:14px;bottom:14px;display:flex;align-items:center;gap:10px;padding:7px 16px 7px 7px;border-radius:999px;background:var(--accent-fill);color:#fff;
+  box-shadow:0 0 0 1.5px rgb(255 255 255/.9),0 8px 22px rgb(0 0 0/.35);transition:transform .25s,box-shadow .25s}
+.play-badge .pi{flex:none;width:30px;height:30px;border-radius:50%;background:var(--dot);color:var(--accent-fill);display:grid;place-items:center;font-size:12px;font-style:normal;padding-left:2px}
+.play-badge .pt{display:flex;flex-direction:column;gap:1px}
+.play-badge b{font-size:13.5px;font-weight:700;line-height:1.2}
+.play-badge small{font-size:11px;opacity:.85;line-height:1.2}
+.card .img.play:hover .play-badge{transform:translateY(-2px);box-shadow:0 0 0 2px var(--dot),0 12px 26px rgb(0 0 0/.4)}
+.card .img.tbl{display:flex;align-items:center;justify-content:center;padding:14px 16px}
+.card .img.tbl table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border-radius:12px;overflow:hidden;font-size:clamp(11px,.95vw,13.5px);line-height:1.35}
+.card .img.tbl td:last-child{white-space:nowrap}
+.card .img.tbl th{text-align:left;font-weight:700;color:var(--ink);padding:7px 10px;border-bottom:2px solid var(--accent);white-space:nowrap}
+.card .img.tbl td{padding:7px 10px;color:var(--body);border-top:1px solid var(--line)}
+.card .img.tbl td:nth-child(2){font-weight:700;color:var(--ink);white-space:nowrap}
+.card .img.tbl td:first-child{color:var(--muted);text-align:center}
+.card .img.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px}
+.card .tx{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card .eb{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--accent)}
+.card h3{margin:0;font-size:20px;font-weight:700;color:var(--ink);line-height:1.3}
+.card.lead h3{font-size:26px}
+.card p{margin:0;font-size:14px;line-height:1.6;color:var(--body)}
+.card.feat p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.card .intent{margin:4px 0 2px;padding:10px 14px;border-left:3px solid var(--dot);background:var(--page);border-radius:0 12px 12px 0}
+.card .intent .k{display:block;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--accent);margin-bottom:3px}
+.card .intent p{font-size:13.5px;line-height:1.6;color:var(--body)}
+.card dl.meta{margin:6px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;font-size:13px}
+.card dl.meta .wide{grid-column:1/-1}
+.card dt{color:var(--muted);font-size:11.5px;font-weight:600;margin-bottom:1px}
+.card dd{margin:0;color:var(--ink);font-weight:600;line-height:1.45}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tags span{font-size:11.5px;color:var(--body);background:var(--page);border-radius:999px;padding:3px 10px}
+.btns{margin-top:auto;padding-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.btns a{font-size:13px;font-weight:600;border-radius:999px;padding:7px 15px;border:1px solid var(--line);color:var(--ink)}
+.btns a.pri{background:var(--accent-fill);border-color:var(--accent-fill);color:#fff}
+.btns a:hover{border-color:var(--ink)}
+.card .more{margin-top:auto;padding-top:8px;font-size:13px;font-weight:600;color:var(--accent)}
+/* 프로젝트 한 덩어리: 왼쪽 대표 카드 + 오른쪽 기능 카드 2×2 (가로 스크롤 없음).
+   2×2 전체 높이를 대표 카드 높이에 맞춤 — 기능 카드는 그림(16:9) 크기 그대로, 아래 글 칸만 늘어남 */
+.proj{display:grid;grid-template-columns:min(480px,42%) minmax(0,1fr);gap:18px;align-items:stretch;padding:6px 0 30px}
+.proj .card.lead{width:auto}
+.feat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:18px}
+.feat-grid .card.feat{width:auto;min-height:0}
+.feat-grid .card.feat .img{flex:none}
+.feat-grid .card.feat .tx{padding:14px 18px 16px;gap:5px;min-height:0;overflow:hidden}
+.feat-grid .card.feat h3{font-size:17px;line-height:1.3}
+.feat-grid .card.feat p{font-size:13.5px;line-height:1.55}
+.feat-grid .card.feat .more{padding-top:4px}
+@media (max-width:980px){.proj{grid-template-columns:1fr}.feat-grid .card.feat{aspect-ratio:16/18}}   /* 대표 카드 아래로 내려가면 옆에 맞출 높이가 없으므로 그림 높이의 2배 */
+@media (max-width:560px){.feat-grid{grid-template-columns:1fr}.feat-grid .card.feat{aspect-ratio:auto}}
+.arrows{display:flex;justify-content:flex-end;gap:10px;margin-top:-8px}
+.arrows button{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--ink) 9%,transparent);display:grid;place-items:center;color:var(--ink);font-size:16px}
+.arrows button:disabled{opacity:.3;cursor:default}
+
+footer{margin-top:56px;padding:28px 0 48px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;gap:20px;flex-wrap:wrap}
+footer a{color:var(--accent)}
+
+@media (max-width:980px){.chips{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){
+  .nav .wrap{gap:16px}.nav a.l.p{display:none}
+  .chips{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wrap{padding:0 16px}.scroller{padding:6px 16px 30px;margin:0 -16px}
+  .arrows{display:none}
+}
+</style>
 </head>
 <body>
-<a class="skip-link" href="#main">본문으로 건너뛰기</a>
-<div id="app"><p class="loading">불러오는 중…</p></div>
-<noscript><div class="notice"><h1>JavaScript를 켜 주세요</h1><p>이 포트폴리오는 data/의 내용을 읽어 브라우저에서 그립니다. JavaScript를 켠 뒤 다시 열어 주세요.</p></div></noscript>
-<script src="assets/strings.js"></script><!-- UI 문구 표(기본 문구) + theme/strings.tsv(내 문구) 읽기. common.js보다 먼저 -->
-<script src="assets/common.js"></script>
-<script src="assets/portfolio.js"></script>
+<nav class="nav"><div class="wrap" id="nav"></div></nav>
+<main class="wrap" id="app"></main>
+<footer><div class="wrap" id="foot"></div></footer>
+<script src="assets/strings.js"></script><!-- 라이브와 같은 문구 표(theme/strings.tsv)를 읽어 버튼 이름을 맞춤 -->
+<script src="assets/common.js"></script><!-- 기능 → 슬라이드 장면 찾기(PF.deckSceneFor), 기본 포트폴리오와 같은 규칙 -->
+<script>
+(async () => {
+  await PFStr.load('theme/strings.tsv');
+  const T = k => esc(PFStr.t(k));
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const md = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+  const J = u => fetch(u, {cache:'no-store'}).then(r => r.json());
+  // 메인 페이지 전용 이미지(프로젝트 문서의 그 기능 절에 그림이 없는 기능용). 프로젝트 폴더 → 기능 제목
+  // (번호가 아니라 제목으로 찾으므로, 다시 빌드해 기능 순서가 바뀌어도 엉뚱한 카드에 붙지 않음)
+  const DRAFT_IMG = {
+    '01-TreeHouse': { '귀환해야 확정되는 깃털': { src: 'assets/nm/images/return.gif', alt: '깃털을 줍고 귀환하면 확정되어 밤으로 넘어가고, 줍고 사망하면 깃털이 0인 채 낮으로 돌아오는 장면' } },
+    '02-WeGotOne': { '호스트가 물리를 계산하는 구조': { src: 'assets/nm/images/network-crop.gif', alt: '두 클라이언트 화면에서 같은 플레이어가 함께 움직이는 장면' } },
+    '03-MagiCard': {
+      // 프로젝트 문서 3.4의 역할 표(순서·역할·카드 열만) — 3.5 주기 다이어그램은 카드 칸(16:9)에서 글자가 약 10px로 작아져 표를 씀
+      '시점과 역할로 나눈 카드 조합': { alt: '같은 시점에 발동하는 카드의 실행 순서: 반응 → 조향 → 효과', table: [
+        ['순서', '역할', '카드 (기본 시점)'],
+        ['1', '반응', '관통 · 반사 (충돌)'],
+        ['2', '조향', '유도 (비행) · 전이 (충돌)'],
+        ['3', '효과', '분열 (발사) · 폭발 (소멸)'],
+      ] },
+      // 대표 이미지(cover.gif)에서 분열이 가장 꽉 찬 한 장면(48번째 장)을 정지 사진으로 — 바로 옆 대표 카드와 같은 GIF가 두 번 움직이지 않게
+      '상한을 넘는 분열은 위력으로': { src: 'assets/nm/images/split-burst.png', alt: '분열한 카드가 화면을 가득 채우며 퍼지는 장면' },
+    },
+  };
+  // 웹에서 플레이(Games/<프로젝트>/). 프로젝트 폴더 → 게임 페이지·용량
+  const GAMES = {
+    '01-TreeHouse': { href: 'Games/TreeHouse/', size: '약 110MB' },
+    '02-WeGotOne': { href: 'Games/WeGotOne/', size: '약 55MB' },
+    '03-MagiCard': { href: 'Games/MagiCard/', size: '약 30MB' },
+  };
+  const pf = await J('data/portfolio.json');
+  const projects = await Promise.all(pf.projects.map(id => J(`data/projects/${id}.json`)));
+  const P = pf.profile;
+  document.title = `${P.name} · 포트폴리오`;
+
+  // 네비게이터
+  document.getElementById('nav').innerHTML =
+    `<a class="me" href="#top">${esc(P.name)}</a><a class="l" href="#stack">${T('page.stack')}</a>` +
+    projects.map(p => `<a class="l p" href="#${esc(p.id)}">${esc(p.title)}</a>`).join('') +
+    (P.github ? `<a class="l" href="${esc(P.github)}" target="_blank" rel="noopener">GitHub</a>` : '');
+  document.getElementById('nav').appendChild(NM.button('mode-btn'));   // 라이트/다크 전환(바로 바꿔 칠함)
+
+  // 머리 구역
+  const brief = p => {
+    const g = ((p.meta || []).find(m => m.label === '장르') || {}).value || '';
+    return [g.replace(/\s*\(.*\)\s*$/, ''), p.team && p.team.size].filter(Boolean).join(' · ');
+  };
+  let h = `<section class="hero" id="top">
+    <div class="me-col"><h1><span class="en">${esc(P.nameEn)}</span>${esc(P.name)}</h1>
+      <p class="hl">${esc(P.headline)}</p><p class="intro">${esc(P.intro)}</p>
+      <div class="contact">${P.email ? `<a href="mailto:${esc(P.email)}">${esc(P.email)}</a>` : ''}${P.github ? `<a href="${esc(P.github)}" target="_blank" rel="noopener">GitHub</a>` : ''}</div>
+    </div>
+    <nav class="jump" aria-label="프로젝트 바로가기">` + projects.map(p => `<a href="#${esc(p.id)}">
+      <div class="th">${p.cover ? `<img src="src/${esc(p.id)}/${esc(p.cover)}" alt="${esc(p.title)}">` : `<b>${esc(p.title)}</b>`}</div>
+      <div class="cap"><strong>${esc(p.title)}</strong><span>${esc(brief(p))}</span></div></a>`).join('') + `</nav></section>`;
+
+  // 기술 스택: 카드 + 아래 펼치기
+  const title = id => (projects.find(p => p.id === id) || {}).title || id;
+  h += `<section class="shelf" id="stack"><h2>${T('page.stack')}. <span>눌러서 근거 프로젝트와 함께 펼쳐 보세요.</span></h2><div class="chips">` +
+    pf.skills.map((s, i) => {
+      const m = s.name.match(/^(.*?)\s*\((.*)\)\s*$/);
+      const name = m ? m[1] : s.name, keys = m ? m[2] : [...new Set(s.evidence.map(e => title(e.project)))].join(' · ');
+      return `<button class="chip" aria-expanded="false" aria-controls="sk${i}" data-i="${i}"><span class="n">${esc(name)}</span><span class="k">${esc(keys)}</span><span class="c">근거 ${s.evidence.length}개 ·</span></button>`;
+    }).join('') + `</div><div class="panel" id="skpanel"><div><div class="in" id="skin"></div></div></div></section>`;
+
+  // 프로젝트 줄
+  for (const p of projects) {
+    const src = f => `src/${p.id}/${f}`;
+    // 대표 카드 내용은 기본 포트폴리오의 프로젝트 소개(assets/portfolio.js projectIntro)와 같게: 팀 구분 · 한 줄 소개 · 메타(장르·기간·인원·환경) · 내 역할 · 개발 의도 · 태그 · 링크
+    const metaDl = (p.meta || []).map(m => `<div><dt>${esc(m.label)}</dt><dd>${PF.inline(m.value)}</dd></div>`)
+      .concat(p.team && p.team.role ? [`<div class="wide"><dt>${T('name.role')}</dt><dd>${PF.inline(p.team.role)}</dd></div>`] : []).join('');
+    const deck = `project.html?p=${encodeURIComponent(p.id)}`, doc = `doc.html?p=${encodeURIComponent(p.id)}`;
+    const game = GAMES[p.id];
+    const coverImg = p.cover ? `<img src="${esc(src(p.cover))}" alt="${esc(p.title)} 대표 이미지" loading="lazy">` : '';
+    const lead = `<article class="card lead">
+      ${!coverImg ? '' : game ? `<a class="img play" href="${esc(game.href)}" target="_blank" rel="noopener" aria-label="${esc(p.title)} 웹에서 바로 플레이 (새 탭)">${coverImg}<span class="play-badge"><i class="pi" aria-hidden="true">▶</i><span class="pt"><b>웹에서 바로 플레이</b><small>설치 없이 · ${esc(game.size)}</small></span></span></a>` : `<div class="img">${coverImg}</div>`}
+      <div class="tx"><span class="eb">${esc(PF.teamLabel(p.team))}</span><h3>${esc(p.title)}</h3><p>${PF.inline(p.tagline)}</p>
+        ${metaDl ? `<dl class="meta">${metaDl}</dl>` : ''}
+        ${p.intent && p.intent.text ? `<div class="intent"><span class="k">${T('name.intent')}</span><p>${PF.inline(p.intent.text)}</p></div>` : ''}
+        <div class="tags">${(p.tags || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+        <div class="btns"><a class="pri" href="${deck}">${T('name.deck')}</a><a href="${doc}">${T('name.doc')}</a>${p.links.github ? `<a href="${esc(p.links.github)}" target="_blank" rel="noopener">GitHub</a>` : ''}${p.links.video ? `<a href="${esc(p.links.video)}" target="_blank" rel="noopener">${T('name.video')}</a>` : ''}${game ? `<a class="play-btn" href="${esc(game.href)}" target="_blank" rel="noopener">▶ 웹에서 플레이</a>` : ''}</div>
+      </div></article>`;
+    const feats = (p.highlights || []).map((f, i) => {
+      const d = f.image ? null : (DRAFT_IMG[p.id] || {})[f.title];
+      const img = d && d.table ? `<div class="img tbl"><table aria-label="${esc(d.alt)}"><thead><tr>${d.table[0].map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${d.table.slice(1).map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
+        : d ? `<div class="img"${d.bg ? ` style="background:${esc(d.bg)}"` : ''}><img src="${esc(d.src)}" alt="${esc(d.alt)}" loading="lazy"${d.fit ? ` style="object-fit:${esc(d.fit)}"` : ''}></div>`
+        : f.image ? `<div class="img"><img src="${esc(src(f.image.src))}" alt="${esc(f.image.caption || f.title)}" loading="lazy"></div>` : `<div class="img empty">이미지 준비 중</div>`;
+      // 기능 카드 → 슬라이드에서 그 기능을 설명하는 장면(#s=d-<장면 key>). 기본 포트폴리오의 [슬라이드 열기]와 같은 규칙(PF.deckSceneFor)
+      const sid = PF.deckSceneFor(p, f.section);
+      const card = `<a class="card feat" href="${deck}${sid ? `#s=${sid}` : ''}">${img}
+      <div class="tx"><span class="eb">기능 ${i + 1}</span><h3>${esc(f.title)}</h3><p>${md(f.what)}</p><span class="more">${T('page.see-in-deck')} ›</span></div></a>`;
+      const cmp = d && d.compare ? `<div class="card feat"><div class="img"><img src="${esc(d.compare)}" alt="비교용 원본" loading="lazy"></div>
+      <div class="tx"><span class="eb">비교용 · 시안에서만</span><h3>원본 GIF 그대로</h3><p>위아래 검은 띠까지 포함한 원본(544×306)입니다. 바로 왼쪽 카드는 검은 띠를 빼고 각 화면의 가운데만 잘라 붙인 것입니다.</p></div></div>` : '';
+      return card + cmp;
+    }).join('');
+    h += `<section class="shelf" id="${esc(p.id)}"><h2>${esc(p.title)}. <span>${esc(p.tagline)}</span></h2>
+      <div class="proj">${lead}<div class="feat-grid">${feats}</div></div></section>`;
+  }
+  document.getElementById('app').innerHTML = h;
+  document.getElementById('foot').innerHTML = `<span>${esc(P.name)} · ${esc(P.nameEn)}</span>${P.email ? `<a href="mailto:${esc(P.email)}">${esc(P.email)}</a>` : ''}${P.github ? `<a href="${esc(P.github)}">GitHub</a>` : ''}<span>업데이트 ${esc(pf.generatedAt)}</span>`;
+
+  // 펼치기: 같은 카드를 다시 누르면 닫힘
+  const panel = document.getElementById('skpanel'), inner = document.getElementById('skin');
+  let open = -1;
+  document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.i;
+    document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-expanded', 'false'));
+    if (open === i) { panel.classList.remove('open'); open = -1; return; }
+    const s = pf.skills[i];
+    inner.innerHTML = `<h3>${esc(s.name)}</h3><ul>` + s.evidence.map(e =>
+      `<li><a class="p" href="#${esc(e.project)}">${esc(title(e.project))}</a><span>${md(e.text)}</span></li>`).join('') + `</ul>`;
+    b.setAttribute('aria-expanded', 'true'); panel.classList.add('open'); open = i;
+  }));
+
+  // 줄 좌우 화살표
+  document.querySelectorAll('.row').forEach(row => {
+    const sc = row.querySelector('.scroller'), [prev, next] = row.querySelectorAll('.arrows button');
+    const upd = () => { prev.disabled = sc.scrollLeft < 4; next.disabled = sc.scrollLeft + sc.clientWidth > sc.scrollWidth - 4; };
+    prev.onclick = () => sc.scrollBy({left: -sc.clientWidth * .8, behavior: 'smooth'});
+    next.onclick = () => sc.scrollBy({left: sc.clientWidth * .8, behavior: 'smooth'});
+    sc.addEventListener('scroll', upd, {passive: true}); upd();
+  });
+
+  // 기능 카드(2×2): 글 칸에 들어가는 만큼만 설명 줄 수를 정해, 줄 중간에서 잘리지 않고 마지막 줄 끝에 …가 붙게
+  const fitFeat = () => document.querySelectorAll('.feat-grid .card.feat').forEach(c => {
+    const tx = c.querySelector('.tx'), para = c.querySelector('p');
+    if (!tx || !para) return;
+    para.style.webkitLineClamp = 'unset'; para.style.display = 'block';
+    const cs = getComputedStyle(tx), lh = parseFloat(getComputedStyle(para).lineHeight) || 21;
+    const gap = parseFloat(cs.rowGap) || 0, others = [...tx.children].filter(x => x !== para);
+    const room = tx.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom)
+      - others.reduce((h, x) => h + x.offsetHeight, 0) - gap * others.length;
+    para.style.display = ''; para.style.webkitLineClamp = String(Math.max(1, Math.floor(room / lh)));
+  });
+  fitFeat(); addEventListener('resize', fitFeat);
+
+  // 확인용: ?row=<프로젝트 폴더>&at=<카드 번호> → 그 줄로 내려가 그 카드부터 보이게
+  const q = new URLSearchParams(location.search), rowId = q.get('row');
+  if (rowId && document.getElementById(rowId)) {
+    const sec = document.getElementById(rowId), sc = sec.querySelector('.scroller') || sec, card = sc.children[+q.get('at') || 0];
+    sec.scrollIntoView();
+    if (card) sc.scrollLeft = card.offsetLeft - sc.offsetLeft - 22;
+  }
+})().catch(e => { document.getElementById('app').textContent = '데이터를 읽지 못했습니다: ' + e.message; });
+</script>
 </body>
 </html>
