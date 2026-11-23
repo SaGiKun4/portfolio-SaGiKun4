@@ -26,10 +26,6 @@
     {
       "label": "환경",
       "value": "Unity 6000.3.15f1, WebSocket 서버, Git"
-    },
-    {
-      "label": "AI 활용",
-      "value": "맡은 파트는 사용하지 않음 (팀 프로젝트라 직접 구현)"
     }
   ],
   "tags": [

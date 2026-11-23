@@ -26,10 +26,6 @@
     {
       "label": "환경",
       "value": "Unity 6000.3.15f1 (URP 2D, New Input System, TextMeshPro)"
-    },
-    {
-      "label": "AI 활용",
-      "value": "사용하지 않음 (기획부터 구현까지 직접 진행)"
     }
   ],
   "tags": [
