@@ -66,3 +66,26 @@
   --t-shadow: rgb(0 0 0 / .55);
   --t-code-bg: #120F0D;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   슬라이드 — 그림 없이 글만 있는 '문제 → 원인 → 해결 → 결과' 장면
+   기본 15px는 줄이 짧아 칸 오른쪽이 비어 보여서, 글씨를 키우고 칸 안쪽 여백을 넓힘.
+   (그림·코드와 함께 있는 장면은 그대로)
+   ───────────────────────────────────────────────────────────── */
+.dk-text .flow.col { gap: 12px; }
+.dk-text .flow.col .fstep { grid-template-columns: 100px minmax(0, 1fr); align-items: center; padding: 16px 22px; }
+.dk-text .flow.col .fstep .labelchip { font-size: 15px; padding: 5px 12px; }
+.dk-text .flow.col .fstep p { font-size: 20px; line-height: 1.5; }
+
+/* ─────────────────────────────────────────────────────────────
+   슬라이드 — WeGotOne 5.1 (표 + 코드를 합친 장면) 배치
+   왼쪽: 비교 표 위 · 요점 카드 아래 / 오른쪽: 코드를 높이 전체로.
+   (장면 주소 #s=d-grab-list-code 한 장면에만 적용)
+   ───────────────────────────────────────────────────────────── */
+#d-grab-list-code .dk { display: grid !important; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 14px 22px; align-content: center; }
+#d-grab-list-code .vis { display: contents !important; }
+#d-grab-list-code .vbox[data-kind="table"] { grid-column: 1; grid-row: 1; width: auto !important; }
+#d-grab-list-code .vbox[data-kind="table"] .fit-in { width: 100% !important; zoom: 1 !important; }
+#d-grab-list-code .vbox[data-kind="table"] table { width: 100%; }
+#d-grab-list-code .vbox[data-kind="code"] { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+#d-grab-list-code .cards { grid-column: 1; grid-row: 2; display: grid !important; grid-template-columns: minmax(0, 1fr) !important; gap: 10px; }
