@@ -1,0 +1,16 @@
+ID	Kind	Name	Timing	BlockedTimings	Target	EffectKey	EffectRadius
+0	Attack	공격	Shoot				
+100	Split	분열	Shoot				
+101	Explosion	폭발	Destroy	Flying		Effects/Explosion	2
+102	Pierce	관통	Hit	Shoot,Flying,Destroy	Enemy		
+103	Ricochet	반사	Hit	Shoot,Flying,Destroy	World,Prop		
+104	Transfer	전이	Hit	Shoot,Flying,Destroy			
+105	Homing	유도	Flying	Shoot,Hit,Destroy			
+200	Timing	발사 시점	Shoot				
+201	Timing	진행 시점	Flying				
+202	Timing	충돌 시점	Hit				
+203	Timing	소멸 시점	Destroy				
+210	Target	대상 둘다	Shoot		Enemy,World,Prop		
+211	Target	대상 월드	Shoot		World,Prop		
+212	Target	대상 적	Shoot		Enemy		
+220	Spec	스펙 강화	Shoot				

@@ -1,0 +1,11 @@
+ItemId	Name	IconPath	Fullness	BuildValue	ItemType
+0	Wood	ItemIcons/Plank	0	1	Plank
+1	ClownFish	ItemIcons/ClownFish	0	2	Fish
+2	PinkFish	ItemIcons/PinkFish	0	4	Fish
+3	Shark	ItemIcons/Shark	0	10	Fish
+4	Squid	ItemIcons/Squid	0	20	Fish
+5	MantisShrimp	ItemIcons/MantisShrimp	0	8	Fish
+6	MineFish	ItemIcons/MineFish	0	10	Fish
+7	Octopus	ItemIcons/Octopus	0	8	Fish
+8	ElectronicManta	ItemIcons/ElectronicManta	0	10	Fish
+9	Seahorse	ItemIcons/Seahorse	0	0	Fish
