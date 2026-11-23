@@ -408,7 +408,8 @@
     hud = document.createElement('nav');
     hud.className = 'pf-hud pf-screen-only'; hud.setAttribute('aria-label', '슬라이드 조작'); hud.dataset.pfUi = 'hud';
     const hasDoc = scenes.some((s) => s.dataset.pfPart === 'doc');
-    hud.innerHTML = `<button type="button" data-a="prev" aria-label="이전 슬라이드" title="${LH('ui.prev')}">‹</button>
+    hud.innerHTML = `<a class="pf-hud-home" href="index.html" title="${LH('name.portfolio')}" aria-label="${LH('name.portfolio')}"><span class="l">${LH('ui.back')}</span><span class="s" aria-hidden="true">←</span></a>
+      <button type="button" data-a="prev" aria-label="이전 슬라이드" title="${LH('ui.prev')}">‹</button>
       <button type="button" data-a="next" aria-label="다음 슬라이드" title="${LH('ui.next')}">›</button>
       <span class="pf-hud-count" aria-hidden="true"></span>
       <span class="pf-hud-sec" aria-hidden="true"></span>

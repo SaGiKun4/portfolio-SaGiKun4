@@ -41,6 +41,12 @@
   .pf-hud button { all: unset; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 4px;
     height: 30px; min-width: 32px; padding: 0 12px; border: 1px solid var(--line-2, #2E2E38); border-radius: var(--pill, 999px); background: var(--card, #15151B);
     font: 600 13px/1 'Pretendard', system-ui, sans-serif; color: var(--ink, #E8E8EE); cursor: pointer; white-space: nowrap; flex: none; }
+  /* 포트폴리오(메인 페이지)로 돌아가기 — 버튼과 같은 모양의 링크, 같은 탭 */
+  .pf-hud a.pf-hud-home { box-sizing: border-box; display: inline-flex; align-items: center; height: 30px; padding: 0 12px; flex: none; white-space: nowrap;
+    border: 1px solid var(--line-2, #2E2E38); border-radius: var(--pill, 999px); background: var(--card, #15151B); color: var(--ink, #E8E8EE);
+    font: 600 13px/1 'Pretendard', system-ui, sans-serif; text-decoration: none; }
+  .pf-hud a.pf-hud-home:hover { border-color: var(--accent-ink, #6D9AF1); color: var(--accent-ink, #6D9AF1); }
+  .pf-hud a.pf-hud-home:focus-visible { outline: 2px solid var(--accent-ink, #6D9AF1); outline-offset: 2px; }
   .pf-hud button[data-a="prev"], .pf-hud button[data-a="next"] { padding: 0; width: 32px; font-size: 18px; }
   .pf-hud button[data-a="help"] { padding: 0; width: 30px; }
   .pf-hud button:hover { border-color: var(--accent-ink, #6D9AF1); color: var(--accent-ink, #6D9AF1); background: var(--card, #15151B); }
@@ -75,6 +81,7 @@
     .pf-hud .pf-hud-prog { min-width: 0; }   /* 쪽 수·점검 숫자가 들어갈 자리(진행 막대가 먼저 줄어듦) */
     .pf-hud .l { display: none; } .pf-hud .s { display: inline; }
     .pf-hud button { padding: 0 8px; }
+    .pf-hud a.pf-hud-home { padding: 0; width: 32px; justify-content: center; font-size: 15px; }   /* 휴대폰 폭: ← 만 */
     /* 점검 숫자는 띠 위로 띄움: '한 번에 보기'(단추 글자가 길고 세로 스크롤바가 폭을 먹음)에서 밀려 나가지 않게 */
     .pf-hud .pf-hud-badge { position: absolute; left: 8px; bottom: calc(100% + 6px); box-shadow: 0 2px 8px rgba(0, 0, 0, .6); }
   }

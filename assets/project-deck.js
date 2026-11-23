@@ -122,6 +122,19 @@
     if (note) Object.assign(tv, { noteBkgColor: note, noteBorderColor: border || note, noteTextColor: ink });
     return { theme: 'base', themeVariables: tv };
   }
+  // 슬라이드 전용 방향: 원문 mermaid에 `%% deck: LR` 줄이 있으면 슬라이드에서만 방향을 그것으로 바꿈(flowchart·graph·classDiagram·stateDiagram).
+  //   %%로 시작하는 줄은 Mermaid 주석이라 상세 문서는 원래 방향(예: 위→아래) 그대로. 원문 블록 지문(fp)도 %% 줄을 건너뜀
+  function deckDirection(text) {
+    const m = text.match(/^[ \t]*%%[ \t]*deck:[ \t]*(LR|RL|TB|TD|BT)[ \t]*$/mi);
+    if (!m) return text;
+    const dir = m[1].toUpperCase();
+    // 클래스·상태 다이어그램: 머리 줄 바로 다음에 direction 줄(이미 있으면 그 값만 바꿈)
+    if (/^[ \t]*(classDiagram|stateDiagram(-v2)?)\b/m.test(text)) {
+      if (/^[ \t]*direction[ \t]+(LR|RL|TB|TD|BT)\b/mi.test(text)) return text.replace(/^([ \t]*direction[ \t]+)(LR|RL|TB|TD|BT)\b/mi, `$1${dir}`);
+      return text.replace(/^([ \t]*(?:classDiagram|stateDiagram(?:-v2)?)[^\n]*\n)/m, `$1    direction ${dir === 'TD' ? 'TB' : dir}\n`);
+    }
+    return text.replace(/^([ \t]*(?:flowchart|graph)[ \t]+)(LR|RL|TB|TD|BT)\b/mi, `$1${dir}`);
+  }
   async function renderMermaid(els) {
     if (!els.length) return;
     if (!window.mermaid) { els.forEach((el) => svgCache.set(el, { error: 'Mermaid를 불러오지 못했습니다' })); return; }
@@ -131,7 +144,7 @@
     let n = 0;
     for (const el of els) {
       if (svgCache.has(el)) continue;
-      const text = el.querySelector('code')?.textContent || '';
+      const text = deckDirection(el.querySelector('code')?.textContent || '');
       try { const { svg } = await mermaid.render(`dk-mmd-${n++}`, text, mmdHost); svgCache.set(el, { svg }); }
       catch (err) { svgCache.set(el, { error: String(err?.message || err).split('\n')[0].slice(0, 120) }); info.errors.push('mermaid: ' + (err?.message || err)); }
     }
