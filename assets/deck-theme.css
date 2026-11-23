@@ -176,7 +176,7 @@ table.kv td.role { color: var(--accent-ink); font-weight: 800; }
 
 /* ── 프로젝트 소개(슬라이드 표지, 결정 G4) ── */
 .t-P1 .pf-body { display: flex; flex-direction: column; }
-.pi-main { flex: 1; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); grid-template-rows: minmax(0, 100%); gap: 40px; margin-top: 22px; min-height: 0; }
+.pi-main { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); grid-template-rows: minmax(0, 100%); gap: 40px; margin-top: 22px; min-height: 0; }
 .t-P1.portrait .pi-main { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
 .t-P1.nocover .pi-main { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); }
 .pi-left, .pi-right { display: flex; flex-direction: column; gap: 16px; min-height: 0; }
@@ -202,6 +202,8 @@ table.kv td.role { color: var(--accent-ink); font-weight: 800; }
 .lcard .lc-t { display: inline; font-size: 15px; font-weight: 800; }
 .lcard .url { display: block; margin-top: 1px; font-size: 12px; color: var(--muted); }
 .pi-right .tags { margin-top: 2px; }
+/* 표지 바로가기 주소: 조금 작게, 긴 주소(GitHub 등)는 아무 글자에서나 줄바꿈 — 바로가기 4개가 오른쪽 칸에 들어가게 */
+.pi-links .lcard .url { font-size: 11px; word-break: break-all; }
 .pi-tight .pi-t { font-size: 38px; }
 .pi-tight .pi-head .tagline { font-size: 16px; }
 .pi-tight .pi-cover { max-height: 300px; }
