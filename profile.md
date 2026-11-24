@@ -8,7 +8,7 @@
 
 - 이름: 신성건
 - 영문 이름: SeongGeon Sin
-- 한 줄 정체성: 다양한 관점으로 문제를 해결하는 유니티 클라이언트 개발자
+- 한 줄 정체성: 환경이 바뀌어도 판단 기준을 먼저 세우는 유니티 개발자
 - 이메일: sagikun5305@gmail.com
 - GitHub: https://github.com/SaGiKun4
 
