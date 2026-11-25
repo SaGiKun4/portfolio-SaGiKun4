@@ -1,8 +1,7 @@
 ---
 name: portfolio-custom
-description: 직접 생성 모드 — data/의 포트폴리오 데이터로 Claude가 디자인을 새로 그린 단일 HTML 페이지(custom/index.html)를 만든다. theme/layout.json(/portfolio-layout이 뽑은 배치 레퍼런스)이 있으면 그 배치를 따른다. 사용자가 /portfolio-custom을 직접 입력했을 때만 실행.
+description: 직접 생성 모드 — data/의 포트폴리오 데이터로 Claude가 디자인을 새로 그린 단일 HTML 페이지(custom/index.html)를 만든다. theme/layout.json(/portfolio-layout이 뽑은 배치 레퍼런스)이 있으면 그 배치를 따른다. Claude가 필요하다고 보면 제안하고, 사용자가 확인한 뒤 실행.
 argument-hint: "[디자인 요청 — 예: 다크 톤, 첫 화면은 이름만 크게]"
-disable-model-invocation: true
 ---
 
 # /portfolio-custom — 직접 생성 모드

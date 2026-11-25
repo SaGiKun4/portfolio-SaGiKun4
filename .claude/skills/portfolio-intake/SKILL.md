@@ -1,8 +1,7 @@
 ---
 name: portfolio-intake
-description: 수강생의 GitHub 레포(또는 로컬 폴더)에서 포트폴리오 재료를 뽑아 src/<NN-이름>/에 핵심 .cs와 "재료집 + 질문지", "촬영 목록"을 만든다. 발표 자료(.pptx)를 주면 글·그림·표·노트를 그대로 꺼내 _intake/발표자료.md와 _intake/pptx/에 둔다. 프로젝트 문서를 대신 쓰지 않는다. 사용자가 /portfolio-intake를 직접 입력했을 때만 실행.
+description: 수강생의 GitHub 레포(또는 로컬 폴더)에서 포트폴리오 재료를 뽑아 src/<NN-이름>/에 핵심 .cs와 "재료집 + 질문지", "촬영 목록"을 만든다. 발표 자료(.pptx)를 주면 글·그림·표·노트를 그대로 꺼내 _intake/발표자료.md와 _intake/pptx/에 둔다. 프로젝트 문서를 대신 쓰지 않는다. Claude가 필요하다고 보면 제안하고, 사용자가 확인한 뒤 실행.
 argument-hint: "<레포 주소 | owner/repo | 로컬 폴더 경로 | 발표자료.pptx> [NN-폴더이름] [--branch <이름>] [--update]"
-disable-model-invocation: true
 ---
 
 # /portfolio-intake — GitHub·발표 자료 재료 추출

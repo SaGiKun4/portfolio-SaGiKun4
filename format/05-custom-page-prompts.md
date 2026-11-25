@@ -11,7 +11,7 @@
 
 | | 고정 렌더러 (기본) | 직접 생성 모드 (선택) |
 |---|---|---|
-| 실행 | `/portfolio-build` | `/portfolio-custom [디자인 요청]` — **직접 입력할 때만** 실행 |
+| 실행 | `/portfolio-build` | `/portfolio-custom [디자인 요청]` — Claude가 제안하고 **확인받은 뒤** 실행 |
 | 결과 | `index.html`(포트폴리오 페이지) · `project.html`(슬라이드) · `doc.html`(프로젝트 상세 문서) | `custom/index.html` (단일 HTML) |
 | 디자인 | 중립 + 강조색 1개 | 자유 (요청한 대로) |
 | 안정성 | 높음 (매번 같은 결과) | 실행마다 달라짐 — **매번 직접 확인** 필요 |

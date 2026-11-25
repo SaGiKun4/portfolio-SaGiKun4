@@ -1,8 +1,7 @@
 ---
 name: portfolio-update
-description: 템플릿 원본(https://github.com/krKooHoo/portfolio-template)에서 렌더러·스킬·format·안내 문서를 받아 이 레포에 반영한다. src/·profile.md·data/·custom/은 건드리지 않는다. 사용자가 /portfolio-update를 직접 입력했을 때만 실행.
+description: 템플릿 원본(https://github.com/krKooHoo/portfolio-template)에서 렌더러·스킬·format·안내 문서를 받아 이 레포에 반영한다. src/·profile.md·data/·custom/은 건드리지 않는다. Claude가 필요하다고 보면 제안하고, 사용자가 확인한 뒤 실행.
 argument-hint: "[되돌리기]"
-disable-model-invocation: true
 ---
 
 # /portfolio-update — 템플릿 업데이트 받기
