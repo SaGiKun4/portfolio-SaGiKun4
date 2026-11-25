@@ -1,0 +1,365 @@
+{
+  "schemaVersion": 1,
+  "pin": [
+    {
+      "key": "intro",
+      "chapter": "overview",
+      "layout": "overview",
+      "tab": "개요",
+      "title": {
+        "text": "1. 개요",
+        "verbatim": true
+      },
+      "lead": {
+        "text": "손으로 벽이나 바닥, 다른 플레이어를 붙잡고 그 자리를 축으로 몸을 흔들어 나아갑니다.",
+        "verbatim": true
+      },
+      "sectionPath": [
+        "1. 개요"
+      ],
+      "points": [
+        {
+          "label": "",
+          "text": "함께 물고기를 잡아 자원을 다 모으면 다리를 놓아 목적지까지 가고, 그러면 다음 스테이지로 넘어갑니다.",
+          "verbatim": true
+        },
+        {
+          "label": "",
+          "text": "플레이어가 마음대로 움직이지 않는 몸 때문에 서로 도울 수밖에 없고, 그렇게 우스꽝스러운 모습으로 협동하는 것 자체를 즐기기를 바랐습니다.",
+          "verbatim": true
+        },
+        {
+          "label": "",
+          "text": "캐릭터가 물리 법칙대로 흔들리며 움직이기 때문에, 이런 캐릭터의 구조를 어떻게 만드는가가 가장 큰 과제였습니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "image",
+          "src": "../../../src/02-WeGotOne/images/play.gif",
+          "w": 544,
+          "h": 306,
+          "caption": {
+            "text": "여러 플레이어가 함께 스테이지를 나아가는 플레이 장면",
+            "verbatim": true
+          }
+        }
+      ],
+      "from": {
+        "key": "intro",
+        "sectionPath": [
+          "1. 개요"
+        ],
+        "sig": [
+          "1. 개요|image|../../../src/02-WeGotOne/images/play.gif|1"
+        ]
+      }
+    },
+    {
+      "key": "team-roles",
+      "chapter": "overview",
+      "layout": "overview",
+      "tab": "개요",
+      "title": {
+        "text": "2. 팀과 내 역할",
+        "verbatim": true
+      },
+      "lead": {
+        "text": "내 역할: 플레이어 핵심 조작 · 플레이어 조작의 서버 연결",
+        "verbatim": true
+      },
+      "sectionPath": [
+        "2. 팀과 내 역할"
+      ],
+      "points": [
+        {
+          "label": "파트 나누기",
+          "text": "일을 큰 파트 단위로 나눴고, 이 게임은 플레이어 조작이 거의 전부이므로 조작을 한 파트로 묶었습니다.",
+          "verbatim": true
+        },
+        {
+          "label": "맡게 된 이유",
+          "text": "플레이어 파트는 게임의 중심이면서 물리로 움직이는 몸을 다뤄야 해서, 다들 감을 잡지 못해 선뜻 맡지 못했습니다.",
+          "verbatim": true
+        },
+        {
+          "label": "내 강점",
+          "text": "저는 Unity를 써 본 경험이 있었고, 레퍼런스 덕분에 어떤 움직임이 나와야 하는지가 분명했습니다.",
+          "verbatim": true
+        },
+        {
+          "label": "첫 계획",
+          "text": "Joint와 `AddTorque`로 만들면 되겠다는 생각이 먼저 들었고, 금방 끝날 것 같다는 자신감도 있어서 이 파트를 맡았습니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "table",
+          "n": 1,
+          "fp": "파트|담당"
+        }
+      ],
+      "from": {
+        "key": "team-roles",
+        "sectionPath": [
+          "2. 팀과 내 역할"
+        ],
+        "sig": [
+          "2. 팀과 내 역할|table|1|파트|담당"
+        ]
+      }
+    },
+    {
+      "key": "torque-choice",
+      "chapter": "movement",
+      "layout": "visual",
+      "tab": "선택",
+      "title": {
+        "text": "3.2 돌리는 힘 대신 미는 힘",
+        "verbatim": true
+      },
+      "lead": {
+        "text": "토크로 돌리려면 무엇을 축으로 돌지 제가 직접 정해 줘야 했고, 그 축이 상황마다 바뀌었습니다.",
+        "verbatim": true
+      },
+      "sectionPath": [
+        "3. 회전축 대신 힘으로 몸 움직이기",
+        "3.2 돌리는 힘 대신 미는 힘"
+      ],
+      "points": [
+        {
+          "label": "이유",
+          "text": "프로젝트 기간이 3주로 짧았고, 조작은 핵심 기능이라 빨리 만들어 팀원들과 공유해야 했기 때문입니다.",
+          "verbatim": true
+        },
+        {
+          "label": "치른 대가",
+          "text": "물리적으로 더 정확한 토크를 포기한 것입니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "image",
+          "src": "../../../src/02-WeGotOne/images/torque-branch.png",
+          "w": 1266,
+          "h": 476,
+          "caption": {
+            "text": "토크와 힘의 회전축 비교 그림",
+            "verbatim": true
+          }
+        },
+        {
+          "kind": "table",
+          "n": 2,
+          "fp": "|토크로 돌리기|힘으로 밀기 ✓"
+        }
+      ],
+      "from": {
+        "key": "torque-choice",
+        "sectionPath": [
+          "3. 회전축 대신 힘으로 몸 움직이기",
+          "3.2 돌리는 힘 대신 미는 힘"
+        ],
+        "sig": [
+          "3.2 돌리는 힘 대신 미는 힘|image|../../../src/02-WeGotOne/images/torque-branch.png|1",
+          "3.2 돌리는 힘 대신 미는 힘|table|2||토크로 돌리기|힘으로 밀기 ✓"
+        ]
+      }
+    },
+    {
+      "key": "force-by-target",
+      "chapter": "movement",
+      "layout": "overview",
+      "tab": "구현",
+      "title": {
+        "text": "3.3 잡은 대상에 따라 달라지는 힘",
+        "verbatim": true
+      },
+      "lead": {
+        "text": "필요한 힘은 무엇을 잡았느냐에 따라 달랐습니다.",
+        "verbatim": true
+      },
+      "sectionPath": [
+        "3. 회전축 대신 힘으로 몸 움직이기",
+        "3.3 잡은 대상에 따라 달라지는 힘"
+      ],
+      "points": [
+        {
+          "label": "땅을 잡은 상황",
+          "text": "플레이어 자신을 옮길 만큼 충분한 힘",
+          "verbatim": true
+        },
+        {
+          "label": "물체를 잡은 상황",
+          "text": "그 물체를 들 정도의 힘만",
+          "verbatim": true
+        },
+        {
+          "label": "구현",
+          "text": "플레이어마다 힘을 쓰게 해 물체를 옮길 수 있게 하되, 힘의 최대값을 정해 물체의 무게로 협동을 강제했습니다.",
+          "verbatim": false
+        },
+        {
+          "label": "값 정하기",
+          "text": "기본 힘과 강한 힘의 값은 플레이테스트를 거쳐 정했습니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "table",
+          "n": 1,
+          "fp": "잡은 대상|쓰는 힘|이 값을 쓰는 이유"
+        }
+      ],
+      "from": {
+        "key": "force-by-target",
+        "sectionPath": [
+          "3. 회전축 대신 힘으로 몸 움직이기",
+          "3.3 잡은 대상에 따라 달라지는 힘"
+        ],
+        "sig": [
+          "3.3 잡은 대상에 따라 달라지는 힘|table|1|잡은 대상|쓰는 힘|이 값을 쓰는 이유"
+        ]
+      }
+    },
+    {
+      "key": "grab-demo",
+      "chapter": "grab",
+      "layout": "visual",
+      "tab": "결과",
+      "title": {
+        "text": "5. 여러 대상이 닿아도 먼저 잡은 것 잡기",
+        "verbatim": true
+      },
+      "lead": {
+        "text": "게임 중에는 벽돌 두 개와 바닥, 물고기처럼 세 개 이상의 대상이 동시에 손에 닿는 일이 자주 생깁니다.",
+        "verbatim": true
+      },
+      "sectionPath": [
+        "5. 여러 대상이 닿아도 먼저 잡은 것 잡기"
+      ],
+      "points": [
+        {
+          "label": "필요했던 것",
+          "text": "\"지금 무엇을 잡을 것인가\"를 정하는 규칙이 필요했습니다.",
+          "verbatim": true
+        },
+        {
+          "label": "상황",
+          "text": "판자를 잡고 옮기는 중",
+          "verbatim": true
+        },
+        {
+          "label": "충돌",
+          "text": "판자를 잡은 손이 다른 플레이어와 부딪힘",
+          "verbatim": true
+        },
+        {
+          "label": "결과",
+          "text": "판자를 놓치지도, 그 플레이어를 잡지도 않고 계속 옮깁니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "image",
+          "src": "../../../src/02-WeGotOne/images/grab-list.gif",
+          "w": 544,
+          "h": 306,
+          "caption": {
+            "text": "나무 판자를 옮기던 손이 다른 플레이어와 부딪혀도 판자를 계속 잡고 있는 장면",
+            "verbatim": true
+          }
+        }
+      ],
+      "from": {
+        "key": "grab-demo",
+        "sectionPath": [
+          "5. 여러 대상이 닿아도 먼저 잡은 것 잡기"
+        ],
+        "sig": [
+          "5. 여러 대상이 닿아도 먼저 잡은 것 잡기|image|../../../src/02-WeGotOne/images/grab-list.gif|1"
+        ]
+      }
+    },
+    {
+      "key": "grab-list-code",
+      "chapter": "grab",
+      "layout": "code",
+      "tab": "구현",
+      "title": {
+        "text": "5.1 먼저 잡은 것을 계속 잡는 규칙",
+        "verbatim": true
+      },
+      "lead": {
+        "text": "잡을 수 있는 대상을 모두 목록으로 들고 있다가, 먼저 들어온 대상을 우선하기로 했습니다.",
+        "verbatim": true
+      },
+      "sectionPath": [
+        "5. 여러 대상이 닿아도 먼저 잡은 것 잡기",
+        "5.1 먼저 잡은 것을 계속 잡는 규칙"
+      ],
+      "points": [
+        {
+          "label": "구현",
+          "text": "잡을 대상은 언제나 목록의 맨 앞(`targets[0]`)이므로, 나중에 닿은 것이 먼저 잡은 것을 밀어내지 않습니다.",
+          "verbatim": true
+        },
+        {
+          "label": "고려한 점",
+          "text": "물고기, 판자, 다른 플레이어 순으로 들어왔다가 판자가 먼저 빠져나가면, 물고기와 플레이어는 그대로 남아야 합니다.",
+          "verbatim": true
+        },
+        {
+          "label": "선택",
+          "text": "이런 경우도 큐 두 개를 쓰면 처리할 수 있지만, 이것저것 종합해 보니 중간에 있는 대상을 바로 뺄 수 있는 리스트가 제게는 더 편했습니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "table",
+          "n": 1,
+          "fp": "|잡을 대상을 하나만 기억|손에 닿은 대상을 모두 기억하고, 먼저 닿은 것을 우선 ✓"
+        },
+        {
+          "kind": "code",
+          "n": 1,
+          "fp": "private void OnTriggerEnter2D(Collider2D other)"
+        }
+      ],
+      "from": {
+        "key": "grab-list-code",
+        "sectionPath": [
+          "5. 여러 대상이 닿아도 먼저 잡은 것 잡기",
+          "5.1 먼저 잡은 것을 계속 잡는 규칙"
+        ],
+        "sig": [
+          "5.1 먼저 잡은 것을 계속 잡는 규칙|code|1|private void OnTriggerEnter2D(Collider2D other)",
+          "5.1 먼저 잡은 것을 계속 잡는 규칙|table|1||잡을 대상을 하나만 기억|손에 닿은 대상을 모두 기억하고, 먼저 닿은 것을 우선 ✓"
+        ]
+      },
+      "group": "merge-grab-list-code"
+    }
+  ],
+  "hide": [
+    {
+      "key": "first-grab",
+      "from": {
+        "key": "first-grab",
+        "sectionPath": [
+          "5. 손으로 잡기",
+          "5.1 먼저 잡은 것을 계속 잡는 규칙"
+        ],
+        "sig": [
+          "5.1 먼저 잡은 것을 계속 잡는 규칙|table|1||잡을 대상을 하나만 기억|손에 닿은 대상을 모두 기억하고, 먼저 닿은 것을 우선 ✓"
+        ]
+      },
+      "group": "merge-grab-list-code"
+    }
+  ]
+}

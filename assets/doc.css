@@ -114,6 +114,20 @@ code { font-family: var(--mono); font-size: .88em; background: var(--accent-soft
 .rail-misc a { text-decoration: none; color: var(--accent-ink); }
 .rail-misc a:hover { text-decoration: underline; }
 
+/* 들어가며 (## 들어가며 절 — 프로젝트 소개보다 앞). 상자 없이 머리(.doc-intro)와 같은 양식:
+   "들어가며" = 머리말(eyebrow) · 고민 = 제목(h1) · 부연설명 = 한 줄 소개(tagline) */
+.md.doc-preface { margin: 0 0 56px; padding: 0; border: 0; background: none; }
+.md.doc-preface > h2 { width: fit-content; margin: 0 0 6px; padding: 0; border: 0; font-size: 13px; font-weight: 800; letter-spacing: .06em;
+                       color: var(--accent-ink); background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.md.doc-preface > h2::before, .md.doc-preface > h2::after { content: none; }
+.md.doc-preface > p { font-size: 16px; color: var(--muted); margin: 0 0 4px; }
+.md.doc-preface > :is(ol, ul) { list-style: none; padding: 0; margin: 0; counter-reset: pfq; }
+.md.doc-preface > :is(ol, ul) > li { margin: 0; padding: 20px 0 0; counter-increment: pfq; }
+.md.doc-preface > :is(ol, ul) > li::marker { content: none; }
+/* 고민 = 모두 같은 크기, 한 줄(doc.js fitQ가 가장 긴 고민에 맞춰 함께 줄임) · 부연설명 = 본문보다 약하게 */
+.md.doc-preface .pf-q { display: block; font-size: 21px; font-weight: 800; letter-spacing: -.02em; line-height: 1.3; color: var(--ink); margin: 0 0 4px; }
+.md.doc-preface .pf-q-desc { display: block; font-size: 15px; font-weight: 400; color: var(--muted); line-height: 1.6; }
+
 /* 머리 (h1 = 프로젝트 제목) */
 .doc-intro { margin-bottom: 34px; }
 .doc-intro .eyebrow { width: fit-content; font-size: 13px; font-weight: 800; letter-spacing: .06em; color: var(--accent-ink);
@@ -218,6 +232,9 @@ dialog.lightbox::backdrop { background: rgba(10, 11, 14, .82); }
 .doc-intro, .md > :not(pre, .table-wrap, .mmd, .pf-figure) { margin-inline: auto; }
 .md > :is(pre, .table-wrap) { margin-left: max(0px, (100% - var(--measure)) / 2); max-width: calc(100% - max(0px, (100% - var(--measure)) / 2)); }
 .md > :is(.mmd, .pf-figure) { margin-inline: auto; }
+/* 들어가며: 머리(.doc-intro)와 같은 글줄(40rem) 폭·같은 왼쪽 끝 */
+.md.doc-preface { max-width: min(var(--measure), 100%); margin-inline: auto; }
+.md.doc-preface > * { max-width: none; }
 /* 시각 자료 폭 = 글줄 폭(40rem): 그림·GIF·다이어그램·표·코드 상자를 모두 같은 폭으로(화면에서만). 위 ① 규칙을 덮어씀.
    다이어그램은 상자만 글줄 폭이고, 그림은 원래 크기보다 키우지 않음(작은 그림의 글자가 커지지 않게) */
 @media screen {

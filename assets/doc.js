@@ -40,7 +40,7 @@
     return { theme: 'base', themeVariables: tv };
   }
   // Mermaid가 페이지 load 때 스스로 그리지 않게 맨 먼저 끕니다(아래 await 사이에 load가 오면 기본 설정으로 먼저 그려 버림)
-  if (window.mermaid) mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', fontFamily: 'Pretendard, sans-serif', ...mermaidTheme() });
+  if (window.mermaid) mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', deterministicIds: true, deterministicIDSeed: 'pfdoc', fontFamily: 'Pretendard, sans-serif', ...mermaidTheme() });
   if (PF.guardFileProtocol(root)) { errors.push('file:// — 로컬 서버로 열어야 합니다'); return done(); }
 
   const { esc, inline, link, markNewTab } = PF;
@@ -151,6 +151,51 @@
     frag.querySelectorAll('a[href]').forEach((a) => classifyMdLink(a, isRelative, decode));
     doc.replaceChildren(frag);
 
+    // ③-2 「## 들어가며」 절은 프로젝트 소개(제목·한 줄 소개·정보)보다 앞, 문서와 따로 떨어진 상자로 꺼냄.
+    //     절의 끝 = 다음 h1/h2 또는 구분선(---). 제목 요소는 그대로 옮기므로 목차·딥링크 id는 유지됨
+    const pre = [...doc.querySelectorAll(':scope > h2')].find((h) => headText.get(h)?.trim() === '들어가며');
+    if (pre) {
+      const box = document.createElement('section');
+      box.className = 'md doc-preface';
+      box.setAttribute('aria-label', '들어가며');
+      const nodes = [pre];
+      for (let el = pre.nextElementSibling; el && !el.matches('h1, h2, hr'); el = el.nextElementSibling) nodes.push(el);
+      box.append(...nodes);
+      // 항목 "**고민** — 부연설명" → 고민(제목 양식) + 부연설명(한 줄 소개 양식). 앞의 줄표·하이픈은 뗌
+      box.querySelectorAll(':scope > :is(ol, ul) > li').forEach((li) => {
+        const head = li.firstElementChild;
+        if (!head || head.tagName !== 'STRONG' || li.firstChild !== head) return;
+        head.classList.add('pf-q');
+        const rest = [...li.childNodes].slice(1);
+        if (!rest.length) return;
+        const desc = document.createElement('span');
+        desc.className = 'pf-q-desc';
+        desc.append(...rest);
+        const t = desc.firstChild;
+        if (t && t.nodeType === 3) t.textContent = t.textContent.replace(/^\s*[—–\-→:]\s*/, '');
+        li.append(desc);
+      });
+      document.querySelector('.doc-intro')?.before(box);
+      // 고민 한 줄 맞추기: 모든 고민을 같은 크기로. CSS 기본 크기에서 시작해, 가장 긴 고민이 한 줄에 들어갈 때까지
+      // 모두 함께 줄임(최소 15px — 그보다 좁은 화면에서는 줄바꿈)
+      const fitQ = () => {
+        const qs = [...box.querySelectorAll('.pf-q')];
+        if (!qs.length) return;
+        qs.forEach((q) => { q.style.fontSize = ''; q.style.whiteSpace = 'nowrap'; });
+        let size = parseFloat(getComputedStyle(qs[0]).fontSize);
+        const over = () => qs.some((q) => q.scrollWidth > q.clientWidth);
+        while (size > 15 && over()) { size -= .5; qs.forEach((q) => { q.style.fontSize = `${size}px`; }); }
+        if (over()) qs.forEach((q) => { q.style.whiteSpace = ''; });
+      };
+      fitQ();
+      document.fonts?.ready.then(fitQ);
+      document.fonts?.addEventListener('loadingdone', fitQ);
+      let fitT = 0;
+      addEventListener('resize', () => { clearTimeout(fitT); fitT = setTimeout(fitQ, 100); });
+      addEventListener('beforeprint', fitQ);
+      addEventListener('afterprint', fitQ);
+    }
+
     // ④ 제목 찾기(#sec=<절 제목> 딥링크용, PF.resolveHeading: 정확히 일치 → 앞부분 양방향 일치, 여럿이면 문서 순서상 첫 번째)
     const list = headings.map((h) => ({ text: htext(h), el: h }));
     const resolve = (title) => PF.resolveHeading(list, title)?.el || null;
@@ -224,7 +269,7 @@
     markPrintWide();
     document.fonts?.addEventListener('loadingdone', markPrintWide);
     if (window.mermaid && figs.length) {                                // 설정(startOnLoad 끔)은 파일 맨 위에서 이미 함
-      if (await PF.md.loadElk()) mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', fontFamily: 'Pretendard, sans-serif', ...mermaidTheme(), layout: 'elk' });
+      if (await PF.md.loadElk()) mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', deterministicIds: true, deterministicIDSeed: 'pfdoc', fontFamily: 'Pretendard, sans-serif', ...mermaidTheme(), layout: 'elk' });
       try { await mermaid.run({ nodes: doc.querySelectorAll('.mermaid') }); }
       catch (err) { console.warn('[doc] Mermaid 렌더 오류:', err); errors.push(`mermaid: ${String(err?.message || err).split('\n')[0].slice(0, 160)}`); }
     } else if (figs.length) errors.push('mermaid: 다이어그램 라이브러리(Mermaid)를 불러오지 못했습니다');

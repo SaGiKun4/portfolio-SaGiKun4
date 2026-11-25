@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-11-18",
+  "profile": {
+    "name": "신성건",
+    "nameEn": "SeongGeon Sin",
+    "headline": "다양한 환경에서도 근거를 갖고 판단하는 유니티 개발자",
+    "intro": "알고리즘이 맞게 도는지에서 멈추지 않고, Profiler로 비용을 재서 게임에 맞는 범위를 정합니다.\n팀 작업에서는 코드를 쓰기 전에 파트 사이의 약속부터 맞춥니다.\nAI와 일할 때도 구조와 판단 기준은 직접 세우고, 이해한 범위의 구현만 맡깁니다.",
+    "email": "sagikun5305@gmail.com",
+    "github": "https://github.com/SaGiKun4",
+    "links": []
+  },
+  "settings": {
+    "layout": "project",
+    "accent": "#2F6FEB"
+  },
+  "skills": [
+    {
+      "name": "Unity · C#",
+      "evidence": [
+        {
+          "text": "관절로 이은 일곱 조각 래그돌을 Joint와 `AddForce`로 팔 조작 구현",
+          "project": "02-WeGotOne"
+        },
+        {
+          "text": "깃털 데이터 하나로 유닛의 외형·행동을 바꾸는 `EquipItem` 구현",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "머리와 몸통의 Animator를 나눠 날갯짓을 유지한 채 쪼는 공격 구현",
+          "project": "01-TreeHouse"
+        }
+      ]
+    },
+    {
+      "name": "성능 최적화 (Profiler · 오브젝트 풀링 · 상한 설계)",
+      "evidence": [
+        {
+          "text": "맵 전체 그리드를 구역별로 나눠 10마리 30~50FPS → 32마리 약 120FPS",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "거리 기반 휴면으로 가장 오래 걸린 프레임 207.90ms → 62.87ms (Unity Profiler)",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "동시 발사체 상한 500을 넘는 분열은 위력으로 흡수하는 규칙 설계",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "이펙트 예산(프레임당 20·종류당 40)을 넘으면 이펙트만 생략",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "통로 책장을 패턴 5종으로 합쳐 Renderer 1,652 → 78",
+          "project": "03-MagiCard"
+        }
+      ]
+    },
+    {
+      "name": "멀티플레이 동기화 (WebSocket · 호스트 기반)",
+      "evidence": [
+        {
+          "text": "호스트가 물리를 계산하는 구조를 제안하고 서버 프로토콜(`Protocol.cs`)까지 직접 수정",
+          "project": "02-WeGotOne"
+        },
+        {
+          "text": "몸통만 보내던 동기화를 다섯 조각과 좌우 손 잡기 상태 전송으로 바꿔 손 위치 불일치 해결",
+          "project": "02-WeGotOne"
+        }
+      ]
+    },
+    {
+      "name": "게임 AI · 길찾기 (A* · FSM)",
+      "evidence": [
+        {
+          "text": "구역별 그리드 A*와 거리 기반 휴면으로 몬스터 32마리 길찾기",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "상어의 돌진과 먹이 추적 무한 반복을 먹이 판정을 본체로 옮기고 FSM 조건을 조절해 해결",
+          "project": "02-WeGotOne"
+        }
+      ]
+    },
+    {
+      "name": "데이터·구조 설계 (ScriptableObject · TSV)",
+      "evidence": [
+        {
+          "text": "ScriptableObject 깃털(`Item`)에 행동(`UnitAttack`)을 담아 유닛 하나로 통일",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "상속 세 단계로 나눈 깃털 데이터를 하나의 `Item`으로 다시 합침",
+          "project": "01-TreeHouse"
+        },
+        {
+          "text": "카드 데이터를 ScriptableObject에서 TSV 표로 옮기고 맵은 프리팹으로 유지",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "관통·반사 충돌을 \"시점 × 역할\" 두 축으로 다시 정의해 카드 실행 순서 설계",
+          "project": "03-MagiCard"
+        }
+      ]
+    },
+    {
+      "name": "AI 협업",
+      "evidence": [
+        {
+          "text": "목적·구조·판단 기준은 직접, 구현은 AI로 나누고 고치기 전 설명·승인 규칙 운영",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "관통·반사 문제를 직접 다시 정의하고 AI가 구조로 정리",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "모델링 AI 요청 규칙(시작 조건·단계별 승인) 설계",
+          "project": "03-MagiCard"
+        },
+        {
+          "text": "길찾기 경험을 \"어디를 봐야 하는지 먼저 말할 수 있어야 내 설계\"라는 기준으로 정리",
+          "project": "03-MagiCard"
+        }
+      ]
+    }
+  ],
+  "projects": [
+    "01-TreeHouse",
+    "02-WeGotOne",
+    "03-MagiCard"
+  ]
+}
