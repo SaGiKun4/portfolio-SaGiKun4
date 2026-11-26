@@ -215,6 +215,7 @@ a{color:inherit;text-decoration:none}
 .shelf{padding:68px 0 16px;display:flex;flex-direction:column;justify-content:center}
 .shelf h2{margin:0 0 18px;font-size:clamp(22px,3vw,28px);font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.25;word-break:keep-all}
 .shelf h2 span{color:var(--muted)}
+.shelf h2 .dev{display:inline-block;vertical-align:.18em;margin-right:4px;padding:2px 9px;border:1px solid var(--accent);border-radius:999px;font-style:normal;font-size:.5em;font-weight:700;letter-spacing:0;color:var(--accent);white-space:nowrap}
 .card{background:var(--card,#fff);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 12px var(--shadow);transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
 .card:hover{transform:scale(1.012);box-shadow:0 10px 30px var(--shadow)}
 .card .img{aspect-ratio:16/9;background:var(--page);overflow:hidden}
@@ -348,6 +349,8 @@ footer a{color:var(--accent)}
     '02-WeGotOne': { href: 'Games/WeGotOne/', size: '약 55MB' },
     '03-MagiCard': { href: 'Games/MagiCard/', size: '약 30MB' },
   };
+  // 아직 개발 중인 프로젝트: 프로젝트 줄 제목("이름.") 뒤에 표시
+  const IN_DEV = { '03-MagiCard': '개발 중' };
   // 메인 페이지 전용 이미지(프로젝트 문서의 그 기능 절에 그림이 없는 기능용)
   const DRAFT_IMG = {
     '01-TreeHouse': { '귀환해야 확정되는 깃털': { src: 'assets/nm/images/return.gif', alt: '깃털을 줍고 귀환하면 확정되어 밤으로 넘어가고, 줍고 사망하면 깃털이 0인 채 낮으로 돌아오는 장면' } },
@@ -429,7 +432,7 @@ footer a{color:var(--accent)}
     const n = projects.indexOf(p);
     return `<section class="shelf snap" id="${esc(p.id)}" data-bg="${n}"><div class="wrap">
       <span class="sec-eb" data-rv style="--d:0">PROJECT ${String(n + 1).padStart(2, '0')}</span>
-      <h2 data-rv style="--d:1">${esc(p.title)}. <span>${esc(p.tagline)}</span></h2>
+      <h2 data-rv style="--d:1">${esc(p.title)}. ${IN_DEV[p.id] ? `<em class="dev">${esc(IN_DEV[p.id])}</em> ` : ''}<span>${esc(p.tagline)}</span></h2>
       <div class="proj">${lead}<div class="feat-grid">${feats}</div></div></div></section>`;
   };
 
