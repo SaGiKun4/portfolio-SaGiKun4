@@ -42,70 +42,91 @@
     "extra": []
   },
   "intent": {
-    "text": "플레이어가 새가 되어 하늘을 누비는 2D 게임입니다. 낮에는 탐험, 밤에는 디펜스라는 두 가지 게임 모드를 섞었고, 플레이어가 위험을 감수하며 낯선 하늘을 개척하고 그 끝에서 새로운 깃털을 발견하는 경험을 하기를 바랐습니다.",
-    "verbatim": false
+    "text": "목표한 경험은 개척과 발견입니다. 플레이어가 위험을 감수하며 낯선 하늘을 개척하고, 그 끝에서 새로운 깃털을 발견하기를 바랐습니다.",
+    "verbatim": true
   },
   "highlights": [
     {
-      "title": "몬스터 길찾기",
-      "what": "몬스터가 자기 구역의 그리드에서 A*로 길을 찾아, 벽을 돌아 플레이어를 쫓거나 반대쪽으로 달아납니다.",
-      "how": "구역마다 그리드(`GridManager`)를 두고, 몬스터가 자기 구역의 그리드를 넘겨 경로를 요청합니다. 플레이어와 25 이상 떨어진 몬스터는 휴면해 길찾기를 멈추고, 쫓을 때는 플레이어가 다른 칸으로 옮겼을 때만 경로를 다시 계산합니다.",
-      "why": "맵 전체를 하나의 그리드로 두자 참새 10마리에서 30~50FPS로 떨어졌고, 그리드와 경로를 함께 쓰면 몬스터들이 한곳에 뭉쳐 부자연스러워 구역별 그리드를 골랐습니다. 구역 밖으로 쫓지 못하는 단점은 \"자기 구역을 지키는 새\"라는 게임의 특징으로 삼았습니다.",
-      "section": "3. 몬스터 길찾기",
-      "image": {
-        "src": "images/pathfinding.gif",
-        "w": 544,
-        "h": 306,
-        "caption": "벽을 돌아 추적하는 몬스터"
-      }
-    },
-    {
-      "title": "귀환해야 확정되는 깃털",
-      "what": "탐험 중 주운 깃털은 귀환에 성공해야 확정·해금되고, 도중에 죽으면 모두 사라집니다.",
-      "how": "깃털을 임시 인벤토리에 두었다가 귀환에 성공하면 확정 인벤토리에 합치면서 해금 목록에 올립니다. 디펜스 상점은 해금된 깃털만 후보로 씁니다.",
-      "why": "줍는 즉시 반영하면 높은 등급의 깃털을 한 번 건드리고 일부러 죽는 식으로 여러 깃털을 해금할 수 있어, 탐험에 성공해야 디펜스에 반영되도록 탐험 중에 얻은 것과 확정된 것을 나눴습니다.",
-      "section": "4.1 깃털이 디펜스까지 가는 길",
-      "image": null
-    },
-    {
-      "title": "깃털 하나로 바뀌는 유닛",
-      "what": "깃털을 유닛에 끌어다 놓으면 겉모습·애니메이션·공격 방식·사거리·공격력이 함께 바뀝니다.",
-      "how": "유닛은 하나만 두고, 깃털(`Item`)에 겉모습·애니메이션·행동 방식(`UnitAttack`)·수치를 담아 장착할 때 통째로 바꿉니다. 깃털이 없는 기본 유닛은 공격 대신 디펜스 포인트를 만드는 `MoneyMaker`로 움직입니다.",
-      "why": "모든 유닛이 \"사거리 안의 적에게 행동한다\"는 같은 구조라, 종류마다 클래스·프리팹을 나누면 깃털 수만큼 늘어나기만 해서 깃털 데이터로 바꿔 끼우는 쪽을 골랐습니다.",
-      "section": "5. 깃털 하나로 바뀌는 유닛",
-      "image": {
-        "src": "images/equip.gif",
-        "w": 544,
-        "h": 306,
-        "caption": "깃털 장착"
-      }
-    },
-    {
       "title": "날면서 쪼는 공격",
       "what": "날갯짓을 멈추지 않은 채 머리만 앞으로 내밀어 쪼아 공격합니다.",
-      "how": "몸통(부모)과 머리(자식)를 나눠 Animator를 따로 두고, 머리의 공격 애니메이션이 머리에 단 히트박스를 켭니다. 스프라이트는 몸통 5 + 머리 5 = 10프레임입니다.",
-      "why": "날갯짓마다 공격 이미지를 그리면 약 50프레임이 들고, 머리만 옮긴 이미지로 바꾸면 머리가 부자연스러워, 피벗을 다시 잡는 수고를 감수하고 머리와 몸통을 나눴습니다.",
-      "section": "6. 날면서 쪼는 공격",
+      "how": "몸통(부모)과 머리(자식)에 Animator를 따로 두고, 머리의 공격 애니메이션이 머리에 단 히트박스를 켭니다. 스프라이트는 몸통 5 + 머리 5 = 10프레임입니다.",
+      "why": "날갯짓마다 공격 이미지를 그리면 약 50프레임, 머리만 옮긴 이미지로 바꾸면 머리가 부자연스러워, 위치와 피벗을 다시 잡는 수고를 감수하고 머리와 몸통을 나눴습니다.",
+      "section": "3. 날면서 쪼는 공격",
       "image": {
         "src": "images/peck.gif",
         "w": 544,
         "h": 306,
         "caption": "날갯짓을 유지한 채 머리만 앞으로 내밀어 쪼는 공격"
       }
+    },
+    {
+      "title": "몬스터 길찾기",
+      "what": "새들은 자기 구역 안을 돌아다니다가, 플레이어를 보면 벽을 돌아 쫓아오거나 반대쪽으로 달아납니다.",
+      "how": "A*를 직접 구현하고, 그리드를 구역마다 하나씩(`GridManager`) 두어 새(`BirdMovement`)가 자기 구역의 그리드에서만 경로를 찾게 했습니다.",
+      "why": "그리드와 경로를 함께 쓰면 새들이 같은 길로 뭉쳐 움직여, A*를 넣은 이유인 자연스러운 움직임을 해쳐 구역별 그리드를 골랐습니다. 구역 밖으로 쫓지 못하는 단점은 \"자기 구역을 지키는 새\"라는 특징으로 삼았습니다.",
+      "section": "4.1 새마다 맵 전체를 뒤져야 할까",
+      "image": {
+        "src": "images/area-protect.gif",
+        "w": 1280,
+        "h": 720,
+        "caption": "구역을 벗어난 플레이어를 쫓지 않고 돌아가는 비둘기"
+      }
+    },
+    {
+      "title": "귀환해야 확정되는 깃털",
+      "what": "탐험에서 주운 깃털은 귀환에 성공해야 확정·해금되고, 도중에 죽으면 모두 폐기됩니다.",
+      "how": "주운 깃털은 임시 인벤토리에만 들어가고, 귀환에 성공하면 확정 인벤토리에 합쳐지면서 해금 목록에 올라갑니다. 디펜스 상점은 이 해금 목록에서 후보를 고릅니다.",
+      "why": "줍는 즉시 반영하면 높은 등급의 깃털을 한 번 건드리고 일부러 죽는 식으로 여러 깃털을 해금할 수 있어, 탐험 중에 얻은 것과 확정된 것을 나눴습니다.",
+      "section": "5.1 주운 깃털을 언제 확정할까",
+      "image": null
+    },
+    {
+      "title": "깃털 하나로 바뀌는 유닛",
+      "what": "깃털을 유닛에 끌어다 놓으면 겉모습과 애니메이션뿐 아니라 공격 방식·사거리·공격력까지 함께 바뀝니다.",
+      "how": "유닛은 `Unit` 하나만 두고, 깃털(`Item`)에 겉모습·애니메이션·행동 방식(`UnitAttack`)·수치를 담아 장착할 때 통째로 바꿔 끼웁니다.",
+      "why": "모든 유닛이 \"사거리 안의 적에게 행동한다\"는 같은 구조라, 종류마다 클래스·프리팹을 두면 깃털 수만큼 늘어나기만 해서 깃털 데이터로 바꿔 끼우는 쪽을 골랐습니다.",
+      "section": "6. 깃털 하나로 바뀌는 유닛",
+      "image": {
+        "src": "images/equip.gif",
+        "w": 544,
+        "h": 306,
+        "caption": "깃털 장착"
+      }
     }
   ],
   "troubleshooting": [
     {
       "title": "길찾기가 한꺼번에 몰려 생긴 순간 프레임 하락",
-      "problem": "구역별 그리드에서도 특정 순간에 20~30FPS로 떨어지고, 가끔 한 자릿수 FPS까지 내려감",
-      "cause": "여러 몬스터의 길찾기가 같은 순간에 몰려 실행됨",
-      "solution": "플레이어와 25 이상 떨어진 몬스터는 휴면 상태로 바꿔 길찾기와 이동을 멈춤",
-      "result": "순간 하락이 약 70~80FPS 수준으로 줄었고, 가장 오래 걸린 프레임이 207.90ms에서 62.87ms로 약 70% 줄었습니다.",
+      "problem": "구역별 그리드로 바꾼 뒤에도 특정 순간마다 20~30FPS로 떨어지고, 가끔 한 자릿수까지 내려가 화면이 멈칫함",
+      "cause": "여러 새의 길찾기가 같은 순간에 몰려 실행됨",
+      "solution": "플레이어와 25 이상 떨어진 새는 휴면 상태로 바꿔 길찾기와 이동을 멈춤",
+      "result": "순간 하락이 약 70~80FPS 수준으로 줄었고, 32마리에서 가장 오래 걸린 프레임이 207.90ms에서 62.87ms로 약 70% 줄었습니다.",
       "lesson": "",
-      "section": "3.2 멀리 있는 새는 쉬게 하기"
+      "section": "4.2 순간마다 프레임이 떨어지던 문제"
+    },
+    {
+      "title": "미리 나눈 깃털을 돌려줄 수 없던 문제",
+      "problem": "디펜스가 끝나면 쓰지 않은 깃털을 인벤토리로 돌려줘야 하는데, 디펜스 깃털의 값만으로는 돌려줄 수 없음",
+      "cause": "아이디가 위 단계(원본 깃털)에만 있어서, 어느 원본 깃털과 짝인지 판단하는 스크립트가 새로 필요해짐",
+      "solution": "짝을 맞추는 스크립트를 쓰기 전에 방향을 바꿔, 깃털을 하나의 아이템(`Item`)으로 다시 합침",
+      "result": "아이디·디펜스 정보·가격이 한 곳에 있어, 돌려줄 때 짝을 찾을 필요가 없어짐",
+      "lesson": "나누는 정도는 무엇을 위해 나누는지(여기서는 가독성)를 기준으로 정해야 하고, 데이터가 실제로 어떻게 흐르는지를 먼저 보고 정해야 합니다.",
+      "section": "6.3 미리 나눈 깃털을 돌려줄 수 없던 문제"
     }
   ],
   "screenshots": [
+    {
+      "src": "images/peck.gif",
+      "w": 544,
+      "h": 306,
+      "caption": "날갯짓을 유지한 채 머리만 앞으로 내밀어 쪼는 공격"
+    },
+    {
+      "src": "images/area-protect.gif",
+      "w": 1280,
+      "h": 720,
+      "caption": "구역을 벗어난 플레이어를 쫓지 않고 돌아가는 비둘기"
+    },
     {
       "src": "images/pathfinding.gif",
       "w": 544,
@@ -125,12 +146,6 @@
       "caption": "깃털 장착"
     },
     {
-      "src": "images/peck.gif",
-      "w": 544,
-      "h": 306,
-      "caption": "날갯짓을 유지한 채 머리만 앞으로 내밀어 쪼는 공격"
-    },
-    {
       "src": "images/pressure.gif",
       "w": 544,
       "h": 306,
@@ -140,29 +155,72 @@
   "retro": {
     "achieved": [
       "2주 동안 탐험과 디펜스 두 모드를 만들고, 깃털로 이어지는 순환(획득 → 확정·해금 → 장착 → 재화 → 강화)을 끝까지 완성했습니다.",
-      "\"A*가 실제 게임에서 얼마나 무거운가\"를 몬스터 수와 그리드 구성을 바꿔 가며 수치로 확인했습니다. 무거움은 알고리즘 자체보다 실패 비용, 한꺼번에 하는 탐색, 반복 호출 때 남는 상태와 새로 만드는 메모리에서 왔습니다."
+      "개척과 발견: 쫓아오는 새·줄어드는 체력·귀환해야 확정되는 깃털로 위험은 전해졌지만, 발견할 거리가 적어 탐험의 경험은 다소 부족했습니다.",
+      "A*의 무게: 가장 오래 걸린 프레임 736.60ms → 207.90ms → 62.87ms. 무거움은 알고리즘 자체보다, 이론에서는 다루지 않던 곳에서 왔습니다."
     ],
     "regrets": [
-      "기간과 리소스가 부족해 새는 4종류만 만들었고, 맵은 그보다 먼저 넓게 짜 두어 넓은 하늘에 비해 발견할 거리가 적어 탐험의 경험이 다소 부족했습니다.",
-      "매니저끼리의 연결을 기간 때문에 나누지 않아, 다른 클래스의 인스턴스를 직접 부르는 곳이 33개 파일, 130곳에 남았습니다.",
-      "길찾기 코드 안에 열린 목록 전체 훑기, 초기화하지 않은 칸 비용, 매번 새로 만드는 이웃 칸 목록이 남았습니다."
+      "기간과 리소스가 부족해 새는 4종류만 만들었고, 넓은 하늘에 비해 발견할 거리가 적었습니다.",
+      "A* 코드 안쪽에 열린 목록 전체 훑기, 초기화하지 않은 칸 비용, 매번 새로 만드는 이웃 칸 목록이 남아 순간 하락이 완전히 사라지지 않았습니다.",
+      "매니저끼리의 연결을 2주라는 기간 때문에 나누지 않아, 다른 클래스의 인스턴스를 직접 부르는 곳이 30여 개 파일, 130여 곳에 남았습니다."
     ],
     "plans": [
-      "새의 정보는 깃털 데이터 하나에 모여 있고 몬스터 스킬은 컴포넌트로 붙이므로, 리소스만 더해지면 새의 종류를 쉽게 늘릴 수 있습니다.",
-      "포인트를 바꾸는 일을 한 곳(추가·사용 메서드)으로 모으고, 값이 바뀌면 이벤트를 내보내 UI는 그 이벤트만 구독하게 하겠습니다.",
-      "열린 목록은 우선순위 큐(최소 힙)로, 칸 비용은 탐색 번호로 초기화하고, 이웃 칸 목록은 재사용하겠습니다."
+      "깃털 데이터와 스킬 컴포넌트로 새를 더합니다. 리소스와 스탯만 더하면 새의 종류를 쉽게 늘릴 수 있습니다.",
+      "열린 목록은 우선순위 큐(최소 힙)로 바꾸고, 칸 비용은 탐색 번호로 초기화하고, 이웃 칸 목록은 재사용하겠습니다.",
+      "포인트를 바꾸는 일을 한 곳(추가·사용 메서드)으로 모으고, 값이 바뀌면 이벤트를 내보내 UI는 그 이벤트만 구독하게 하겠습니다."
     ],
     "section": "8. 회고"
   },
   "deck": {
     "chapters": [
-      {"key": "overview", "title": "개요", "sectionPath": ["1. 개요"]},
-      {"key": "play", "title": "플레이", "sectionPath": ["2. 플레이"]},
-      {"key": "pathfind", "title": "몬스터 길찾기", "sectionPath": ["3. 몬스터 길찾기"]},
-      {"key": "feather", "title": "귀환해야 확정되는 깃털", "sectionPath": ["4. 귀환해야 확정되는 깃털"]},
-      {"key": "unit", "title": "깃털 하나로 바뀌는 유닛", "sectionPath": ["5. 깃털 하나로 바뀌는 유닛"]},
-      {"key": "peck", "title": "날면서 쪼는 공격", "sectionPath": ["6. 날면서 쪼는 공격"]},
-      {"key": "more", "title": "그 밖의 기능", "sectionPath": ["7. 그 밖의 기능"]}
+      {
+        "key": "overview",
+        "title": "개요",
+        "sectionPath": [
+          "1. 개요"
+        ]
+      },
+      {
+        "key": "play",
+        "title": "플레이",
+        "sectionPath": [
+          "2. 플레이"
+        ]
+      },
+      {
+        "key": "peck",
+        "title": "날면서 쪼는 공격",
+        "sectionPath": [
+          "3. 날면서 쪼는 공격"
+        ]
+      },
+      {
+        "key": "pathfind",
+        "title": "몬스터 길찾기",
+        "sectionPath": [
+          "4. 몬스터 길찾기"
+        ]
+      },
+      {
+        "key": "feather",
+        "title": "귀환해야 확정되는 깃털",
+        "sectionPath": [
+          "5. 귀환해야 확정되는 깃털"
+        ]
+      },
+      {
+        "key": "unit",
+        "title": "깃털 하나로 바뀌는 유닛",
+        "sectionPath": [
+          "6. 깃털 하나로 바뀌는 유닛"
+        ]
+      },
+      {
+        "key": "more",
+        "title": "그 밖의 기능",
+        "sectionPath": [
+          "7. 그 밖의 기능"
+        ]
+      }
     ],
     "slides": [
       {
@@ -170,21 +228,39 @@
         "chapter": "overview",
         "layout": "overview",
         "tab": "개요",
-        "title": {"text": "1. 개요", "verbatim": true},
-        "lead": {"text": "두 모드 가운데 중심은 탐험입니다.", "verbatim": true},
-        "sectionPath": ["1. 개요"],
+        "title": {
+          "text": "개요",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "낮에는 하늘을 탐험하며 다른 새를 사냥해 깃털을 모으고, 밤에는 그 깃털로 유닛을 강화해 둥지를 노리는 야생동물을 막습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "1. 개요"
+        ],
         "points": [
-          {"label": "목표한 경험", "text": "위험을 감수하며 낯선 하늘을 개척하고, 그 끝에서 새로운 깃털을 발견하는 경험", "verbatim": true},
-          {"label": "개인 목표", "text": "A*가 실제 게임에서 얼마나 무거운지 직접 확인해 보는 것", "verbatim": false}
+          {
+            "label": "목표한 경험",
+            "text": "목표한 경험은 개척과 발견입니다.",
+            "verbatim": true
+          },
+          {
+            "label": "규칙",
+            "text": "그래서 탐험에서 무사히 돌아와야만 그때 모은 깃털이 디펜스에 쓰이게 했습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "개발 목표",
+            "text": "개발자로서의 목표는 이론으로만 알던 A*를 직접 구현해, 실제 게임에서 얼마나 무거운지 확인하는 것이었습니다.",
+            "verbatim": false
+          }
         ],
         "visuals": [
           {
-            "kind": "image",
-            "src": "images/cover.jpg",
-            "w": 1702,
-            "h": 957,
-            "caption": {"text": "대표 이미지", "verbatim": true},
-            "sectionPath": ["TreeHouse 프로젝트 문서"]
+            "kind": "table",
+            "n": 1,
+            "fp": "핵심 기능|부딪힌 문제|이렇게 풀었다"
           }
         ]
       },
@@ -193,63 +269,261 @@
         "chapter": "play",
         "layout": "full",
         "tab": "흐름",
-        "title": {"text": "2.1 낮의 탐험과 밤의 방어", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["2.1 낮의 탐험과 밤의 방어"],
+        "title": {
+          "text": "2.1 낮의 탐험과 밤의 방어",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "낮의 탐험에서 귀환 지점(Pod)까지 돌아와야 깃털이 확정되고, 밤에는 그 깃털로 디펜스를 치른 뒤 받은 재화로 캐릭터를 강화해 다시 탐험에 나섭니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "2.1 낮의 탐험과 밤의 방어"
+        ],
+        "points": [],
+        "visuals": [
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TD"
+          }
+        ]
+      },
+      {
+        "key": "reference",
+        "chapter": "play",
+        "layout": "full",
+        "tab": "선택",
+        "title": {
+          "text": "2.2 원작에서 가져온 것과 바꾼 것",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "참고한 게임에서는 장면이 아니라 규칙과 움직임을 가져왔고, 하나씩 내 게임의 목표에 맞춰 바꿨습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "2.2 원작에서 가져온 것과 바꾼 것"
+        ],
+        "points": [],
+        "visuals": [
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "참고한 게임|가져온 것|내 게임에서 바꾼 것과 그 이유"
+          }
+        ]
+      },
+      {
+        "key": "harpoon",
+        "chapter": "play",
+        "layout": "full",
+        "tab": "선택",
+        "title": {
+          "text": "작살 대신 깃털을 쏘는 원거리 공격",
+          "verbatim": false
+        },
+        "lead": {
+          "text": "끌어오기는 공격 수단이라기보다 바다와 작살이라는 콘셉트를 살리는 장치였고, 깃털을 맞혀 새를 끌어오는 모습은 어색했습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "2.2 원작에서 가져온 것과 바꾼 것"
+        ],
         "points": [
           {
-            "label": "낮",
-            "text": "허브에서 탐험에 들어가 새를 사냥하고 깃털을 모은 뒤, 귀환 지점(Pod)까지 돌아오면 그 깃털이 확정되고 디펜스 상점에 나올 수 있게 됩니다.",
-            "verbatim": true
-          },
-          {
-            "label": "밤",
-            "text": "밤에는 디펜스에서 깃털을 유닛에 달아 야생동물을 막고, 처치한 수만큼 받은 재화로 캐릭터를 강화한 뒤 다시 탐험에 나섭니다.",
+            "label": "판단",
+            "text": "이 게임은 낯선 하늘을 개척하는 어드벤처이므로, 빠르고 역동적인 이동보다 탐험의 속도를 지키는 쪽이 맞다고 봤습니다.",
             "verbatim": true
           }
         ],
-        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TD"}],
-        "edited": true
+        "visuals": [
+          {
+            "kind": "table",
+            "n": 2,
+            "fp": "|대안 A. 조준한 방향으로 돌진|대안 B. 깃털을 쏘는 원거리 공격 ✓"
+          }
+        ]
+      },
+      {
+        "key": "peck-why",
+        "chapter": "peck",
+        "layout": "visual",
+        "tab": "선택",
+        "title": {
+          "text": "3.1 머리와 몸통을 나눌 것인가",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "공격을 붙이려고 보니, 한 장짜리 그림으로는 날갯짓을 유지한 채 공격 애니메이션을 넣을 수 없었습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "3. 날면서 쪼는 공격",
+          "3.1 머리와 몸통을 나눌 것인가"
+        ],
+        "points": [
+          {
+            "label": "선택",
+            "text": "위치와 피벗을 다시 잡는 수고가 들더라도, 결과물이 자연스러운 쪽이 더 중요했습니다",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/peck.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {
+              "text": "날갯짓을 유지한 채 머리만 앞으로 내밀어 쪼는 공격",
+              "verbatim": true
+            },
+            "sectionPath": [
+              "3. 날면서 쪼는 공격"
+            ]
+          },
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "|대안 A. 공격 이미지 추가|대안 B. 머리만 옮긴 이미지|대안 C. 머리·몸통 분리 ✓"
+          }
+        ]
+      },
+      {
+        "key": "peck-parts",
+        "chapter": "peck",
+        "layout": "visual",
+        "tab": "구조",
+        "title": {
+          "text": "3.2 나눈 스프라이트 맞추기",
+          "verbatim": true
+        },
+        "lead": null,
+        "sectionPath": [
+          "3.2 나눈 스프라이트 맞추기"
+        ],
+        "points": [
+          {
+            "label": "구조",
+            "text": "Animator는 몸통과 머리에 따로 있고, 앞뒤 순서는 SpriteRenderer의 Sorting Order로 맞췄습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "공격",
+            "text": "애니메이션이 머리에 단 히트박스를 켜면서 머리를 앞으로 조금 옮깁니다.",
+            "verbatim": true
+          },
+          {
+            "label": "결과",
+            "text": "스프라이트는 몸통 5 + 머리 5 = 10프레임으로, 대안 A(약 50)와 대안 B(약 20)를 예상했던 것보다 적습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/peck-split.png",
+            "w": 1288,
+            "h": 656,
+            "caption": {
+              "text": "위부터 몸통 5프레임, 머리 5프레임, 둘을 겹친 모습",
+              "verbatim": true
+            }
+          },
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TD"
+          }
+        ]
       },
       {
         "key": "pathfind-intro",
         "chapter": "pathfind",
         "layout": "visual",
-        "tab": "개요",
-        "title": {"text": "3. 몬스터 길찾기", "verbatim": true},
-        "lead": {"text": "탐험하는 하늘의 새들은 자기 구역 안을 돌아다니다가, 플레이어를 보면 벽을 돌아 쫓아오거나 반대쪽으로 달아납니다.", "verbatim": true},
-        "sectionPath": ["3. 몬스터 길찾기"],
-        "points": [],
+        "tab": "구조",
+        "title": {
+          "text": "처음 구조: 맵 전체 그리드 하나",
+          "verbatim": false
+        },
+        "lead": {
+          "text": "처음 구조는 공부할 때 작성한 A* 코드를 그대로 가져와, 맵 전체를 그리드 하나로 덮은 것이었습니다.",
+          "verbatim": false
+        },
+        "sectionPath": [
+          "4. 몬스터 길찾기"
+        ],
+        "points": [
+          {
+            "label": "문제",
+            "text": "참새 10마리만 넣어도 화면이 1초에 30~50번밖에 그려지지 않았고(30~50FPS), 15~20마리를 넘기자 게임이 아예 움직이지 않았습니다.",
+            "verbatim": false
+          }
+        ],
         "visuals": [
           {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TD"
+          },
+          {
             "kind": "image",
-            "src": "images/pathfinding.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "벽을 돌아 추적하는 몬스터", "verbatim": true}
+            "src": "images/profiler-single-grid.png",
+            "w": 1320,
+            "h": 474,
+            "caption": {
+              "text": "맵 전체 단일 그리드 프로파일러",
+              "verbatim": true
+            },
+            "sectionPath": [
+              "4. 몬스터 길찾기",
+              "4.1 새마다 맵 전체를 뒤져야 할까"
+            ]
           }
         ]
       },
       {
         "key": "zone-choice",
         "chapter": "pathfind",
-        "layout": "full",
+        "layout": "visual",
         "tab": "선택",
-        "title": {"text": "3.1 구역마다 따로 둔 그리드", "verbatim": true},
-        "lead": {"text": "맵 전체를 하나의 그리드로 덮자 참새 10마리에 30~50FPS, 15~20마리를 넘기면 게임이 움직이지 않았습니다.", "verbatim": false},
-        "sectionPath": ["3. 몬스터 길찾기", "3.1 구역마다 따로 둔 그리드"],
+        "title": {
+          "text": "4.1 새마다 맵 전체를 뒤져야 할까",
+          "verbatim": true
+        },
+        "lead": null,
+        "sectionPath": [
+          "4. 몬스터 길찾기",
+          "4.1 새마다 맵 전체를 뒤져야 할까"
+        ],
         "points": [
-          {"label": "이유", "text": "A*를 넣은 이유가 새들의 자연스러운 움직임인데, 대안 A는 그 움직임을 해쳐 대안 B를 골랐습니다.", "verbatim": false},
-          {"label": "감수한 것", "text": "구역 밖으로 쫓아오지 못한다는 단점은 고치는 대신 \"자기 구역을 지키는 새\"라는 게임의 특징으로 삼았습니다.", "verbatim": true}
+          {
+            "label": "선택",
+            "text": "A*를 넣은 이유가 새들의 자연스러운 움직임이었는데, 대안 A는 바로 그 움직임을 해치기 때문입니다.",
+            "verbatim": true
+          },
+          {
+            "label": "단점을 특징으로",
+            "text": "구역 밖으로 쫓아오지 못한다는 단점은 고치는 대신 \"자기 구역을 지키는 새\"라는 게임의 특징으로 삼았습니다.",
+            "verbatim": true
+          }
         ],
         "visuals": [
-          {"kind": "table", "n": 1, "fp": "|대안 A. 그리드와 경로를 함께 쓰기|대안 B. 구역마다 그리드를 따로 두기"},
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "|대안 A. 그리드와 경로를 함께 쓰기|대안 B. 구역마다 그리드를 따로 두기 ✓"
+          },
           {
             "kind": "image",
-            "src": "images/profiler-single-grid.png",
-            "w": 1320,
-            "h": 474,
-            "caption": {"text": "맵 전체 단일 그리드 프로파일러", "verbatim": true}
+            "src": "images/area-protect.gif",
+            "w": 1280,
+            "h": 720,
+            "caption": {
+              "text": "구역을 벗어난 플레이어를 쫓지 않고 돌아가는 비둘기",
+              "verbatim": true
+            }
           }
         ]
       },
@@ -258,25 +532,43 @@
         "chapter": "pathfind",
         "layout": "visual",
         "tab": "구조",
-        "title": {"text": "3.1 구역마다 따로 둔 그리드", "verbatim": true},
+        "title": {
+          "text": "구역마다 하나씩 둔 그리드",
+          "verbatim": false
+        },
         "lead": null,
-        "sectionPath": ["3.1 구역마다 따로 둔 그리드"],
+        "sectionPath": [
+          "4. 몬스터 길찾기",
+          "4.1 새마다 맵 전체를 뒤져야 할까"
+        ],
         "points": [
           {
             "label": "구조",
-            "text": "그리드는 구역마다 하나씩(`GridManager`) 두고, 몬스터(`BirdMovement`)는 인스펙터에서 자기 구역의 그리드를 지정받습니다.",
+            "text": "그리드는 구역마다 하나씩(`GridManager`) 두고, 새(`BirdMovement`)는 인스펙터에서 자기 구역의 그리드를 지정받습니다.",
             "verbatim": true
           },
-          {"label": "구현", "text": "그리드의 범위는 맵 전체가 아니라 그 구역의 콜라이더(`area`)입니다.", "verbatim": true},
           {
-            "label": "남은 위험",
-            "text": "목표가 벽이면 전부 탐색한 뒤 실패하는 문제는 활동 영역 콜라이더를 볼록한 사각형에 가깝게 만드는 레벨 구성으로 줄였습니다.",
-            "verbatim": false
+            "label": "",
+            "text": "A* 계산은 `PathFinder`가 맡고, 그리드는 직접 갖지 않습니다.",
+            "verbatim": true
           }
         ],
         "visuals": [
-          {"kind": "mermaid", "n": 1, "fp": "flowchart TD"},
-          {"kind": "code", "n": 1, "fp": "// 그리드와 시작·목표 좌표를 넘기면 경로(노드 목록)를 돌려준다. 갈 수 없으면 null"}
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "sequenceDiagram"
+          },
+          {
+            "kind": "image",
+            "src": "images/map-area-grid.jpg",
+            "w": 979,
+            "h": 652,
+            "caption": {
+              "text": "맵 위에 표시한 구역별 그리드",
+              "verbatim": true
+            }
+          }
         ]
       },
       {
@@ -284,90 +576,195 @@
         "chapter": "pathfind",
         "layout": "problem",
         "tab": "문제 해결",
-        "title": {"text": "3.2 멀리 있는 새는 쉬게 하기", "verbatim": true},
-        "lead": {"text": "휴면 거리 25는 플레이어의 시야(10)보다 일부러 넓게 잡은 값입니다.", "verbatim": true},
-        "sectionPath": ["3.2 멀리 있는 새는 쉬게 하기"],
-        "points": [
-          {"label": "문제", "text": "구역별 그리드에서도 특정 순간에 20~30FPS로 떨어지고, 가끔 한 자릿수 FPS까지 내려감", "verbatim": true},
-          {"label": "원인", "text": "여러 몬스터의 길찾기가 같은 순간에 몰려 실행됨", "verbatim": true},
-          {"label": "해결", "text": "플레이어와 25 이상 떨어진 몬스터는 휴면 상태로 바꿔 길찾기와 이동을 멈춤", "verbatim": true},
-          {"label": "결과", "text": "순간 하락이 약 70~80FPS 수준으로 줄어듦. 완전히 사라지지는 않음 (3.4)", "verbatim": true}
+        "title": {
+          "text": "4.2 순간마다 프레임이 떨어지던 문제",
+          "verbatim": true
+        },
+        "lead": null,
+        "sectionPath": [
+          "4.2 순간마다 프레임이 떨어지던 문제"
         ],
-        "visuals": [{"kind": "table", "n": 2, "fp": "Unity Profiler (32마리)|휴면 전|휴면 후|줄어든 비율"}]
+        "points": [
+          {
+            "label": "문제",
+            "text": "특정 순간마다 20~30FPS로 떨어지고, 가끔 한 자릿수까지 내려가 화면이 멈칫함",
+            "verbatim": true
+          },
+          {
+            "label": "원인",
+            "text": "여러 새의 길찾기가 같은 순간에 몰려 실행됨",
+            "verbatim": true
+          },
+          {
+            "label": "해결",
+            "text": "플레이어와 25 이상 떨어진 새는 휴면 상태로 바꿔 길찾기와 이동을 멈춤",
+            "verbatim": true
+          },
+          {
+            "label": "결과",
+            "text": "순간 하락이 약 70~80FPS 수준으로 줄어든 것을 확인함. 완전히 사라지지는 않음",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "stateDiagram-v2"
+          }
+        ]
       },
       {
         "key": "chase-flee",
         "chapter": "pathfind",
         "layout": "visual",
         "tab": "흐름",
-        "title": {"text": "3.3 쫓을 때와 도망칠 때", "verbatim": true},
-        "lead": {"text": "둘 다 경로를 따라 움직이지만, 언제 경로를 다시 계산하는지는 다르게 정했습니다.", "verbatim": true},
-        "sectionPath": ["3.3 쫓을 때와 도망칠 때"],
-        "points": [
-          {"label": "쫓을 때", "text": "플레이어가 다른 칸으로 옮겼을 때만 경로를 다시 계산합니다.", "verbatim": true},
-          {"label": "도망칠 때", "text": "플레이어 반대쪽으로 1만큼 떨어진 가까운 지점까지만 경로를 잡습니다.", "verbatim": true},
-          {
-            "label": "이유",
-            "text": "Dave the Diver에서 벽에 몰린 물고기가 플레이어 쪽으로 빠르게 돌진해 빠져나가는 움직임을 옮겨 온 것입니다.",
-            "verbatim": true
-          }
+        "title": {
+          "text": "4.3 쫓을 때와 도망칠 때",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "둘 다 경로를 따라 움직이지만, 언제 경로를 다시 계산하는지는 다르게 정했습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "4.3 쫓을 때와 도망칠 때"
         ],
-        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
-      },
-      {
-        "key": "astar-inside",
-        "chapter": "pathfind",
-        "layout": "full",
-        "tab": "구현",
-        "title": {"text": "3.4 길찾기 코드 안에 남겨 둔 것", "verbatim": true},
-        "lead": {"text": "휴면을 넣은 뒤에도 순간 하락이 완전히 사라지지 않은 것(3.2)은 이 부분과 관계가 있습니다.", "verbatim": true},
-        "sectionPath": ["3.4 길찾기 코드 안에 남겨 둔 것"],
-        "points": [],
-        "visuals": [{"kind": "table", "n": 1, "fp": "구분|내용|다음에 바꿀 방법"}]
-      },
-      {
-        "key": "feather-path",
-        "chapter": "feather",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "4.1 깃털이 디펜스까지 가는 길", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["4.1 깃털이 디펜스까지 가는 길"],
         "points": [
-          {"label": "흐름", "text": "탐험에서 주운 깃털은 임시 인벤토리에만 들어갑니다.", "verbatim": true},
-          {"label": "", "text": "귀환에 성공하면 확정 인벤토리에 합쳐지고, 합치는 순간 해금 목록에도 올라갑니다.", "verbatim": true},
-          {"label": "이유", "text": "대안 A라면 까마귀 깃털을 줍고 실패한 뒤, 다음 판에 참새 깃털을 들고 성공해도 두 깃털이 모두 해금됩니다.", "verbatim": true},
           {
-            "label": "",
-            "text": "원작처럼 하나라도 남긴다면 \"최대한 높이 올라가 가장 높은 단계의 새만 잡고 죽는\" 플레이가 가장 이득인 방법이 될 것이라고 봤습니다.",
+            "label": "쫓을 때",
+            "text": "쫓을 때는 플레이어가 다른 칸으로 옮겼을 때만 경로를 다시 계산합니다.",
+            "verbatim": true
+          },
+          {
+            "label": "도망칠 때",
+            "text": "도망칠 때는 플레이어 반대쪽으로 1만큼 떨어진 가까운 지점까지만 경로를 잡습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "벽에 몰리면",
+            "text": "도망칠 지점이 벽이면 오히려 플레이어 쪽으로 5만큼 떨어진 지점을 목표로 삼습니다.",
             "verbatim": true
           }
         ],
         "visuals": [
-          {"kind": "mermaid", "n": 1, "fp": "flowchart TD"},
-          {"kind": "table", "n": 1, "fp": "|대안 A. 줍는 즉시 반영|대안 B. 임시로 보관했다가 귀환하면 확정"}
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TB"
+          }
+        ]
+      },
+      {
+        "key": "pathfind-result",
+        "chapter": "pathfind",
+        "layout": "visual",
+        "tab": "결과",
+        "title": {
+          "text": "4.4 가장 긴 프레임, 736.60ms에서 62.87ms로",
+          "verbatim": true
+        },
+        "lead": null,
+        "sectionPath": [
+          "4.4 가장 긴 프레임, 736.60ms에서 62.87ms로"
+        ],
+        "points": [
+          {
+            "label": "결과",
+            "text": "가장 오래 걸린 프레임은 맵 전체 그리드 하나에서 736.60ms, 구역별 그리드에서 207.90ms, 휴면을 더한 뒤 62.87ms였습니다",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TD"
+          },
+          {
+            "kind": "image",
+            "src": "images/pathfinding.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {
+              "text": "벽을 돌아 추적하는 몬스터",
+              "verbatim": true
+            }
+          }
+        ]
+      },
+      {
+        "key": "feather-path",
+        "chapter": "feather",
+        "layout": "visual",
+        "tab": "선택",
+        "title": {
+          "text": "5.1 주운 깃털을 언제 확정할까",
+          "verbatim": true
+        },
+        "lead": null,
+        "sectionPath": [
+          "5. 귀환해야 확정되는 깃털",
+          "5.1 주운 깃털을 언제 확정할까"
+        ],
+        "points": [
+          {
+            "label": "선택",
+            "text": "대안 A에서는 실패한 판에서 주운 깃털까지 해금되어, 탐험에서 살아 돌아오든 말든 상관없는 구조가 됩니다.",
+            "verbatim": true
+          },
+          {
+            "label": "구조",
+            "text": "탐험에서 주운 깃털은 임시 인벤토리에만 들어갑니다. 귀환에 성공하면 확정 인벤토리에 합쳐지고, 합치는 순간 해금 목록에도 올라갑니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "깃털을 줍고 귀환|깃털을 줍고 사망"
+          },
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TD"
+          }
         ]
       },
       {
         "key": "unlock-shop",
         "chapter": "feather",
-        "layout": "code",
+        "layout": "visual",
         "tab": "구현",
-        "title": {"text": "4.2 상점에는 발견한 깃털만", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["4.2 상점에는 발견한 깃털만"],
+        "title": {
+          "text": "5.2 상점에는 발견한 깃털만",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "유닛 소환은 언제나 후보에 들어가고, 깃털은 탐험에서 해금한 것만 들어갑니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "5.2 상점에는 발견한 깃털만"
+        ],
         "points": [
-          {"label": "구현", "text": "유닛 소환은 언제나 후보에 들어가고, 깃털은 탐험에서 해금한 것만 들어갑니다.", "verbatim": true},
-          {"label": "이유", "text": "아직 발견하지 않은 깃털이 상점에 나오면, 탐험에서 그 깃털을 발견하는 가치가 사라지기 때문입니다.", "verbatim": true}
+          {
+            "label": "이유",
+            "text": "아직 발견하지 않은 깃털이 상점에 나오면, 탐험에서 그 깃털을 발견하는 가치가 사라지기 때문입니다.",
+            "verbatim": true
+          }
         ],
         "visuals": [
-          {"kind": "code", "n": 1, "fp": "foreach (Item defenceItem in allItems)"},
           {
             "kind": "image",
             "src": "images/reroll.gif",
             "w": 544,
             "h": 306,
-            "caption": {"text": "상점 리롤", "verbatim": true}
+            "caption": {
+              "text": "상점 리롤",
+              "verbatim": true
+            }
           }
         ]
       },
@@ -376,455 +773,180 @@
         "chapter": "unit",
         "layout": "visual",
         "tab": "선택",
-        "title": {"text": "5.1 유닛을 종류마다 나눌 것인가", "verbatim": true},
+        "title": {
+          "text": "6.1 유닛을 종류마다 나눌 것인가",
+          "verbatim": true
+        },
         "lead": null,
-        "sectionPath": ["5. 깃털 하나로 바뀌는 유닛", "5.1 유닛을 종류마다 나눌 것인가"],
+        "sectionPath": [
+          "6. 깃털 하나로 바뀌는 유닛",
+          "6.1 유닛을 종류마다 나눌 것인가"
+        ],
         "points": [
-          {"label": "이유", "text": "모든 유닛은 \"사거리 안의 적에게 행동한다\"는 같은 구조이고, 다른 것은 겉모습과 행동 방식뿐이었습니다.", "verbatim": true},
+          {
+            "label": "이유",
+            "text": "모든 유닛은 \"사거리 안의 적에게 행동한다\"는 같은 구조이고, 다른 것은 겉모습과 행동 방식뿐이었습니다.",
+            "verbatim": true
+          },
           {
             "label": "판단",
             "text": "그래서 깃털(`Item`)에 겉모습·애니메이션·행동 방식·수치를 담아 두고, 장착할 때 통째로 바꿔 끼우는 편이 낫다고 판단했습니다.",
             "verbatim": true
-          },
-          {
-            "label": "구조",
-            "text": "행동 방식은 `UnitAttack`으로 따로 떼어, 단일 공격(`TargetAttack`)·범위 공격(`MultiAttack`)·재화 생산(`MoneyMaker`) 중 하나를 깃털이 가리키게 했습니다.",
-            "verbatim": true
           }
         ],
         "visuals": [
-          {"kind": "table", "n": 1, "fp": "|대안 A. 유닛 종류마다 클래스와 프리팹|대안 B. 유닛은 하나, 깃털 데이터로 바꿔 끼움"},
-          {"kind": "mermaid", "n": 1, "fp": "classDiagram"}
-        ],
-        "edited": true
-      },
-      {
-        "key": "unit-equip",
-        "chapter": "unit",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "5.1 유닛을 종류마다 나눌 것인가", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["5.1 유닛을 종류마다 나눌 것인가"],
-        "points": [
-          {"label": "구현", "text": "장착은 깃털 데이터 하나로 행동 방식·외형·애니메이션·사거리·공격력을 한 번에 바꿉니다.", "verbatim": true},
-          {"label": "", "text": "렌치(`Infinite` 등급)는 따로 입력을 만들지 않고, 같은 장착 경로를 그대로 써서 해제로 처리했습니다.", "verbatim": true}
-        ],
-        "visuals": [
-          {"kind": "code", "n": 1, "fp": "public void EquipItem(Item item)"},
           {
-            "kind": "image",
-            "src": "images/equip.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "깃털 장착", "verbatim": true},
-            "sectionPath": ["5. 깃털 하나로 바뀌는 유닛"]
+            "kind": "table",
+            "n": 1,
+            "fp": "|대안 A. 유닛 종류마다 클래스와 프리팹|대안 B. 유닛은 하나, 깃털 데이터로 바꿔 끼움 ✓"
+          },
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "classDiagram"
           }
         ]
       },
       {
         "key": "money-maker",
         "chapter": "unit",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "5.2 공격하지 않는 기본 유닛", "verbatim": true},
-        "lead": {"text": "이 게임에서는 기본 유닛이 공격 대신 디펜스 포인트를 만듭니다.", "verbatim": true},
-        "sectionPath": ["5.2 공격하지 않는 기본 유닛"],
-        "points": [{"label": "이유", "text": "디펜스는 탐험을 넓혀 주는 쪽이므로, 디펜스가 어려워서 탐험이 막히는 일이 없도록 난이도를 낮게 잡았습니다.", "verbatim": true}],
-        "visuals": [{"kind": "code", "n": 1, "fp": "[CreateAssetMenu(menuName = \"Attack/MoneyMaker\")]"}]
-      },
-      {
-        "key": "feather-data",
-        "chapter": "unit",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "5.3 깃털 데이터를 얼마나 나눌 것인가", "verbatim": true},
-        "lead": {"text": "처음에는 상속으로 세 단계로 나눴습니다.", "verbatim": true},
-        "sectionPath": ["5.3 깃털 데이터를 얼마나 나눌 것인가"],
-        "points": [{"label": "배운 점", "text": "나누는 정도는 무엇을 위해 나누는지(여기서는 가독성)를 기준으로 정해야 한다는 것을 배웠습니다.", "verbatim": true}],
-        "visuals": [{"kind": "table", "n": 1, "fp": "단계|내용"}]
-      },
-      {
-        "key": "peck-why",
-        "chapter": "peck",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "6.1 머리와 몸통을 나눌 것인가", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["6.1 머리와 몸통을 나눌 것인가"],
-        "points": [
-          {"label": "문제", "text": "새는 날면서 공격하므로, 날갯짓과 쪼기가 동시에 따로 움직여야 했습니다.", "verbatim": true},
-          {"label": "이유", "text": "위치와 피벗을 다시 잡는 수고가 들지만, 결과물이 자연스러운 쪽이 더 중요하다고 판단했습니다.", "verbatim": true}
-        ],
-        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 공격 이미지 추가|대안 B. 머리만 옮긴 이미지|대안 C. 머리·몸통 분리"}]
-      },
-      {
-        "key": "peck-parts",
-        "chapter": "peck",
-        "layout": "screens",
-        "tab": "결과",
-        "title": {"text": "6.2 나눈 스프라이트 맞추기", "verbatim": true},
-        "lead": {"text": "결과적으로 날갯짓이 끊기지 않은 채 머리만 앞으로 쪼는 공격을 만들었습니다.", "verbatim": true},
-        "sectionPath": ["6. 날면서 쪼는 공격", "6.2 나눈 스프라이트 맞추기"],
-        "points": [
-          {
-            "label": "결과",
-            "text": "스프라이트는 몸통 5 + 머리 5 = 10프레임으로, 대안 A(약 50)와 대안 B(약 20)를 예상했던 것보다 적습니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [
-          {
-            "kind": "image",
-            "src": "images/peck.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "날갯짓을 유지한 채 머리만 앞으로 내밀어 쪼는 공격", "verbatim": true},
-            "sectionPath": ["6. 날면서 쪼는 공격"]
-          },
-          {
-            "kind": "image",
-            "src": "images/peck-split.png",
-            "w": 1288,
-            "h": 656,
-            "caption": {"text": "위부터 몸통 5프레임, 머리 5프레임, 둘을 겹친 모습", "verbatim": true}
-          }
-        ]
-      },
-      {
-        "key": "misc",
-        "chapter": "more",
-        "layout": "full",
-        "tab": "",
-        "title": {"text": "7.1 체력·조준·몬스터 스킬", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["7.1 체력·조준·몬스터 스킬"],
-        "points": [],
-        "visuals": [{"kind": "table", "n": 1, "fp": "기능|플레이에서 보이는 것|이렇게 정한 이유"}]
-      }
-    ],
-    "base": [
-      {
-        "key": "intro",
-        "chapter": "overview",
-        "layout": "overview",
-        "tab": "개요",
-        "title": {"text": "1. 개요", "verbatim": true},
-        "lead": {"text": "두 모드 가운데 중심은 탐험입니다.", "verbatim": true},
-        "sectionPath": ["1. 개요"],
-        "points": [
-          {"label": "목표한 경험", "text": "위험을 감수하며 낯선 하늘을 개척하고, 그 끝에서 새로운 깃털을 발견하는 경험", "verbatim": true},
-          {"label": "개인 목표", "text": "A*가 실제 게임에서 얼마나 무거운지 직접 확인해 보는 것", "verbatim": false}
-        ],
-        "visuals": [
-          {
-            "kind": "image",
-            "src": "images/cover.jpg",
-            "w": 1702,
-            "h": 957,
-            "caption": {"text": "대표 이미지", "verbatim": true},
-            "sectionPath": ["TreeHouse 프로젝트 문서"]
-          }
-        ]
-      },
-      {
-        "key": "day-night",
-        "chapter": "play",
-        "layout": "visual",
-        "tab": "흐름",
-        "title": {"text": "2.1 낮의 탐험과 밤의 방어", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["2.1 낮의 탐험과 밤의 방어"],
-        "points": [
-          {
-            "label": "낮",
-            "text": "허브에서 탐험에 들어가 새를 사냥하고 깃털을 모은 뒤, 귀환 지점(Pod)까지 돌아오면 그 깃털이 확정되고 디펜스 상점에 나올 수 있게 됩니다.",
-            "verbatim": true
-          },
-          {
-            "label": "밤",
-            "text": "밤에는 디펜스에서 깃털을 유닛에 달아 야생동물을 막고, 처치한 수만큼 받은 재화로 캐릭터를 강화한 뒤 다시 탐험에 나섭니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TD"}]
-      },
-      {
-        "key": "pathfind-intro",
-        "chapter": "pathfind",
-        "layout": "visual",
-        "tab": "개요",
-        "title": {"text": "3. 몬스터 길찾기", "verbatim": true},
-        "lead": {"text": "탐험하는 하늘의 새들은 자기 구역 안을 돌아다니다가, 플레이어를 보면 벽을 돌아 쫓아오거나 반대쪽으로 달아납니다.", "verbatim": true},
-        "sectionPath": ["3. 몬스터 길찾기"],
-        "points": [],
-        "visuals": [
-          {
-            "kind": "image",
-            "src": "images/pathfinding.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "벽을 돌아 추적하는 몬스터", "verbatim": true}
-          }
-        ]
-      },
-      {
-        "key": "zone-choice",
-        "chapter": "pathfind",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "3.1 구역마다 따로 둔 그리드", "verbatim": true},
-        "lead": {"text": "맵 전체를 하나의 그리드로 덮자 참새 10마리에 30~50FPS, 15~20마리를 넘기면 게임이 움직이지 않았습니다.", "verbatim": false},
-        "sectionPath": ["3. 몬스터 길찾기", "3.1 구역마다 따로 둔 그리드"],
-        "points": [
-          {"label": "이유", "text": "A*를 넣은 이유가 새들의 자연스러운 움직임인데, 대안 A는 그 움직임을 해쳐 대안 B를 골랐습니다.", "verbatim": false},
-          {"label": "감수한 것", "text": "구역 밖으로 쫓아오지 못한다는 단점은 고치는 대신 \"자기 구역을 지키는 새\"라는 게임의 특징으로 삼았습니다.", "verbatim": true}
-        ],
-        "visuals": [
-          {"kind": "table", "n": 1, "fp": "|대안 A. 그리드와 경로를 함께 쓰기|대안 B. 구역마다 그리드를 따로 두기"},
-          {
-            "kind": "image",
-            "src": "images/profiler-single-grid.png",
-            "w": 1320,
-            "h": 474,
-            "caption": {"text": "맵 전체 단일 그리드 프로파일러", "verbatim": true}
-          }
-        ]
-      },
-      {
-        "key": "zone-grid",
-        "chapter": "pathfind",
         "layout": "visual",
         "tab": "구조",
-        "title": {"text": "3.1 구역마다 따로 둔 그리드", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["3.1 구역마다 따로 둔 그리드"],
-        "points": [
-          {
-            "label": "구조",
-            "text": "그리드는 구역마다 하나씩(`GridManager`) 두고, 몬스터(`BirdMovement`)는 인스펙터에서 자기 구역의 그리드를 지정받습니다.",
-            "verbatim": true
-          },
-          {"label": "구현", "text": "그리드의 범위는 맵 전체가 아니라 그 구역의 콜라이더(`area`)입니다.", "verbatim": true},
-          {
-            "label": "남은 위험",
-            "text": "목표가 벽이면 전부 탐색한 뒤 실패하는 문제는 활동 영역 콜라이더를 볼록한 사각형에 가깝게 만드는 레벨 구성으로 줄였습니다.",
-            "verbatim": false
-          }
+        "title": {
+          "text": "6.2 공격하지 않는 기본 유닛",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "기본 유닛은 적을 공격하는 대신 디펜스 포인트를 1씩 만들고, 그 포인트는 다시 상점에서 쓰입니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "6.2 공격하지 않는 기본 유닛"
         ],
-        "visuals": [
-          {"kind": "mermaid", "n": 1, "fp": "flowchart TD"},
-          {"kind": "code", "n": 1, "fp": "// 그리드와 시작·목표 좌표를 넘기면 경로(노드 목록)를 돌려준다. 갈 수 없으면 null"}
-        ]
-      },
-      {
-        "key": "sleep",
-        "chapter": "pathfind",
-        "layout": "problem",
-        "tab": "문제 해결",
-        "title": {"text": "3.2 멀리 있는 새는 쉬게 하기", "verbatim": true},
-        "lead": {"text": "휴면 거리 25는 플레이어의 시야(10)보다 일부러 넓게 잡은 값입니다.", "verbatim": true},
-        "sectionPath": ["3.2 멀리 있는 새는 쉬게 하기"],
         "points": [
-          {"label": "문제", "text": "구역별 그리드에서도 특정 순간에 20~30FPS로 떨어지고, 가끔 한 자릿수 FPS까지 내려감", "verbatim": true},
-          {"label": "원인", "text": "여러 몬스터의 길찾기가 같은 순간에 몰려 실행됨", "verbatim": true},
-          {"label": "해결", "text": "플레이어와 25 이상 떨어진 몬스터는 휴면 상태로 바꿔 길찾기와 이동을 멈춤", "verbatim": true},
-          {"label": "결과", "text": "순간 하락이 약 70~80FPS 수준으로 줄어듦. 완전히 사라지지는 않음 (3.4)", "verbatim": true}
-        ],
-        "visuals": [{"kind": "table", "n": 2, "fp": "Unity Profiler (32마리)|휴면 전|휴면 후|줄어든 비율"}]
-      },
-      {
-        "key": "chase-flee",
-        "chapter": "pathfind",
-        "layout": "visual",
-        "tab": "흐름",
-        "title": {"text": "3.3 쫓을 때와 도망칠 때", "verbatim": true},
-        "lead": {"text": "둘 다 경로를 따라 움직이지만, 언제 경로를 다시 계산하는지는 다르게 정했습니다.", "verbatim": true},
-        "sectionPath": ["3.3 쫓을 때와 도망칠 때"],
-        "points": [
-          {"label": "쫓을 때", "text": "플레이어가 다른 칸으로 옮겼을 때만 경로를 다시 계산합니다.", "verbatim": true},
-          {"label": "도망칠 때", "text": "플레이어 반대쪽으로 1만큼 떨어진 가까운 지점까지만 경로를 잡습니다.", "verbatim": true},
-          {
-            "label": "이유",
-            "text": "Dave the Diver에서 벽에 몰린 물고기가 플레이어 쪽으로 빠르게 돌진해 빠져나가는 움직임을 옮겨 온 것입니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
-      },
-      {
-        "key": "astar-inside",
-        "chapter": "pathfind",
-        "layout": "full",
-        "tab": "구현",
-        "title": {"text": "3.4 길찾기 코드 안에 남겨 둔 것", "verbatim": true},
-        "lead": {"text": "휴면을 넣은 뒤에도 순간 하락이 완전히 사라지지 않은 것(3.2)은 이 부분과 관계가 있습니다.", "verbatim": true},
-        "sectionPath": ["3.4 길찾기 코드 안에 남겨 둔 것"],
-        "points": [],
-        "visuals": [{"kind": "table", "n": 1, "fp": "구분|내용|다음에 바꿀 방법"}]
-      },
-      {
-        "key": "feather-path",
-        "chapter": "feather",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "4.1 깃털이 디펜스까지 가는 길", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["4.1 깃털이 디펜스까지 가는 길"],
-        "points": [
-          {"label": "흐름", "text": "탐험에서 주운 깃털은 임시 인벤토리에만 들어갑니다.", "verbatim": true},
-          {"label": "", "text": "귀환에 성공하면 확정 인벤토리에 합쳐지고, 합치는 순간 해금 목록에도 올라갑니다.", "verbatim": true},
-          {"label": "이유", "text": "대안 A라면 까마귀 깃털을 줍고 실패한 뒤, 다음 판에 참새 깃털을 들고 성공해도 두 깃털이 모두 해금됩니다.", "verbatim": true},
           {
             "label": "",
-            "text": "원작처럼 하나라도 남긴다면 \"최대한 높이 올라가 가장 높은 단계의 새만 잡고 죽는\" 플레이가 가장 이득인 방법이 될 것이라고 봤습니다.",
+            "text": "디펜스는 탐험을 넓혀 주는 쪽이므로, 디펜스가 어려워서 탐험이 막히는 일이 없도록 난이도를 낮게 잡았습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "구조",
+            "text": "행동 방식을 `UnitAttack`으로 떼어 두었기 때문에, \"공격하지 않는 행동\"도 다른 공격과 같은 틀에 그대로 넣을 수 있었습니다.",
             "verbatim": true
           }
         ],
         "visuals": [
-          {"kind": "mermaid", "n": 1, "fp": "flowchart TD"},
-          {"kind": "table", "n": 1, "fp": "|대안 A. 줍는 즉시 반영|대안 B. 임시로 보관했다가 귀환하면 확정"}
-        ]
-      },
-      {
-        "key": "unlock-shop",
-        "chapter": "feather",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "4.2 상점에는 발견한 깃털만", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["4.2 상점에는 발견한 깃털만"],
-        "points": [
-          {"label": "구현", "text": "유닛 소환은 언제나 후보에 들어가고, 깃털은 탐험에서 해금한 것만 들어갑니다.", "verbatim": true},
-          {"label": "이유", "text": "아직 발견하지 않은 깃털이 상점에 나오면, 탐험에서 그 깃털을 발견하는 가치가 사라지기 때문입니다.", "verbatim": true}
-        ],
-        "visuals": [
-          {"kind": "code", "n": 1, "fp": "foreach (Item defenceItem in allItems)"},
-          {
-            "kind": "image",
-            "src": "images/reroll.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "상점 리롤", "verbatim": true}
-          }
-        ]
-      },
-      {
-        "key": "one-unit",
-        "chapter": "unit",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "5.1 유닛을 종류마다 나눌 것인가", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["5. 깃털 하나로 바뀌는 유닛", "5.1 유닛을 종류마다 나눌 것인가"],
-        "points": [{"label": "이유", "text": "모든 유닛은 \"사거리 안의 적에게 행동한다\"는 같은 구조이고, 다른 것은 겉모습과 행동 방식뿐이었습니다.", "verbatim": true}],
-        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 유닛 종류마다 클래스와 프리팹|대안 B. 유닛은 하나, 깃털 데이터로 바꿔 끼움"}]
-      },
-      {
-        "key": "unit-equip",
-        "chapter": "unit",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "5.1 유닛을 종류마다 나눌 것인가", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["5.1 유닛을 종류마다 나눌 것인가"],
-        "points": [
-          {"label": "구현", "text": "장착은 깃털 데이터 하나로 행동 방식·외형·애니메이션·사거리·공격력을 한 번에 바꿉니다.", "verbatim": true},
-          {"label": "", "text": "렌치(`Infinite` 등급)는 따로 입력을 만들지 않고, 같은 장착 경로를 그대로 써서 해제로 처리했습니다.", "verbatim": true}
-        ],
-        "visuals": [
-          {"kind": "code", "n": 1, "fp": "public void EquipItem(Item item)"},
           {
             "kind": "image",
             "src": "images/equip.gif",
             "w": 544,
             "h": 306,
-            "caption": {"text": "깃털 장착", "verbatim": true},
-            "sectionPath": ["5. 깃털 하나로 바뀌는 유닛"]
+            "caption": {
+              "text": "깃털 장착",
+              "verbatim": true
+            },
+            "sectionPath": [
+              "6. 깃털 하나로 바뀌는 유닛"
+            ]
+          },
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TD"
           }
         ]
       },
       {
-        "key": "money-maker",
-        "chapter": "unit",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "5.2 공격하지 않는 기본 유닛", "verbatim": true},
-        "lead": {"text": "이 게임에서는 기본 유닛이 공격 대신 디펜스 포인트를 만듭니다.", "verbatim": true},
-        "sectionPath": ["5.2 공격하지 않는 기본 유닛"],
-        "points": [{"label": "이유", "text": "디펜스는 탐험을 넓혀 주는 쪽이므로, 디펜스가 어려워서 탐험이 막히는 일이 없도록 난이도를 낮게 잡았습니다.", "verbatim": true}],
-        "visuals": [{"kind": "code", "n": 1, "fp": "[CreateAssetMenu(menuName = \"Attack/MoneyMaker\")]"}]
-      },
-      {
         "key": "feather-data",
         "chapter": "unit",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "5.3 깃털 데이터를 얼마나 나눌 것인가", "verbatim": true},
-        "lead": {"text": "처음에는 상속으로 세 단계로 나눴습니다.", "verbatim": true},
-        "sectionPath": ["5.3 깃털 데이터를 얼마나 나눌 것인가"],
-        "points": [{"label": "배운 점", "text": "나누는 정도는 무엇을 위해 나누는지(여기서는 가독성)를 기준으로 정해야 한다는 것을 배웠습니다.", "verbatim": true}],
-        "visuals": [{"kind": "table", "n": 1, "fp": "단계|내용"}]
-      },
-      {
-        "key": "peck-why",
-        "chapter": "peck",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "6.1 머리와 몸통을 나눌 것인가", "verbatim": true},
+        "layout": "problem",
+        "tab": "문제 해결",
+        "title": {
+          "text": "6.3 미리 나눈 깃털을 돌려줄 수 없던 문제",
+          "verbatim": true
+        },
         "lead": null,
-        "sectionPath": ["6.1 머리와 몸통을 나눌 것인가"],
-        "points": [
-          {"label": "문제", "text": "새는 날면서 공격하므로, 날갯짓과 쪼기가 동시에 따로 움직여야 했습니다.", "verbatim": true},
-          {"label": "이유", "text": "위치와 피벗을 다시 잡는 수고가 들지만, 결과물이 자연스러운 쪽이 더 중요하다고 판단했습니다.", "verbatim": true}
+        "sectionPath": [
+          "6.3 미리 나눈 깃털을 돌려줄 수 없던 문제"
         ],
-        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 공격 이미지 추가|대안 B. 머리만 옮긴 이미지|대안 C. 머리·몸통 분리"}]
-      },
-      {
-        "key": "peck-parts",
-        "chapter": "peck",
-        "layout": "screens",
-        "tab": "결과",
-        "title": {"text": "6.2 나눈 스프라이트 맞추기", "verbatim": true},
-        "lead": {"text": "결과적으로 날갯짓이 끊기지 않은 채 머리만 앞으로 쪼는 공격을 만들었습니다.", "verbatim": true},
-        "sectionPath": ["6. 날면서 쪼는 공격", "6.2 나눈 스프라이트 맞추기"],
         "points": [
           {
+            "label": "문제",
+            "text": "디펜스가 끝나면 쓰지 않은 깃털을 인벤토리로 돌려줘야 하는데, 디펜스 깃털의 값만으로는 돌려줄 수 없음",
+            "verbatim": true
+          },
+          {
+            "label": "원인",
+            "text": "아이디가 위 단계(원본 깃털)에만 있어서, 어느 원본 깃털과 짝인지 판단하는 스크립트가 새로 필요해짐",
+            "verbatim": true
+          },
+          {
+            "label": "해결",
+            "text": "짝을 맞추는 스크립트를 쓰기 전에 방향을 바꿔, 깃털을 하나의 아이템(`Item`)으로 다시 합침",
+            "verbatim": true
+          },
+          {
             "label": "결과",
-            "text": "스프라이트는 몸통 5 + 머리 5 = 10프레임으로, 대안 A(약 50)와 대안 B(약 20)를 예상했던 것보다 적습니다.",
+            "text": "아이디·디펜스 정보·가격이 한 곳에 있어, 돌려줄 때 짝을 찾을 필요가 없어짐",
             "verbatim": true
           }
         ],
         "visuals": [
           {
-            "kind": "image",
-            "src": "images/peck.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "날갯짓을 유지한 채 머리만 앞으로 내밀어 쪼는 공격", "verbatim": true},
-            "sectionPath": ["6. 날면서 쪼는 공격"]
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "classDiagram"
           },
           {
-            "kind": "image",
-            "src": "images/peck-split.png",
-            "w": 1288,
-            "h": 656,
-            "caption": {"text": "위부터 몸통 5프레임, 머리 5프레임, 둘을 겹친 모습", "verbatim": true}
+            "kind": "mermaid",
+            "n": 3,
+            "fp": "classDiagram"
           }
         ]
       },
       {
         "key": "misc",
         "chapter": "more",
-        "layout": "full",
+        "layout": "visual",
         "tab": "",
-        "title": {"text": "7.1 체력·조준·몬스터 스킬", "verbatim": true},
+        "title": {
+          "text": "7.1 체력·조준·몬스터 스킬",
+          "verbatim": true
+        },
         "lead": null,
-        "sectionPath": ["7.1 체력·조준·몬스터 스킬"],
-        "points": [],
-        "visuals": [{"kind": "table", "n": 1, "fp": "기능|플레이에서 보이는 것|이렇게 정한 이유"}]
+        "sectionPath": [
+          "7.1 체력·조준·몬스터 스킬"
+        ],
+        "points": [
+          {
+            "label": "산소",
+            "text": "개척에는 위험이 따라야 한다고 보고, 플레이어를 쉬지 않고 재촉하는 장치로 원작의 산소를 가져왔습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "조준하면 멈춤",
+            "text": "움직이면서도 이렇게 볼 수 있다면 잃는 것이 없으니, 플레이어는 이 기능을 늘 켜 둘 것입니다. 그래서 \"멈춰야 볼 수 있다\"는 비용을 붙였습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/pressure.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {
+              "text": "탐험 중 체력 감소",
+              "verbatim": true
+            }
+          },
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "기능|플레이에서 보이는 것"
+          }
+        ]
       }
-    ],
-    "applied": "9049b0db67ef5a66"
+    ]
   }
 }

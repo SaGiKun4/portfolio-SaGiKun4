@@ -34,7 +34,7 @@
     "래그돌",
     "AddForce",
     "사다리형 힘 전달",
-    "호스트 기반 구조",
+    "호스트 기반 동기화",
     "FSM"
   ],
   "links": {
@@ -43,29 +43,29 @@
     "extra": []
   },
   "intent": {
-    "text": "여러 플레이어가 팔과 손이 따로 움직이는 캐릭터를 조작해, 서로 붙잡고 끌어올리며 물고기를 모으는 협동 게임입니다. 원작(Heave Ho)의 \"불편한 조작 속에서 서로 붙잡고 끌어올리는\" 방식은 가져오되, 협동의 의미를 새롭게 해석했습니다.",
-    "verbatim": false
+    "text": "플레이어가 마음대로 움직이지 않는 몸 때문에 서로 도울 수밖에 없고, 그렇게 우스꽝스러운 모습으로 협동하는 것 자체를 즐기기를 바랐습니다.",
+    "verbatim": true
   },
   "highlights": [
     {
-      "title": "돌리는 힘 대신 미는 힘",
-      "what": "팔에 힘을 줘서, 손으로 잡은 곳을 축으로 몸을 돌리며 나아가는 조작입니다.",
-      "how": "토크(`AddTorque`)로 팔을 돌리는 대신 힘(`AddForce`)으로 밀어, Joint와 힘 때문에 회전축이 저절로 생기게 했습니다.",
-      "why": "토크는 잡은 상태마다 회전축과 돌리는 순서를 직접 정해야 했고(벽을 잡으면 축이 셋), 기간이 3주로 짧아 핵심 기능을 빨리 만들어 팀원들과 공유해야 했기 때문입니다.",
-      "section": "3.2 돌리는 힘 대신 미는 힘",
+      "title": "팔을 돌릴까, 밀까",
+      "what": "손이 잡은 곳을 축으로 몸을 돌려 나아가는 움직임입니다.",
+      "how": "토크로 팔을 돌리는 대신 힘(`AddForce`)으로 밀어, Joint와 힘 때문에 회전축이 저절로 생기게 했습니다.",
+      "why": "토크는 잡은 상태마다 회전축과 돌리는 순서를 직접 정해야 했고(벽을 잡으면 축이 셋), 기간이 3주로 짧아 조작을 빨리 만들어 팀원들과 공유해야 했기 때문입니다.",
+      "section": "3.2 팔을 돌릴까, 밀까",
       "image": {
-        "src": "images/torque-axis.png",
-        "w": 588,
-        "h": 690,
+        "src": "images/torque-branch.png",
+        "w": 1266,
+        "h": 476,
         "caption": "토크와 힘의 회전축 비교 그림"
       }
     },
     {
       "title": "사다리형 힘 전달",
-      "what": "바닥을 잡은 플레이어의 강한 힘이 잡고 있는 물체와 플레이어를 타고 전달되어, 여럿이 같은 물체를 잡아도 움직일 수 있습니다.",
-      "how": "내 팔이 고정된 대상을 잡았으면 강한 힘을 쓰고, 아니면 내가 잡은 플레이어가 강한 힘을 쓰는지 보고 따라갑니다.",
-      "why": "잡은 대상별 힘 계산은 혼자 할 때가 기준이라, 여럿이 같은 블록을 잡으면 무게가 '플레이어 + 블록'이 되어 바닥을 잡아도 움직이지 못했기 때문입니다.",
-      "section": "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제",
+      "what": "바닥을 잡은 플레이어의 강한 힘이 잡고 있는 물체와 플레이어를 타고 전달되어, 여럿이 같은 판자를 잡아도 움직일 수 있습니다.",
+      "how": "내 팔 하나라도 고정된 대상을 잡고 있으면 강한 힘을 쓰고, 그렇지 않으면 내가 잡은 사람이 강한 힘을 쓰는지 보고 따라갑니다.",
+      "why": "잡은 대상별 계산(5.1)은 혼자 할 때가 기준이라, 두 번째 플레이어에게 그 판자의 무게는 이미 '플레이어 + 판자'였기 때문입니다.",
+      "section": "5.2 함께 잡으면 못 움직이던 문제",
       "image": {
         "src": "images/throw.gif",
         "w": 544,
@@ -74,54 +74,54 @@
       }
     },
     {
-      "title": "호스트가 물리를 계산하는 구조",
-      "what": "기준으로 삼은 클라이언트 하나(호스트)가 물리를 계산하고, 그 결과를 서버가 다른 플레이어에게 나눠 줘 모든 화면을 맞춥니다.",
-      "how": "게스트가 보낸 데이터를 서버가 호스트에 전달하고, 호스트가 계산한 결과를 서버가 게스트에 배포합니다.",
-      "why": "서버에는 Unity가 없어 값을 올렸다 내려받아야 하고, 클라이언트가 각자 계산하면 화면마다 결과가 달라 어차피 기준 클라이언트가 필요했기 때문입니다.",
-      "section": "4.1 물리 계산을 누가 맡을 것인가",
+      "title": "호스트 기반 동기화",
+      "what": "모든 플레이어의 화면에서 손이 같은 곳에 있도록, 호스트 한 명이 물리를 계산해 결과를 나눠 보냅니다.",
+      "how": "호스트가 Unity 물리를 계산하고, 몸통과 좌우 상완·하완 다섯 조각의 위치·회전과 좌우 손의 잡기 여부를 보냅니다.",
+      "why": "서버에는 Unity가 없고, 각자 계산하면 정답이 없어 기준 클라이언트를 정해야 했으므로, 그 클라이언트가 물리 계산까지 맡는 편이 더 정확하다고 판단했습니다.",
+      "section": "6.1 누가 계산하고, 무엇을 보낼까",
       "image": null
     },
     {
-      "title": "먼저 잡은 것을 계속 잡는 규칙",
-      "what": "판자를 옮기던 손이 다른 플레이어와 부딪혀도 판자를 놓치지 않고 계속 잡습니다.",
-      "how": "손에 닿은 대상을 모두 리스트에 넣고, 언제나 맨 앞(`targets[0]`)의 대상을 잡습니다. 떨어지면 그 대상만 지웁니다.",
-      "why": "잡을 대상을 하나만 기억하면 부딪힌 플레이어로 대상이 바뀌거나 비어서 판자를 놓칠 수 있고, 큐나 스택은 중간 대상을 빼기 번거로웠기 때문입니다.",
-      "section": "5. 손으로 잡기",
+      "title": "팀원이 고친 손 코드를 그대로 둘까",
+      "what": "물고기가 손에 잡혔는지 판단하는 부분입니다.",
+      "how": "물고기가 손의 내부 대신 잡기 여부(`IsGrabbing`)만 보도록 팀원 C와 함께 고쳤습니다.",
+      "why": "팀원 C의 커밋과 의도를 확인해 보니, 손이 밖에 내놓는 것 가운데 물고기에게 필요한 것은 잡기 여부 하나였기 때문입니다.",
+      "section": "7.1 팀원이 고친 손 코드를 그대로 둘까",
       "image": {
-        "src": "images/grab-list.gif",
-        "w": 544,
-        "h": 306,
-        "caption": "나무 판자를 옮기던 손이 다른 플레이어와 부딪혀도 판자를 계속 잡고 있는 장면"
+        "src": "images/hand-fix.jpg",
+        "w": 501,
+        "h": 256,
+        "caption": "팀원 C와 함께 고친 커밋"
       }
     }
   ],
   "troubleshooting": [
     {
-      "title": "여럿이 같은 물체를 잡으면 움직이지 못하던 문제",
-      "problem": "한 플레이어가 블록을 잡고 있을 때 다른 플레이어가 같은 블록을 잡으면, 바닥을 잡아도 움직이지 못함",
-      "cause": "3단계의 계산은 혼자 할 때가 기준이었음. 두 번째 플레이어에게 그 블록의 무게는 이미 '플레이어 + 블록'",
-      "solution": "바닥을 잡은 플레이어가 강한 힘을 쓰고, 그 강한 힘이 잡고 있는 물체와 플레이어를 타고 차례로 전달되게 함 (사다리형 힘 전달). 3단계의 대상별 계산은 이 구조로 대체",
-      "result": "멀티플레이에서도 움직일 수 있는 구조가 됨. 잡은 대상이 플레이어여도 힘이 전달되므로, 다른 플레이어를 잡아 던지는 동작도 가능",
+      "title": "함께 잡으면 못 움직이던 문제",
+      "problem": "한 플레이어가 판자를 잡고 있을 때 다른 플레이어가 같은 판자를 잡으면, 바닥을 잡아도 움직이지 못함",
+      "cause": "5.1의 계산은 혼자 할 때가 기준이었음. 두 번째 플레이어에게 그 판자의 무게는 이미 '플레이어 + 판자'",
+      "solution": "바닥을 잡은 플레이어가 강한 힘을 쓰고, 그 강한 힘이 잡고 있는 물체와 플레이어를 타고 차례로 전달되게 함 (사다리형 힘 전달). 5.1의 대상별 계산은 이 구조로 대체",
+      "result": "멀티플레이에서도 움직일 수 있는 구조가 됨",
       "lesson": "",
-      "section": "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제"
+      "section": "5.2 함께 잡으면 못 움직이던 문제"
     },
     {
       "title": "클라이언트마다 손 위치가 맞지 않던 문제",
       "problem": "손 위치가 가장 중요한 게임인데, 클라이언트마다 손 위치가 맞지 않음",
       "cause": "몸통(Body)만 서버로 보내고, 호스트가 몸통 기준으로 계산해 뿌려 주면 위치만 맞추면 된다고 생각함",
-      "solution": "몸통과 좌우 상완·하완, 다섯 조각의 상태와 좌우 손의 잡기 상태를 모두 보내도록 바꿈. 다른 방법은 검토하지 않음",
-      "result": "클라이언트 사이의 위치가 맞음",
+      "solution": "몸통과 좌우 상완·하완, 다섯 조각의 상태와 좌우 손의 잡기 상태를 모두 보내도록 바꿈",
+      "result": "다섯 조각을 모두 보내도록 바꾼 뒤 클라이언트 사이의 손 위치가 맞았습니다.",
       "lesson": "",
-      "section": "4.2 몸의 어디까지 보낼 것인가"
+      "section": "6.1 누가 계산하고, 무엇을 보낼까"
     },
     {
-      "title": "돌진과 먹이 추적을 끝없이 오가던 문제",
+      "title": "돌진과 먹이 사이를 오가던 문제",
       "problem": "상어가 플레이어에게 돌진하는 것과 먹이를 쫓는 것 사이를 끝없이 오감",
       "cause": "배고픔에 따라 먹이를 쫓는 기능이, 상어처럼 플레이어에게 돌진하는 패턴과 부딪침",
       "solution": "먹이 판정을 물고기 본체(상위 계층)로 옮기고, 상태 사이를 오가는 조건(FSM)을 조절",
-      "result": "상어는 배고프면 물고기를 먹으러 다니지만, 플레이어에게 돌진하는 동안에는 먹이를 쫓지 않음",
+      "result": "플레이어에게 돌진하는 동안에는 먹이를 쫓지 않고, 배가 고프면 물고기를 먹으러 다닙니다.",
       "lesson": "",
-      "section": "6.1 돌진과 먹이 추적을 끝없이 오가던 문제"
+      "section": "7.3 돌진과 먹이 사이를 오가던 문제"
     }
   ],
   "screenshots": [
@@ -132,16 +132,10 @@
       "caption": "손으로 잡은 위치를 축으로 몸을 회전시키며 이동하는 장면"
     },
     {
-      "src": "images/torque-axis.png",
-      "w": 588,
-      "h": 690,
+      "src": "images/torque-branch.png",
+      "w": 1266,
+      "h": 476,
       "caption": "토크와 힘의 회전축 비교 그림"
-    },
-    {
-      "src": "images/throw.gif",
-      "w": 544,
-      "h": 306,
-      "caption": "다른 플레이어를 잡아 날리는 장면"
     },
     {
       "src": "images/grab-list.gif",
@@ -150,45 +144,100 @@
       "caption": "나무 판자를 옮기던 손이 다른 플레이어와 부딪혀도 판자를 계속 잡고 있는 장면"
     },
     {
+      "src": "images/throw.gif",
+      "w": 544,
+      "h": 306,
+      "caption": "다른 플레이어를 잡아 날리는 장면"
+    },
+    {
+      "src": "images/network-crop.gif",
+      "w": 276,
+      "h": 154,
+      "caption": "두 클라이언트 화면에서 같은 플레이어가 함께 움직이는 장면"
+    },
+    {
       "src": "images/pattern.gif",
       "w": 544,
       "h": 306,
       "caption": "상어가 플레이어에게 돌진하는 패턴 중에는 먹이를 쫓지 않는 장면"
-    },
-    {
-      "src": "images/ragdoll.png",
-      "w": 782,
-      "h": 355,
-      "caption": "Player 아래 Body·상완·하완·손으로 나뉜 7개 파츠 계층과 Scene 뷰"
     }
   ],
   "retro": {
-    "section": "8. 돌아보기",
+    "section": "9. 돌아보기",
     "achieved": [
-      "팀원들의 피드백은 전체적으로 긍정적이었고, 레벨 디자인이 어렵다는 것 말고는 큰 문제가 없었습니다.",
-      "강한 힘이 남는 문제가 어떤 상황에서 생기는지 찾아냈고, 실제 플레이에서는 거의 생기지 않아 협동하는 경험이 플레이 중에 눈에 띄게 깨지지는 않았습니다."
+      "사다리형 힘 전달로 함께 잡은 사람들이 강한 힘을 이어받아, 서로 붙잡고 끌어올리는 경험은 지켰습니다.",
+      "다섯 조각을 보낸 뒤 모든 화면에서 손 위치가 맞았고, 학원과 팀원들의 집에서 테스트했을 때 딜레이가 느껴지지 않았습니다.",
+      "AI를 주로 쓰는 팀원들의 방식도 의도를 묻고 코드를 확인하면 따라갈 수 있었습니다."
     ],
     "regrets": [
-      "제 평가는 조금 불만족입니다. 서로 붙잡고 있으면 지형을 놓아도 강한 힘이 유지되는 문제(3.4)를 풀지 못하고 끝냈습니다.",
-      "다만 그것은 플레이 경험만 본 평가이고, 규칙 자체에 남은 논리 오류이므로 고쳐야 할 문제입니다.",
+      "서로 붙잡고 있으면 지형을 놓아도 강한 힘이 유지되는 문제(5.2)를 풀지 못했습니다. 시연에서 한 번 나왔을 때 플레이어는 버그로 알아차리지 않았지만, 규칙에 남은 논리 오류입니다.",
       "직관적이라는 이유 하나로 개발하다 보니 예상하지 못한 오류가 생각보다 많았습니다.",
       "물고기와 손 사이에서 잡기 여부를 어떻게 판단할지 정하지 않은 채 시작해, 같은 필요를 두고 서로 다른 구조가 나왔습니다."
     ],
     "plans": [
       "시간이 넉넉하면 토크로 바꾸고, 그렇지 않으면 서로 이어진 플레이어들을 한 묶음으로 보고 큰 힘 하나를 전체에 나눠 줍니다.",
-      "직관적인 구조를 쫓기보다 지금 상황에 더 맞는 구조를 찾아 적용하고, 그 구조가 핵심이라면 개발을 그 구조에 맞춰 조정합니다.",
+      "직관적인 구조를 쫓기보다 지금 상황에 더 맞는 구조를 찾아 적용하겠습니다.",
       "파트 사이에서 쓸 API를 시작할 때 먼저 합의하겠습니다."
     ]
   },
   "deck": {
     "chapters": [
-      {"key": "overview", "title": "개요", "sectionPath": ["1. 개요"]},
-      {"key": "team", "title": "팀과 내 역할", "sectionPath": ["2. 팀과 내 역할"]},
-      {"key": "movement", "title": "팔에 힘을 줘서 몸 움직이기", "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기"]},
-      {"key": "sync", "title": "모든 화면에 같은 몸 보이기", "sectionPath": ["4. 모든 화면에 같은 몸 보이기"]},
-      {"key": "grab", "title": "손으로 잡기", "sectionPath": ["5. 손으로 잡기"]},
-      {"key": "foodchain", "title": "물고기 먹이사슬", "sectionPath": ["6. 물고기 먹이사슬"]},
-      {"key": "extras", "title": "그 밖에 맡은 것", "sectionPath": ["7. 그 밖에 맡은 것"]}
+      {
+        "key": "overview",
+        "title": "개요",
+        "sectionPath": [
+          "1. 개요"
+        ]
+      },
+      {
+        "key": "team",
+        "title": "팀과 내 역할",
+        "sectionPath": [
+          "2. 팀과 내 역할"
+        ]
+      },
+      {
+        "key": "movement",
+        "title": "팔에 힘을 줘서 몸 움직이기",
+        "sectionPath": [
+          "3. 팔에 힘을 줘서 몸 움직이기"
+        ]
+      },
+      {
+        "key": "grab",
+        "title": "손으로 잡기",
+        "sectionPath": [
+          "4. 손으로 잡기"
+        ]
+      },
+      {
+        "key": "lift",
+        "title": "서로 붙잡고 끌어올리기",
+        "sectionPath": [
+          "5. 서로 붙잡고 끌어올리기"
+        ]
+      },
+      {
+        "key": "sync",
+        "title": "모든 화면에 같은 몸 보이기",
+        "sectionPath": [
+          "6. 모든 화면에 같은 몸 보이기"
+        ]
+      },
+      {
+        "key": "foodchain",
+        "title": "물고기 잡기와 먹이사슬",
+        "sectionPath": [
+          "7. 물고기 잡기와 먹이사슬"
+        ]
+      },
+      {
+        "key": "extras",
+        "title": "그 밖에 맡은 것",
+        "sectionPath": [
+          "8. 그 밖에 맡은 것"
+        ]
+      }
     ],
     "slides": [
       {
@@ -196,19 +245,36 @@
         "chapter": "overview",
         "layout": "overview",
         "tab": "개요",
-        "title": {"text": "1. 개요", "verbatim": true},
-        "lead": {"text": "손으로 벽이나 바닥, 다른 플레이어를 붙잡고 그 자리를 축으로 몸을 흔들어 나아갑니다.", "verbatim": true},
-        "sectionPath": ["1. 개요"],
+        "title": {
+          "text": "1. 개요",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "WeGotOne은 여러 플레이어가 각자 팔과 손이 따로 움직이는 캐릭터를 조작해, 서로 붙잡고 끌어올리며 물고기를 모으는 협동 게임입니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "1. 개요"
+        ],
         "points": [
-          {"label": "", "text": "함께 물고기를 잡아 자원을 다 모으면 다리를 놓아 목적지까지 가고, 그러면 다음 스테이지로 넘어갑니다.", "verbatim": true},
           {
-            "label": "",
-            "text": "플레이어가 마음대로 움직이지 않는 몸 때문에 서로 도울 수밖에 없고, 그렇게 우스꽝스러운 모습으로 협동하는 것 자체를 즐기기를 바랐습니다.",
+            "label": "가져온 것",
+            "text": "Heave Ho에서 \"불편한 조작 속에서 서로 붙잡고 끌어올리는\" 방식을 가져오기로 함께 정했습니다.",
+            "verbatim": false
+          },
+          {
+            "label": "바꾼 것",
+            "text": "물고기를 함께 모아야만 다음 스테이지로 갈 수 있게 바꿔, 협력이 중심이 되도록 했습니다.",
             "verbatim": true
           },
           {
-            "label": "",
-            "text": "캐릭터가 물리 법칙대로 흔들리며 움직이기 때문에, 이런 캐릭터의 구조를 어떻게 만드는가가 가장 큰 과제였습니다.",
+            "label": "목표한 경험",
+            "text": "우스꽝스러운 모습으로 협동하는 것 자체를 즐기기를 바랐습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "확인하고 싶었던 것",
+            "text": "AI를 주로 쓰는 팀원들의 방식을 내가 따라갈 수 있을까?",
             "verbatim": true
           }
         ],
@@ -218,54 +284,88 @@
             "src": "images/play.gif",
             "w": 544,
             "h": 306,
-            "caption": {"text": "여러 플레이어가 함께 스테이지를 나아가는 플레이 장면", "verbatim": true}
+            "caption": {
+              "text": "시작 스테이지에서 플레이어들이 물고기를 모으는 장면",
+              "verbatim": true
+            }
           }
-        ],
-        "edited": true
+        ]
       },
       {
         "key": "team-roles",
-        "chapter": "overview",
+        "chapter": "team",
         "layout": "overview",
         "tab": "개요",
-        "title": {"text": "2. 팀과 내 역할", "verbatim": true},
-        "lead": {"text": "내 역할: 플레이어 핵심 조작 · 플레이어 조작의 서버 연결", "verbatim": true},
-        "sectionPath": ["2. 팀과 내 역할"],
+        "title": {
+          "text": "2. 팀과 내 역할",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "팀은 팀장이 팀원을 뽑는 드래프트 방식으로 꾸렸고, 전공자 2명(저 포함)과 비전공자 2명이었습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "2. 팀과 내 역할"
+        ],
         "points": [
-          {"label": "파트 나누기", "text": "일을 큰 파트 단위로 나눴고, 이 게임은 플레이어 조작이 거의 전부이므로 조작을 한 파트로 묶었습니다.", "verbatim": true},
           {
-            "label": "맡게 된 이유",
-            "text": "플레이어 파트는 게임의 중심이면서 물리로 움직이는 몸을 다뤄야 해서, 다들 감을 잡지 못해 선뜻 맡지 못했습니다.",
+            "label": "파트 나누기",
+            "text": "일을 큰 파트 단위로 나눴고, 이 게임은 플레이어 조작이 거의 전부라 조작을 한 파트로 묶었습니다.",
             "verbatim": true
           },
-          {"label": "내 강점", "text": "저는 Unity를 써 본 경험이 있었고, 레퍼런스 덕분에 어떤 움직임이 나와야 하는지가 분명했습니다.", "verbatim": true},
           {
             "label": "첫 계획",
-            "text": "Joint와 `AddTorque`로 만들면 되겠다는 생각이 먼저 들었고, 금방 끝날 것 같다는 자신감도 있어서 이 파트를 맡았습니다.",
+            "text": "Joint로 잇고 토크로 돌리면 되겠다는 생각이 먼저 들었고, 금방 끝날 것 같다는 자신감도 있어서 이 파트를 맡았습니다.",
             "verbatim": true
           }
         ],
-        "visuals": [{"kind": "table", "n": 1, "fp": "파트|담당"}, {"kind": "table", "n": 2, "fp": "구분|맡은 일"}],
-        "edited": true
+        "visuals": [
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "파트|담당"
+          },
+          {
+            "kind": "table",
+            "n": 2,
+            "fp": "구분|맡은 일"
+          }
+        ]
       },
       {
         "key": "move-controls",
         "chapter": "movement",
         "layout": "visual",
-        "tab": "개요",
-        "title": {"text": "3. 팔에 힘을 줘서 몸 움직이기", "verbatim": true},
-        "lead": {"text": "붙잡은 손은 그 자리에 고정되므로, 팔을 움직이면 잡은 곳을 축으로 몸이 돌아가며 나아갑니다.", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기"],
-        "points": [],
+        "tab": "구조",
+        "title": {
+          "text": "3. 팔에 힘을 줘서 몸 움직이기",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "처음에는 Joint로 잇고 AddTorque로 팔을 돌리면 되겠다고 보고 시작했습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "3. 팔에 힘을 줘서 몸 움직이기"
+        ],
+        "points": [
+          {
+            "label": "",
+            "text": "처음 구조. Joint로 고정점을 정하고, 토크로 팔을 돌리려 했습니다.",
+            "verbatim": true
+          }
+        ],
         "visuals": [
           {
-            "kind": "image",
-            "src": "images/move.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "손으로 잡은 위치를 축으로 몸을 회전시키며 이동하는 장면", "verbatim": true}
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TB"
           },
-          {"kind": "table", "n": 1, "fp": "입력|결과"}
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "입력|결과"
+          }
         ]
       },
       {
@@ -273,13 +373,32 @@
         "chapter": "movement",
         "layout": "visual",
         "tab": "구조",
-        "title": {"text": "3.1 일곱 조각으로 나눈 몸", "verbatim": true},
-        "lead": {"text": "입력은 `PlayerController` 한 곳이 받고, 각 조각은 넘겨받은 입력으로 자기 일만 한다", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.1 일곱 조각으로 나눈 몸"],
+        "title": {
+          "text": "3.1 일곱 조각으로 나눈 몸",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "조각은 일곱 개지만, 플레이어의 입력은 한 곳으로만 들어옵니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "3. 팔에 힘을 줘서 몸 움직이기",
+          "3.1 일곱 조각으로 나눈 몸"
+        ],
         "points": [
           {
-            "label": "이유",
-            "text": "결국 이동 방향은 팔이 정합니다. 그래서 입력은 `PlayerController`가 받고, 그 아래의 팔이 입력을 넘겨받아 방향을 정하게 했습니다.",
+            "label": "",
+            "text": "이동 방향은 팔이 정합니다.",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "손은 잡는 일만 합니다.",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "플레이어 본체는 몸 전체의 정보를 맡습니다.",
             "verbatim": true
           }
         ],
@@ -289,9 +408,11 @@
             "src": "images/ragdoll.png",
             "w": 782,
             "h": 355,
-            "caption": {"text": "Player 아래 Body·상완·하완·손으로 나뉜 7개 파츠 계층과 Scene 뷰", "verbatim": true}
-          },
-          {"kind": "mermaid", "n": 1, "fp": "flowchart TB"}
+            "caption": {
+              "text": "Player 아래 Body·상완·하완·손으로 나뉜 7개 파츠 계층과 Scene 뷰",
+              "verbatim": true
+            }
+          }
         ]
       },
       {
@@ -299,12 +420,29 @@
         "chapter": "movement",
         "layout": "visual",
         "tab": "선택",
-        "title": {"text": "3.2 돌리는 힘 대신 미는 힘", "verbatim": true},
-        "lead": {"text": "토크로 돌리려면 무엇을 축으로 돌지 제가 직접 정해 줘야 했고, 그 축이 상황마다 바뀌었습니다.", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.2 돌리는 힘 대신 미는 힘"],
+        "title": {
+          "text": "3.2 팔을 돌릴까, 밀까",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "토크로 돌리려면 무엇을 축으로 돌지 제가 직접 정해 줘야 했고, 그 축이 상황마다 바뀌었던 것입니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "3. 팔에 힘을 줘서 몸 움직이기",
+          "3.2 팔을 돌릴까, 밀까"
+        ],
         "points": [
-          {"label": "이유", "text": "프로젝트 기간이 3주로 짧았고, 조작은 핵심 기능이라 빨리 만들어 팀원들과 공유해야 했기 때문입니다.", "verbatim": true},
-          {"label": "치른 대가", "text": "물리적으로 더 정확한 토크를 포기한 것입니다.", "verbatim": true}
+          {
+            "label": "이유",
+            "text": "프로젝트 기간이 3주로 짧았고, 조작은 핵심 기능이라 빨리 만들어 팀원들과 공유해야 했기 때문입니다.",
+            "verbatim": true
+          },
+          {
+            "label": "치른 대가",
+            "text": "치른 대가는 물리적으로 더 정확한 토크를 포기한 것입니다.",
+            "verbatim": true
+          }
         ],
         "visuals": [
           {
@@ -312,514 +450,127 @@
             "src": "images/torque-branch.png",
             "w": 1266,
             "h": 476,
-            "caption": {"text": "토크와 힘의 회전축 비교 그림", "verbatim": true}
-          },
-          {"kind": "table", "n": 2, "fp": "|토크로 돌리기|힘으로 밀기 ✓"}
-        ],
-        "edited": true
-      },
-      {
-        "key": "force-by-target",
-        "chapter": "movement",
-        "layout": "overview",
-        "tab": "구현",
-        "title": {"text": "3.3 잡은 대상에 따라 달라지는 힘", "verbatim": true},
-        "lead": {"text": "필요한 힘은 무엇을 잡았느냐에 따라 달랐습니다.", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.3 잡은 대상에 따라 달라지는 힘"],
-        "points": [
-          {"label": "땅을 잡은 상황", "text": "플레이어 자신을 옮길 만큼 충분한 힘", "verbatim": true},
-          {"label": "물체를 잡은 상황", "text": "그 물체를 들 정도의 힘만", "verbatim": true},
-          {"label": "구현", "text": "플레이어마다 힘을 쓰게 해 물체를 옮길 수 있게 하되, 힘의 최대값을 정해 물체의 무게로 협동을 강제했습니다.", "verbatim": false},
-          {"label": "값 정하기", "text": "기본 힘과 강한 힘의 값은 플레이테스트를 거쳐 정했습니다.", "verbatim": true}
-        ],
-        "visuals": [{"kind": "table", "n": 1, "fp": "잡은 대상|쓰는 힘|이 값을 쓰는 이유"}],
-        "edited": true
-      },
-      {
-        "key": "multi-grab",
-        "chapter": "movement",
-        "layout": "problem",
-        "tab": "문제 해결",
-        "title": {"text": "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제"],
-        "points": [
-          {"label": "문제", "text": "한 플레이어가 블록을 잡고 있을 때 다른 플레이어가 같은 블록을 잡으면, 바닥을 잡아도 움직이지 못함", "verbatim": true},
-          {"label": "원인", "text": "3단계의 계산은 혼자 할 때가 기준이었음. 두 번째 플레이어에게 그 블록의 무게는 이미 '플레이어 + 블록'", "verbatim": true},
-          {
-            "label": "해결",
-            "text": "바닥을 잡은 플레이어가 강한 힘을 쓰고, 그 강한 힘이 잡고 있는 물체와 플레이어를 타고 차례로 전달되게 함 (사다리형 힘 전달)",
-            "verbatim": true
+            "caption": {
+              "text": "토크와 힘의 회전축 비교 그림",
+              "verbatim": true
+            }
           },
           {
-            "label": "결과",
-            "text": "멀티플레이에서도 움직일 수 있는 구조가 됨. 잡은 대상이 플레이어여도 힘이 전달되므로, 다른 플레이어를 잡아 던지는 동작도 가능",
-            "verbatim": true
-          }
-        ],
-        "visuals": [
-          {
-            "kind": "image",
-            "src": "images/throw.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "다른 플레이어를 잡아 날리는 장면", "verbatim": true}
+            "kind": "table",
+            "n": 1,
+            "fp": "|토크로 돌리기|힘으로 밀기 ✓"
           }
         ]
       },
       {
-        "key": "ladder-force",
+        "key": "first-commit",
         "chapter": "movement",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제", "verbatim": true},
-        "lead": {"text": "이렇게 강한 힘이 잡은 사람을 따라 한 칸씩 올라갑니다.", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제"],
-        "points": [
-          {
-            "label": "구현",
-            "text": "먼저 내 팔 중 하나라도 고정된 대상을 잡고 있는지(`UseForce`) 봅니다. 그렇다면 내가 사다리의 맨 아래이므로 강한 힘을 씁니다.",
-            "verbatim": true
-          },
-          {"label": "구현", "text": "아니라면 내가 잡은 플레이어가 강한 힘을 쓰고 있는지 보고, 그렇다면 나도 강한 힘을 씁니다.", "verbatim": true}
-        ],
-        "visuals": [{"kind": "code", "n": 1, "fp": "private void UpdateArmForce()", "lines": [1, 13]}]
-      },
-      {
-        "key": "host-choice",
-        "chapter": "sync",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "4.1 물리 계산을 누가 맡을 것인가", "verbatim": true},
-        "lead": {"text": "어차피 기준이 될 클라이언트를 정해야 한다면, 그 클라이언트가 물리 계산까지 맡는 편이 더 정확하다고 판단해 B를 골랐습니다.", "verbatim": true},
-        "sectionPath": ["4. 모든 화면에 같은 몸 보이기", "4.1 물리 계산을 누가 맡을 것인가"],
-        "points": [],
-        "visuals": [{"kind": "table", "n": 1, "fp": "|A. 서버가 계산|B. 호스트가 계산 ✓|C. 클라이언트가 각자 계산"}]
-      },
-      {
-        "key": "host-flow",
-        "chapter": "sync",
-        "layout": "visual",
-        "tab": "흐름",
-        "title": {"text": "4.1 물리 계산을 누가 맡을 것인가", "verbatim": true},
-        "lead": {"text": "계산이 서버가 아니라 호스트에서 일어난다", "verbatim": true},
-        "sectionPath": ["4. 모든 화면에 같은 몸 보이기", "4.1 물리 계산을 누가 맡을 것인가"],
-        "points": [
-          {"label": "치른 대가", "text": "게스트는 입력이 서버와 호스트를 거쳐 돌아와야 하므로 인터넷이 좋지 않으면 딜레이가 느껴질 수 있습니다.", "verbatim": true},
-          {"label": "결과", "text": "실제로 플레이해 봤을 때 딜레이는 느껴지지 않았습니다.", "verbatim": true},
-          {
-            "label": "",
-            "text": "구조를 정한 뒤에는, 플레이어 조작에 필요한 간단한 프로토콜(클라이언트와 서버가 주고받는 데이터의 약속)을 서버 코드까지 제가 직접 고쳤습니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [{"kind": "mermaid", "n": 1, "fp": "sequenceDiagram"}]
-      },
-      {
-        "key": "body-only",
-        "chapter": "sync",
-        "layout": "problem",
-        "tab": "문제 해결",
-        "title": {"text": "4.2 몸의 어디까지 보낼 것인가", "verbatim": true},
-        "lead": {"text": "처음에는 몸통의 상태만 보냈습니다.", "verbatim": true},
-        "sectionPath": ["4. 모든 화면에 같은 몸 보이기", "4.2 몸의 어디까지 보낼 것인가"],
-        "points": [
-          {"label": "문제", "text": "손 위치가 가장 중요한 게임인데, 클라이언트마다 손 위치가 맞지 않음", "verbatim": true},
-          {"label": "원인", "text": "몸통(Body)만 서버로 보내고, 호스트가 몸통 기준으로 계산해 뿌려 주면 위치만 맞추면 된다고 생각함", "verbatim": true},
-          {"label": "해결", "text": "몸통과 좌우 상완·하완, 다섯 조각의 상태와 좌우 손의 잡기 상태를 모두 보내도록 바꿈. 다른 방법은 검토하지 않음", "verbatim": true},
-          {"label": "결과", "text": "클라이언트 사이의 위치가 맞음", "verbatim": true}
-        ],
-        "visuals": []
-      },
-      {
-        "key": "part-state",
-        "chapter": "sync",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "4.2 몸의 어디까지 보낼 것인가", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["4. 모든 화면에 같은 몸 보이기", "4.2 몸의 어디까지 보낼 것인가"],
-        "points": [
-          {
-            "label": "구현",
-            "text": "호스트가 다섯 조각의 `PartState`를 보내면, 다른 클라이언트는 직전 값과 새 값 사이를 부드럽게 채워(보간) 적용합니다.",
-            "verbatim": true
-          },
-          {"label": "", "text": "따로 위치를 맞출 필요가 없어 보내지 않습니다.", "verbatim": true}
-        ],
-        "visuals": [{"kind": "code", "n": 1, "fp": "// 서버 Protocol.cs — 플레이어 한 명의 상태 (조각과 잡기 부분)"}]
-      },
-      {
-        "key": "grab-demo",
-        "chapter": "grab",
         "layout": "visual",
         "tab": "결과",
-        "title": {"text": "5. 손으로 잡기", "verbatim": true},
-        "lead": {"text": "게임 중에는 벽돌 두 개와 바닥, 물고기처럼 세 개 이상의 대상이 동시에 손에 닿는 일이 자주 생깁니다.", "verbatim": true},
-        "sectionPath": ["5. 손으로 잡기"],
+        "title": {
+          "text": "3.2 팔을 돌릴까, 밀까",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "당시 첫 커밋 주석에도 이 판단이 남아 있습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "3. 팔에 힘을 줘서 몸 움직이기",
+          "3.2 팔을 돌릴까, 밀까"
+        ],
         "points": [
-          {"label": "필요했던 것", "text": "\"지금 무엇을 잡을 것인가\"를 정하는 규칙이 필요했습니다.", "verbatim": true},
-          {"label": "상황", "text": "판자를 잡고 옮기는 중", "verbatim": true},
-          {"label": "충돌", "text": "판자를 잡은 손이 다른 플레이어와 부딪힘", "verbatim": true},
-          {"label": "결과", "text": "판자를 놓치지도, 그 플레이어를 잡지도 않고 계속 옮깁니다.", "verbatim": true}
+          {
+            "label": "주석",
+            "text": "토크로 하니 회전축을 두 개 구현해야 하는 문제가 생김. 힘 기반이 더 편하고 깔끔해서 AddForce 사용.",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "주석에는 축이 두 개라고 적었지만, 실제로는 벽을 잡을 때 손의 축이 더해져 세 개까지 늘어났습니다.",
+            "verbatim": true
+          }
         ],
         "visuals": [
           {
             "kind": "image",
-            "src": "images/grab-list.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "나무 판자를 옮기던 손이 다른 플레이어와 부딪혀도 판자를 계속 잡고 있는 장면", "verbatim": true}
-          }
-        ],
-        "edited": true
-      },
-      {
-        "key": "grab-list-code",
-        "chapter": "grab",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "5.1 먼저 잡은 것을 계속 잡는 규칙", "verbatim": true},
-        "lead": {"text": "잡을 수 있는 대상을 모두 목록으로 들고 있다가, 먼저 들어온 대상을 우선하기로 했습니다.", "verbatim": true},
-        "sectionPath": ["5. 손으로 잡기", "5.1 먼저 잡은 것을 계속 잡는 규칙"],
-        "points": [
-          {
-            "label": "구현",
-            "text": "잡을 대상은 언제나 목록의 맨 앞(`targets[0]`)이므로, 나중에 닿은 것이 먼저 잡은 것을 밀어내지 않습니다.",
-            "verbatim": true
-          },
-          {
-            "label": "고려한 점",
-            "text": "물고기, 판자, 다른 플레이어 순으로 들어왔다가 판자가 먼저 빠져나가면, 물고기와 플레이어는 그대로 남아야 합니다.",
-            "verbatim": true
-          },
-          {
-            "label": "선택",
-            "text": "이런 경우도 큐 두 개를 쓰면 처리할 수 있지만, 이것저것 종합해 보니 중간에 있는 대상을 바로 뺄 수 있는 리스트가 제게는 더 편했습니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [
-          {"kind": "table", "n": 1, "fp": "|잡을 대상을 하나만 기억|손에 닿은 대상을 모두 기억하고, 먼저 닿은 것을 우선 ✓"},
-          {"kind": "code", "n": 1, "fp": "private void OnTriggerEnter2D(Collider2D other)"}
-        ],
-        "edited": true
-      },
-      {
-        "key": "grab-api",
-        "chapter": "grab",
-        "layout": "overview",
-        "tab": "문제 해결",
-        "title": {"text": "5.2 물고기와 잡기 여부를 미리 맞추지 않았던 일", "verbatim": true},
-        "lead": {"text": "시작할 때 둘 사이에서 쓸 함수와 데이터의 약속(API)을 정하지 않았습니다.", "verbatim": true},
-        "sectionPath": ["5. 손으로 잡기", "5.2 물고기와 잡기 여부를 미리 맞추지 않았던 일"],
-        "points": [
-          {"label": "문제", "text": "팀원 C는 플레이어 코드를 직접 고쳐서 썼고, 저는 다음 날 학원에서 작업하다 이를 알았습니다.", "verbatim": true},
-          {"label": "해결", "text": "결과적으로 팀원 C가 고친 부분은 사라지고, 제 쪽 내용을 조금 바꿨습니다.", "verbatim": true},
-          {
-            "label": "배운 점",
-            "text": "문제는 \"플레이어와 물고기 모두 이것으로 잡기 여부를 판단한다\"는 하나의 합의점이 없었던 것이고, 그래서 서로 조금씩 다른 구조가 나왔습니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": []
-      },
-      {
-        "key": "food-states",
-        "chapter": "foodchain",
-        "layout": "visual",
-        "tab": "흐름",
-        "title": {"text": "6. 물고기 먹이사슬", "verbatim": true},
-        "lead": {"text": "물고기마다 크기를 정해 두고, 물고기 본체(상위 계층)에서 서로의 크기를 비교해 먹을 수 있는지(`CanEat`) 판단합니다.", "verbatim": true},
-        "sectionPath": ["6. 물고기 먹이사슬"],
-        "points": [{"label": "", "text": "물고기의 행동은 팀원 C의 몫이고, 저는 그중 먹이사슬 판정을 맡았습니다.", "verbatim": true}],
-        "visuals": [{"kind": "mermaid", "n": 1, "fp": "stateDiagram-v2"}]
-      },
-      {
-        "key": "dash-loop",
-        "chapter": "foodchain",
-        "layout": "problem",
-        "tab": "문제 해결",
-        "title": {"text": "6.1 돌진과 먹이 추적을 끝없이 오가던 문제", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["6. 물고기 먹이사슬", "6.1 돌진과 먹이 추적을 끝없이 오가던 문제"],
-        "points": [
-          {"label": "문제", "text": "상어가 플레이어에게 돌진하는 것과 먹이를 쫓는 것 사이를 끝없이 오감", "verbatim": true},
-          {"label": "원인", "text": "배고픔에 따라 먹이를 쫓는 기능이, 상어처럼 플레이어에게 돌진하는 패턴과 부딪침", "verbatim": true},
-          {"label": "해결", "text": "먹이 판정을 물고기 본체(상위 계층)로 옮기고, 상태 사이를 오가는 조건(FSM)을 조절", "verbatim": true},
-          {"label": "결과", "text": "상어는 배고프면 물고기를 먹으러 다니지만, 플레이어에게 돌진하는 동안에는 먹이를 쫓지 않음", "verbatim": true}
-        ],
-        "visuals": [
-          {
-            "kind": "image",
-            "src": "images/pattern.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "상어가 플레이어에게 돌진하는 패턴 중에는 먹이를 쫓지 않는 장면", "verbatim": true}
+            "src": "images/first-commit.jpg",
+            "w": 723,
+            "h": 252,
+            "caption": {
+              "text": "힘으로 바꿔 올린 첫 커밋 메시지",
+              "verbatim": true
+            }
           }
         ]
       },
       {
-        "key": "extras",
-        "chapter": "extras",
-        "layout": "full",
-        "tab": "",
-        "title": {"text": "7. 그 밖에 맡은 것", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["7. 그 밖에 맡은 것"],
-        "points": [],
-        "visuals": [{"kind": "table", "n": 1, "fp": "항목|무엇을|이렇게 한 이유 · 출처"}]
-      }
-    ],
-    "base": [
-      {
-        "key": "intro",
-        "chapter": "overview",
-        "layout": "overview",
-        "tab": "개요",
-        "title": {"text": "1. 개요", "verbatim": true},
-        "lead": {"text": "손으로 벽이나 바닥, 다른 플레이어를 붙잡고 그 자리를 축으로 몸을 흔들어 나아갑니다.", "verbatim": true},
-        "sectionPath": ["1. 개요"],
+        "key": "joint-axis",
+        "chapter": "movement",
+        "layout": "visual",
+        "tab": "구조",
+        "title": {
+          "text": "3.3 축을 Joint에 맡긴 몸",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "이 구조는 프로젝트를 시작한 지 엿새째인 8월 23일, 팔 관절과 지형 잡기를 담은 첫 커밋으로 팀원들과 공유했습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "3. 팔에 힘을 줘서 몸 움직이기",
+          "3.3 축을 Joint에 맡긴 몸"
+        ],
         "points": [
-          {"label": "", "text": "함께 물고기를 잡아 자원을 다 모으면 다리를 놓아 목적지까지 가고, 그러면 다음 스테이지로 넘어갑니다.", "verbatim": true},
           {
             "label": "",
-            "text": "플레이어가 마음대로 움직이지 않는 몸 때문에 서로 도울 수밖에 없고, 그렇게 우스꽝스러운 모습으로 협동하는 것 자체를 즐기기를 바랐습니다.",
-            "verbatim": true
-          },
-          {
-            "label": "",
-            "text": "캐릭터가 물리 법칙대로 흔들리며 움직이기 때문에, 이런 캐릭터의 구조를 어떻게 만드는가가 가장 큰 과제였습니다.",
+            "text": "손으로 잡은 곳은 그 자리에 고정되고, 팔을 움직이면 그곳을 축으로 몸이 돌아가며 나아갑니다.",
             "verbatim": true
           }
         ],
-        "visuals": []
-      },
-      {
-        "key": "team-roles",
-        "chapter": "team",
-        "layout": "overview",
-        "tab": "개요",
-        "title": {"text": "2. 팀과 내 역할", "verbatim": true},
-        "lead": {"text": "내 역할: 플레이어 핵심 조작 · 플레이어 조작의 서버 연결", "verbatim": true},
-        "sectionPath": ["2. 팀과 내 역할"],
-        "points": [{"label": "", "text": "저는 Unity를 써 본 경험이 있었고, 레퍼런스 덕분에 어떤 움직임이 나와야 하는지가 분명했습니다.", "verbatim": true}],
-        "visuals": [{"kind": "table", "n": 1, "fp": "파트|담당"}, {"kind": "table", "n": 2, "fp": "구분|맡은 일"}]
-      },
-      {
-        "key": "move-controls",
-        "chapter": "movement",
-        "layout": "visual",
-        "tab": "개요",
-        "title": {"text": "3. 팔에 힘을 줘서 몸 움직이기", "verbatim": true},
-        "lead": {"text": "붙잡은 손은 그 자리에 고정되므로, 팔을 움직이면 잡은 곳을 축으로 몸이 돌아가며 나아갑니다.", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기"],
-        "points": [],
         "visuals": [
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TB"
+          },
           {
             "kind": "image",
             "src": "images/move.gif",
             "w": 544,
             "h": 306,
-            "caption": {"text": "손으로 잡은 위치를 축으로 몸을 회전시키며 이동하는 장면", "verbatim": true}
-          },
-          {"kind": "table", "n": 1, "fp": "입력|결과"}
-        ]
-      },
-      {
-        "key": "body-parts",
-        "chapter": "movement",
-        "layout": "visual",
-        "tab": "구조",
-        "title": {"text": "3.1 일곱 조각으로 나눈 몸", "verbatim": true},
-        "lead": {"text": "입력은 `PlayerController` 한 곳이 받고, 각 조각은 넘겨받은 입력으로 자기 일만 한다", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.1 일곱 조각으로 나눈 몸"],
-        "points": [
-          {
-            "label": "이유",
-            "text": "결국 이동 방향은 팔이 정합니다. 그래서 입력은 `PlayerController`가 받고, 그 아래의 팔이 입력을 넘겨받아 방향을 정하게 했습니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [
-          {
-            "kind": "image",
-            "src": "images/ragdoll.png",
-            "w": 782,
-            "h": 355,
-            "caption": {"text": "Player 아래 Body·상완·하완·손으로 나뉜 7개 파츠 계층과 Scene 뷰", "verbatim": true}
-          },
-          {"kind": "mermaid", "n": 1, "fp": "flowchart TB"}
-        ]
-      },
-      {
-        "key": "torque-choice",
-        "chapter": "movement",
-        "layout": "visual",
-        "tab": "선택",
-        "title": {"text": "3.2 돌리는 힘 대신 미는 힘", "verbatim": true},
-        "lead": {"text": "토크로 돌리려면 무엇을 축으로 돌지 제가 직접 정해 줘야 했고, 그 축이 상황마다 바뀌었습니다.", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.2 돌리는 힘 대신 미는 힘"],
-        "points": [
-          {"label": "이유", "text": "프로젝트 기간이 3주로 짧았고, 조작은 핵심 기능이라 빨리 만들어 팀원들과 공유해야 했기 때문입니다.", "verbatim": true},
-          {"label": "치른 대가", "text": "물리적으로 더 정확한 토크를 포기한 것입니다.", "verbatim": true}
-        ],
-        "visuals": [
-          {
-            "kind": "image",
-            "src": "images/torque-axis.png",
-            "w": 588,
-            "h": 690,
-            "caption": {"text": "토크와 힘의 회전축 비교 그림", "verbatim": true}
-          },
-          {"kind": "table", "n": 2, "fp": "|토크로 돌리기|힘으로 밀기 ✓"}
-        ]
-      },
-      {
-        "key": "force-by-target",
-        "chapter": "movement",
-        "layout": "overview",
-        "tab": "구현",
-        "title": {"text": "3.3 잡은 대상에 따라 달라지는 힘", "verbatim": true},
-        "lead": {"text": "필요한 힘은 무엇을 잡았느냐에 따라 달랐습니다.", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.3 잡은 대상에 따라 달라지는 힘"],
-        "points": [
-          {"label": "땅을 잡았을 때", "text": "플레이어 자신을 옮길 만큼 충분한 힘", "verbatim": true},
-          {
-            "label": "물체를 잡았을 때",
-            "text": "그 물체를 들 정도의 힘만. 팀이 먼저 정한 \"물체의 무게에 따른 협동의 강제성\", 곧 무거운 물체는 함께 들어야 한다는 규칙 때문입니다.",
-            "verbatim": true
-          },
-          {"label": "구현", "text": "움직일 수 있는 물체를 잡으면 그 질량에 배율을 곱해 더하되, 강한 힘을 넘지 않게 합니다.", "verbatim": true}
-        ],
-        "visuals": []
-      },
-      {
-        "key": "multi-grab",
-        "chapter": "movement",
-        "layout": "problem",
-        "tab": "문제 해결",
-        "title": {"text": "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제"],
-        "points": [
-          {"label": "문제", "text": "한 플레이어가 블록을 잡고 있을 때 다른 플레이어가 같은 블록을 잡으면, 바닥을 잡아도 움직이지 못함", "verbatim": true},
-          {"label": "원인", "text": "3단계의 계산은 혼자 할 때가 기준이었음. 두 번째 플레이어에게 그 블록의 무게는 이미 '플레이어 + 블록'", "verbatim": true},
-          {
-            "label": "해결",
-            "text": "바닥을 잡은 플레이어가 강한 힘을 쓰고, 그 강한 힘이 잡고 있는 물체와 플레이어를 타고 차례로 전달되게 함 (사다리형 힘 전달)",
-            "verbatim": true
-          },
-          {
-            "label": "결과",
-            "text": "멀티플레이에서도 움직일 수 있는 구조가 됨. 잡은 대상이 플레이어여도 힘이 전달되므로, 다른 플레이어를 잡아 던지는 동작도 가능",
-            "verbatim": true
-          }
-        ],
-        "visuals": [
-          {
-            "kind": "image",
-            "src": "images/throw.gif",
-            "w": 544,
-            "h": 306,
-            "caption": {"text": "다른 플레이어를 잡아 날리는 장면", "verbatim": true}
+            "caption": {
+              "text": "손으로 잡은 위치를 축으로 몸을 회전시키며 이동하는 장면",
+              "verbatim": true
+            }
           }
         ]
-      },
-      {
-        "key": "ladder-force",
-        "chapter": "movement",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제", "verbatim": true},
-        "lead": {"text": "이렇게 강한 힘이 잡은 사람을 따라 한 칸씩 올라갑니다.", "verbatim": true},
-        "sectionPath": ["3. 팔에 힘을 줘서 몸 움직이기", "3.4 여럿이 같은 물체를 잡으면 움직이지 못하던 문제"],
-        "points": [
-          {
-            "label": "구현",
-            "text": "먼저 내 팔 중 하나라도 고정된 대상을 잡고 있는지(`UseForce`) 봅니다. 그렇다면 내가 사다리의 맨 아래이므로 강한 힘을 씁니다.",
-            "verbatim": true
-          },
-          {"label": "구현", "text": "아니라면 내가 잡은 플레이어가 강한 힘을 쓰고 있는지 보고, 그렇다면 나도 강한 힘을 씁니다.", "verbatim": true}
-        ],
-        "visuals": [{"kind": "code", "n": 1, "fp": "private void UpdateArmForce()", "lines": [1, 13]}]
-      },
-      {
-        "key": "host-choice",
-        "chapter": "sync",
-        "layout": "full",
-        "tab": "선택",
-        "title": {"text": "4.1 물리 계산을 누가 맡을 것인가", "verbatim": true},
-        "lead": {"text": "어차피 기준이 될 클라이언트를 정해야 한다면, 그 클라이언트가 물리 계산까지 맡는 편이 더 정확하다고 판단해 B를 골랐습니다.", "verbatim": true},
-        "sectionPath": ["4. 모든 화면에 같은 몸 보이기", "4.1 물리 계산을 누가 맡을 것인가"],
-        "points": [],
-        "visuals": [{"kind": "table", "n": 1, "fp": "|A. 서버가 계산|B. 호스트가 계산 ✓|C. 클라이언트가 각자 계산"}]
-      },
-      {
-        "key": "host-flow",
-        "chapter": "sync",
-        "layout": "visual",
-        "tab": "흐름",
-        "title": {"text": "4.1 물리 계산을 누가 맡을 것인가", "verbatim": true},
-        "lead": {"text": "계산이 서버가 아니라 호스트에서 일어난다", "verbatim": true},
-        "sectionPath": ["4. 모든 화면에 같은 몸 보이기", "4.1 물리 계산을 누가 맡을 것인가"],
-        "points": [
-          {"label": "치른 대가", "text": "게스트는 입력이 서버와 호스트를 거쳐 돌아와야 하므로 인터넷이 좋지 않으면 딜레이가 느껴질 수 있습니다.", "verbatim": true},
-          {"label": "결과", "text": "실제로 플레이해 봤을 때 딜레이는 느껴지지 않았습니다.", "verbatim": true},
-          {
-            "label": "",
-            "text": "구조를 정한 뒤에는, 플레이어 조작에 필요한 간단한 프로토콜(클라이언트와 서버가 주고받는 데이터의 약속)을 서버 코드까지 제가 직접 고쳤습니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [{"kind": "mermaid", "n": 1, "fp": "sequenceDiagram"}]
-      },
-      {
-        "key": "body-only",
-        "chapter": "sync",
-        "layout": "problem",
-        "tab": "문제 해결",
-        "title": {"text": "4.2 몸의 어디까지 보낼 것인가", "verbatim": true},
-        "lead": {"text": "처음에는 몸통의 상태만 보냈습니다.", "verbatim": true},
-        "sectionPath": ["4. 모든 화면에 같은 몸 보이기", "4.2 몸의 어디까지 보낼 것인가"],
-        "points": [
-          {"label": "문제", "text": "손 위치가 가장 중요한 게임인데, 클라이언트마다 손 위치가 맞지 않음", "verbatim": true},
-          {"label": "원인", "text": "몸통(Body)만 서버로 보내고, 호스트가 몸통 기준으로 계산해 뿌려 주면 위치만 맞추면 된다고 생각함", "verbatim": true},
-          {"label": "해결", "text": "몸통과 좌우 상완·하완, 다섯 조각의 상태와 좌우 손의 잡기 상태를 모두 보내도록 바꿈. 다른 방법은 검토하지 않음", "verbatim": true},
-          {"label": "결과", "text": "클라이언트 사이의 위치가 맞음", "verbatim": true}
-        ],
-        "visuals": []
-      },
-      {
-        "key": "part-state",
-        "chapter": "sync",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "4.2 몸의 어디까지 보낼 것인가", "verbatim": true},
-        "lead": null,
-        "sectionPath": ["4. 모든 화면에 같은 몸 보이기", "4.2 몸의 어디까지 보낼 것인가"],
-        "points": [
-          {
-            "label": "구현",
-            "text": "호스트가 다섯 조각의 `PartState`를 보내면, 다른 클라이언트는 직전 값과 새 값 사이를 부드럽게 채워(보간) 적용합니다.",
-            "verbatim": true
-          },
-          {"label": "", "text": "따로 위치를 맞출 필요가 없어 보내지 않습니다.", "verbatim": true}
-        ],
-        "visuals": [{"kind": "code", "n": 1, "fp": "// 서버 Protocol.cs — 플레이어 한 명의 상태 (조각과 잡기 부분)"}]
       },
       {
         "key": "grab-demo",
         "chapter": "grab",
         "layout": "visual",
         "tab": "결과",
-        "title": {"text": "5. 손으로 잡기", "verbatim": true},
-        "lead": {"text": "게임 중에는 벽돌 두 개와 바닥, 물고기처럼 세 개 이상의 대상이 동시에 손에 닿는 일이 자주 생깁니다.", "verbatim": true},
-        "sectionPath": ["5. 손으로 잡기"],
+        "title": {
+          "text": "4. 손으로 잡기",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "3장의 움직임에서 축이 되는 것은 손이 잡은 곳입니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "4. 손으로 잡기"
+        ],
         "points": [
           {
-            "label": "",
-            "text": "① 판자를 잡고 옮기는 중 → ② 판자를 잡은 손이 다른 플레이어와 부딪힘 → ③ 판자를 놓치지도, 그 플레이어를 잡지도 않고 계속 옮깁니다.",
+            "label": "상황",
+            "text": "게임 중에는 판자 두 개와 바닥, 물고기처럼 세 개 이상의 대상이 동시에 손에 닿는 일이 자주 생깁니다.",
+            "verbatim": true
+          },
+          {
+            "label": "필요했던 것",
+            "text": "\"지금 무엇을 잡을 것인가\"를 정하는 규칙이 필요했습니다.",
             "verbatim": true
           }
         ],
@@ -829,75 +580,458 @@
             "src": "images/grab-list.gif",
             "w": 544,
             "h": 306,
-            "caption": {"text": "나무 판자를 옮기던 손이 다른 플레이어와 부딪혀도 판자를 계속 잡고 있는 장면", "verbatim": true}
+            "caption": {
+              "text": "나무 판자를 옮기던 손이 다른 플레이어와 부딪혀도 판자를 계속 잡고 있는 장면",
+              "verbatim": true
+            }
           }
         ]
       },
       {
-        "key": "first-grab",
+        "key": "grab-list",
         "chapter": "grab",
-        "layout": "full",
+        "layout": "visual",
         "tab": "선택",
-        "title": {"text": "5.1 먼저 잡은 것을 계속 잡는 규칙", "verbatim": true},
-        "lead": {"text": "잡을 수 있는 대상을 모두 목록으로 들고 있다가, 먼저 들어온 대상을 우선하기로 했습니다.", "verbatim": true},
-        "sectionPath": ["5. 손으로 잡기", "5.1 먼저 잡은 것을 계속 잡는 규칙"],
-        "points": [],
-        "visuals": [{"kind": "table", "n": 1, "fp": "|잡을 대상을 하나만 기억|손에 닿은 대상을 모두 기억하고, 먼저 닿은 것을 우선 ✓"}]
-      },
-      {
-        "key": "grab-list-code",
-        "chapter": "grab",
-        "layout": "code",
-        "tab": "구현",
-        "title": {"text": "5.1 먼저 잡은 것을 계속 잡는 규칙", "verbatim": true},
-        "lead": {"text": "잡을 대상은 언제나 목록의 맨 앞(`targets[0]`)이므로, 나중에 닿은 것이 먼저 잡은 것을 밀어내지 않습니다.", "verbatim": true},
-        "sectionPath": ["5. 손으로 잡기", "5.1 먼저 잡은 것을 계속 잡는 규칙"],
-        "points": [{"label": "이유", "text": "큐나 스택으로 처리하기가 번거로워, 중간 제거가 쉬운 리스트를 골랐습니다.", "verbatim": true}],
-        "visuals": [{"kind": "code", "n": 1, "fp": "private void OnTriggerEnter2D(Collider2D other)"}]
-      },
-      {
-        "key": "grab-api",
-        "chapter": "grab",
-        "layout": "overview",
-        "tab": "문제 해결",
-        "title": {"text": "5.2 물고기와 잡기 여부를 미리 맞추지 않았던 일", "verbatim": true},
-        "lead": {"text": "시작할 때 둘 사이에서 쓸 함수와 데이터의 약속(API)을 정하지 않았습니다.", "verbatim": true},
-        "sectionPath": ["5. 손으로 잡기", "5.2 물고기와 잡기 여부를 미리 맞추지 않았던 일"],
+        "title": {
+          "text": "4.1 먼저 잡은 것을 계속 잡는 규칙",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "잡을 수 있는 대상을 모두 목록으로 들고 있다가, 먼저 들어온 대상을 우선하기로 했습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "4. 손으로 잡기",
+          "4.1 먼저 잡은 것을 계속 잡는 규칙"
+        ],
         "points": [
-          {"label": "문제", "text": "팀원 C는 플레이어 코드를 직접 고쳐서 썼고, 저는 다음 날 학원에서 작업하다 이를 알았습니다.", "verbatim": true},
-          {"label": "해결", "text": "결과적으로 팀원 C가 고친 부분은 사라지고, 제 쪽 내용을 조금 바꿨습니다.", "verbatim": true},
           {
-            "label": "배운 점",
-            "text": "문제는 \"플레이어와 물고기 모두 이것으로 잡기 여부를 판단한다\"는 하나의 합의점이 없었던 것이고, 그래서 서로 조금씩 다른 구조가 나왔습니다.",
+            "label": "선택",
+            "text": "이것저것 종합해 보니 중간에 있는 대상을 바로 뺄 수 있는 리스트가 제게는 더 편했습니다.",
             "verbatim": true
           }
         ],
-        "visuals": []
+        "visuals": [
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "|잡을 대상을 하나만 기억|손에 닿은 대상을 모두 기억하고, 먼저 닿은 것을 우선 ✓"
+          },
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "sequenceDiagram"
+          }
+        ]
+      },
+      {
+        "key": "multi-grab",
+        "chapter": "lift",
+        "layout": "problem",
+        "tab": "문제 해결",
+        "title": {
+          "text": "5.2 함께 잡으면 못 움직이던 문제",
+          "verbatim": true
+        },
+        "lead": null,
+        "sectionPath": [
+          "5. 서로 붙잡고 끌어올리기",
+          "5.2 함께 잡으면 못 움직이던 문제"
+        ],
+        "points": [
+          {
+            "label": "문제",
+            "text": "한 플레이어가 판자를 잡고 있을 때 다른 플레이어가 같은 판자를 잡으면, 바닥을 잡아도 움직이지 못함",
+            "verbatim": true
+          },
+          {
+            "label": "원인",
+            "text": "두 번째 플레이어에게 그 판자의 무게는 이미 '플레이어 + 판자'",
+            "verbatim": true
+          },
+          {
+            "label": "해결",
+            "text": "바닥을 잡은 플레이어가 강한 힘을 쓰고, 그 강한 힘이 잡고 있는 물체와 플레이어를 타고 차례로 전달되게 함 (사다리형 힘 전달)",
+            "verbatim": true
+          },
+          {
+            "label": "결과",
+            "text": "멀티플레이에서도 움직일 수 있는 구조가 됨",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TB"
+          }
+        ]
+      },
+      {
+        "key": "ladder-force",
+        "chapter": "lift",
+        "layout": "code",
+        "tab": "구현",
+        "title": {
+          "text": "5.2 함께 잡으면 못 움직이던 문제",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "이 전달은 플레이어 본체의 함수 하나가 물리 프레임마다 맡습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "5. 서로 붙잡고 끌어올리기",
+          "5.2 함께 잡으면 못 움직이던 문제"
+        ],
+        "points": [
+          {
+            "label": "",
+            "text": "바닥을 잡은 사람은 사다리의 맨 아래입니다.",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "그렇지 않으면 내가 잡은 사람을 봅니다.",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "잡은 조각의 부모까지 찾아봅니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "code",
+            "n": 1,
+            "fp": "// PlayerController.cs (발췌) — 강한 힘을 사다리처럼 이어 받기",
+            "lines": [
+              4,
+              23
+            ]
+          }
+        ]
+      },
+      {
+        "key": "stuck-force",
+        "chapter": "lift",
+        "layout": "visual",
+        "tab": "결과",
+        "title": {
+          "text": "5.2 함께 잡으면 못 움직이던 문제",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "서로 붙잡고 있으면, 바닥을 잡았던 플레이어가 지형을 놓아도 강한 힘이 그대로 유지됩니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "5. 서로 붙잡고 끌어올리기",
+          "5.2 함께 잡으면 못 움직이던 문제"
+        ],
+        "points": [
+          {
+            "label": "결과",
+            "text": "프로젝트가 끝나고 연 시연 시간에는 약 16명이 플레이했고, 저희 팀은 뒤에서 지켜봤습니다. 이 문제는 그때 딱 한 번 나왔습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "플레이어는 이것을 버그가 아니라 물리 때문에 뜬 것으로 받아들였습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "mermaid",
+            "n": 2,
+            "fp": "flowchart TB"
+          }
+        ]
+      },
+      {
+        "key": "host-choice",
+        "chapter": "sync",
+        "layout": "visual",
+        "tab": "선택",
+        "title": {
+          "text": "6.1 누가 계산하고, 무엇을 보낼까",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "어차피 기준이 될 클라이언트를 정해야 한다면, 그 클라이언트가 물리 계산까지 맡는 편이 더 정확하다고 판단해 호스트 방식을 골랐습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "6. 모든 화면에 같은 몸 보이기",
+          "6.1 누가 계산하고, 무엇을 보낼까"
+        ],
+        "points": [
+          {
+            "label": "",
+            "text": "서버 계산은 처음부터 뺐습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "각자 계산하면 정답이 없습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "",
+            "text": "물체마다 계산할 사람을 정하는 방법도 뺐습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "치른 대가",
+            "text": "치른 대가는 게스트의 반응 속도입니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TB"
+          }
+        ]
+      },
+      {
+        "key": "body-only",
+        "chapter": "sync",
+        "layout": "problem",
+        "tab": "문제 해결",
+        "title": {
+          "text": "6.1 누가 계산하고, 무엇을 보낼까",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "이 게임에서 반드시 같아야 하는 것은 몸통이 아니라 손이었습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "6. 모든 화면에 같은 몸 보이기",
+          "6.1 누가 계산하고, 무엇을 보낼까"
+        ],
+        "points": [
+          {
+            "label": "문제",
+            "text": "손 위치가 가장 중요한 게임인데, 클라이언트마다 손 위치가 맞지 않음",
+            "verbatim": true
+          },
+          {
+            "label": "원인",
+            "text": "몸통(Body)만 서버로 보내고, 호스트가 몸통 기준으로 계산해 뿌려 주면 위치만 맞추면 된다고 생각함",
+            "verbatim": true
+          },
+          {
+            "label": "해결",
+            "text": "몸통과 좌우 상완·하완, 다섯 조각의 상태와 좌우 손의 잡기 상태를 모두 보내도록 바꿈",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "table",
+            "n": 2,
+            "fp": "조각|보내는 것|이유"
+          }
+        ]
+      },
+      {
+        "key": "sync-result",
+        "chapter": "sync",
+        "layout": "visual",
+        "tab": "결과",
+        "title": {
+          "text": "6.2 다섯 조각을 보내자 맞은 손",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "다섯 조각을 모두 보내도록 바꾼 뒤 클라이언트 사이의 손 위치가 맞았습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "6. 모든 화면에 같은 몸 보이기",
+          "6.2 다섯 조각을 보내자 맞은 손"
+        ],
+        "points": [
+          {
+            "label": "",
+            "text": "걱정했던 게스트의 딜레이도 학원에서, 그리고 팀원들이 각자 집에서 테스트했을 때 느껴지지 않았습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TB"
+          },
+          {
+            "kind": "image",
+            "src": "images/network-crop.gif",
+            "w": 276,
+            "h": 154,
+            "caption": {
+              "text": "두 클라이언트 화면에서 같은 플레이어가 함께 움직이는 장면",
+              "verbatim": true
+            }
+          }
+        ]
+      },
+      {
+        "key": "grab-api",
+        "chapter": "foodchain",
+        "layout": "visual",
+        "tab": "선택",
+        "title": {
+          "text": "7.1 팀원이 고친 손 코드를 그대로 둘까",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "그런데 시작할 때 둘 사이에서 쓸 함수와 데이터의 약속(API)을 정하지 않았습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "7. 물고기 잡기와 먹이사슬",
+          "7.1 팀원이 고친 손 코드를 그대로 둘까"
+        ],
+        "points": [
+          {
+            "label": "판단",
+            "text": "물고기가 \"내가 잡혔는가\"를 알려면 이 가운데 `IsGrabbing` 하나면 충분했습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "결과",
+            "text": "고친 뒤 물고기가 손에서 보는 것은 잡기 여부 하나로 줄었습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TB"
+          }
+        ]
+      },
+      {
+        "key": "grab-api-commits",
+        "chapter": "foodchain",
+        "layout": "screens",
+        "tab": "결과",
+        "title": {
+          "text": "7.1 팀원이 고친 손 코드를 그대로 둘까",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "판단할 근거는 기록에 있었습니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "7. 물고기 잡기와 먹이사슬",
+          "7.1 팀원이 고친 손 코드를 그대로 둘까"
+        ],
+        "points": [
+          {
+            "label": "",
+            "text": "AI와 함께 쓴 코드라도 의도를 묻고 한 줄씩 확인하면 따라갈 수 있었고, 따라가기 어려웠던 것은 코드보다 파트 사이에 약속이 없었던 쪽이었습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/hand-change.jpg",
+            "w": 812,
+            "h": 398,
+            "caption": {
+              "text": "팀원 C가 손 코드를 고친 커밋",
+              "verbatim": true
+            }
+          },
+          {
+            "kind": "image",
+            "src": "images/hand-fix.jpg",
+            "w": 501,
+            "h": 256,
+            "caption": {
+              "text": "팀원 C와 함께 고친 커밋",
+              "verbatim": true
+            }
+          }
+        ]
       },
       {
         "key": "food-states",
         "chapter": "foodchain",
         "layout": "visual",
         "tab": "흐름",
-        "title": {"text": "6. 물고기 먹이사슬", "verbatim": true},
-        "lead": {"text": "물고기마다 크기를 정해 두고, 물고기 본체(상위 계층)에서 서로의 크기를 비교해 먹을 수 있는지(`CanEat`) 판단합니다.", "verbatim": true},
-        "sectionPath": ["6. 물고기 먹이사슬"],
-        "points": [{"label": "", "text": "물고기의 행동은 팀원 C의 몫이고, 저는 그중 먹이사슬 판정을 맡았습니다.", "verbatim": true}],
-        "visuals": [{"kind": "mermaid", "n": 1, "fp": "stateDiagram-v2"}]
+        "title": {
+          "text": "7.2 물고기 먹이사슬",
+          "verbatim": true
+        },
+        "lead": {
+          "text": "모든 물고기는 먹이사슬에 속하지만, 하는 일은 종류마다 다릅니다.",
+          "verbatim": true
+        },
+        "sectionPath": [
+          "7. 물고기 잡기와 먹이사슬",
+          "7.2 물고기 먹이사슬"
+        ],
+        "points": [],
+        "visuals": [
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "종류|예|먹이사슬에서 하는 일"
+          },
+          {
+            "kind": "mermaid",
+            "n": 1,
+            "fp": "flowchart TB"
+          }
+        ]
       },
       {
         "key": "dash-loop",
         "chapter": "foodchain",
         "layout": "problem",
         "tab": "문제 해결",
-        "title": {"text": "6.1 돌진과 먹이 추적을 끝없이 오가던 문제", "verbatim": true},
+        "title": {
+          "text": "7.3 돌진과 먹이 사이를 오가던 문제",
+          "verbatim": true
+        },
         "lead": null,
-        "sectionPath": ["6. 물고기 먹이사슬", "6.1 돌진과 먹이 추적을 끝없이 오가던 문제"],
+        "sectionPath": [
+          "7. 물고기 잡기와 먹이사슬",
+          "7.3 돌진과 먹이 사이를 오가던 문제"
+        ],
         "points": [
-          {"label": "문제", "text": "상어가 플레이어에게 돌진하는 것과 먹이를 쫓는 것 사이를 끝없이 오감", "verbatim": true},
-          {"label": "원인", "text": "배고픔에 따라 먹이를 쫓는 기능이, 상어처럼 플레이어에게 돌진하는 패턴과 부딪침", "verbatim": true},
-          {"label": "해결", "text": "먹이 판정을 물고기 본체(상위 계층)로 옮기고, 상태 사이를 오가는 조건(FSM)을 조절", "verbatim": true},
-          {"label": "결과", "text": "상어는 배고프면 물고기를 먹으러 다니지만, 플레이어에게 돌진하는 동안에는 먹이를 쫓지 않음", "verbatim": true}
+          {
+            "label": "문제",
+            "text": "상어가 플레이어에게 돌진하는 것과 먹이를 쫓는 것 사이를 끝없이 오감",
+            "verbatim": true
+          },
+          {
+            "label": "원인",
+            "text": "배고픔에 따라 먹이를 쫓는 기능이, 상어처럼 플레이어에게 돌진하는 패턴과 부딪침",
+            "verbatim": true
+          },
+          {
+            "label": "해결",
+            "text": "먹이 판정을 물고기 본체(상위 계층)로 옮기고, 상태 사이를 오가는 조건(FSM)을 조절",
+            "verbatim": true
+          },
+          {
+            "label": "결과",
+            "text": "고친 뒤의 상어는 플레이어에게 돌진하는 동안에는 먹이를 쫓지 않고, 배가 고프면 물고기를 먹으러 다닙니다.",
+            "verbatim": false
+          }
         ],
         "visuals": [
           {
@@ -905,7 +1039,13 @@
             "src": "images/pattern.gif",
             "w": 544,
             "h": 306,
-            "caption": {"text": "상어가 플레이어에게 돌진하는 패턴 중에는 먹이를 쫓지 않는 장면", "verbatim": true}
+            "caption": {
+              "text": "상어가 플레이어에게 돌진하는 패턴 중에는 먹이를 쫓지 않는 장면",
+              "verbatim": true
+            },
+            "sectionPath": [
+              "7. 물고기 잡기와 먹이사슬"
+            ]
           }
         ]
       },
@@ -914,13 +1054,23 @@
         "chapter": "extras",
         "layout": "full",
         "tab": "",
-        "title": {"text": "7. 그 밖에 맡은 것", "verbatim": true},
+        "title": {
+          "text": "8. 그 밖에 맡은 것",
+          "verbatim": true
+        },
         "lead": null,
-        "sectionPath": ["7. 그 밖에 맡은 것"],
+        "sectionPath": [
+          "8. 그 밖에 맡은 것"
+        ],
         "points": [],
-        "visuals": [{"kind": "table", "n": 1, "fp": "항목|무엇을|이렇게 한 이유 · 출처"}]
+        "visuals": [
+          {
+            "kind": "table",
+            "n": 1,
+            "fp": "항목|무엇을|이렇게 한 이유 · 출처"
+          }
+        ]
       }
-    ],
-    "applied": "51116d00ba839f71"
+    ]
   }
 }
