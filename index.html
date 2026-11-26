@@ -418,7 +418,7 @@ footer a{color:var(--accent)}
         ${metaDl ? `<dl class="meta">${metaDl}</dl>` : ''}
         ${p.intent && p.intent.text ? `<div class="intent"><span class="k">${T('name.intent')}</span><p>${PF.inline(p.intent.text)}</p></div>` : ''}
         <div class="tags">${(p.tags || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
-        <div class="btns"><a class="pri" href="${deck}">${T('name.deck')}</a><a href="${doc}">${T('name.doc')}</a>${p.links.github ? `<a href="${esc(p.links.github)}" target="_blank" rel="noopener">GitHub</a>` : ''}${p.links.video ? `<a href="${esc(p.links.video)}" target="_blank" rel="noopener">${T('name.video')}</a>` : ''}${game ? `<a href="${esc(game.href)}" target="_blank" rel="noopener">▶ 웹에서 플레이</a>` : ''}</div>
+        <div class="btns">${p.links.video ? `<a class="pri" href="${esc(p.links.video)}" target="_blank" rel="noopener">${T('name.video')}</a>` : ''}<a${p.links.video ? '' : ' class="pri"'} href="${deck}">${T('name.deck')}</a><a href="${doc}">${T('name.doc')}</a>${p.links.github ? `<a href="${esc(p.links.github)}" target="_blank" rel="noopener">GitHub</a>` : ''}${game ? `<a href="${esc(game.href)}" target="_blank" rel="noopener">▶ 웹에서 플레이</a>` : ''}</div>
       </div></article>`;
     const feats = (p.highlights || []).map((f, i) => {
       const d = f.image ? null : (DRAFT_IMG[p.id] || {})[f.title];
