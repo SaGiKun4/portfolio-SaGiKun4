@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "pin": [
+    {
+      "key": "bookshelf-choice",
+      "chapter": "map",
+      "layout": "visual",
+      "tab": "선택",
+      "title": {
+        "text": "6.2 책 1,574권을 어떻게 줄일까?",
+        "verbatim": true
+      },
+      "lead": {
+        "text": "대안 B를 고르고, A의 GPU Instancing도 그대로 두었습니다.",
+        "verbatim": true
+      },
+      "sectionPath": [
+        "6. 방과 통로를 이어 붙이는 맵",
+        "6.2 책 1,574권을 어떻게 줄일까?"
+      ],
+      "points": [
+        {
+          "label": "이유",
+          "text": "그리기 호출만이 아니라, 방을 만들 때마다 생기는 책 오브젝트 자체를 없애고 싶었기 때문입니다.",
+          "verbatim": true
+        },
+        {
+          "label": "결과",
+          "text": "이 작업만의 효과로 확실히 말할 수 있는 것은 Renderer 1,652 → 78입니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "image",
+          "src": "images/bookshelf-patterns.png",
+          "w": 1057,
+          "h": 654,
+          "caption": {
+            "text": "책이 꽂힌 책장 패턴 5종 (머티리얼 없이 모델만 띄운 화면)",
+            "verbatim": true
+          }
+        }
+      ],
+      "from": {
+        "key": "bookshelf-choice",
+        "sectionPath": [
+          "6. 방과 통로를 이어 붙이는 맵",
+          "6.2 책 1,574권을 어떻게 줄일까?"
+        ],
+        "sig": [
+          "6.2 책 1,574권을 어떻게 줄일까?|image|images/bookshelf-patterns.png|1",
+          "6.2 책 1,574권을 어떻게 줄일까?|table|2|항목|이전|이후"
+        ]
+      }
+    },
+    {
+      "key": "modular",
+      "chapter": "map",
+      "layout": "visual",
+      "tab": "문제 해결",
+      "title": {
+        "text": "6.1 문 위치로 방 잇기",
+        "verbatim": true
+      },
+      "lead": null,
+      "sectionPath": [
+        "6. 방과 통로를 이어 붙이는 맵",
+        "6.1 문 위치로 방 잇기"
+      ],
+      "points": [
+        {
+          "label": "문제",
+          "text": "두 문의 회전값이 서로 달라서, 문이 아니라 방 전체가 겹쳐 버렸습니다",
+          "verbatim": true
+        },
+        {
+          "label": "기준",
+          "text": "코드가 방을 어떻게 돌리는지 몰라도 방을 만들 수 있는 기준이 필요하다고 봤습니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "image",
+          "src": "images/modular-overlap.jpg",
+          "w": 1200,
+          "h": 1095,
+          "caption": {
+            "text": "방 A와 방 B를 문 위치로 이었을 때 문이 아니라 방 전체가 겹친 모습",
+            "verbatim": true
+          },
+          "sectionPath": [
+            "6. 방과 통로를 이어 붙이는 맵"
+          ]
+        }
+      ],
+      "from": {
+        "key": "modular",
+        "sectionPath": [
+          "6. 방과 통로를 이어 붙이는 맵",
+          "6.1 문 위치로 방 잇기"
+        ],
+        "sig": [
+          "6. 방과 통로를 이어 붙이는 맵|image|images/modular-overlap.jpg|1",
+          "6.1 문 위치로 방 잇기|image|images/door-rotation.jpg|1"
+        ]
+      },
+      "group": "split-modular-fix"
+    },
+    {
+      "key": "modular-fix",
+      "chapter": "map",
+      "layout": "visual",
+      "tab": "문제 해결",
+      "title": {
+        "text": "6.1 문 위치로 방 잇기",
+        "verbatim": true
+      },
+      "lead": null,
+      "sectionPath": [
+        "6. 방과 통로를 이어 붙이는 맵",
+        "6.1 문 위치로 방 잇기"
+      ],
+      "points": [
+        {
+          "label": "해결",
+          "text": "시작 문과 끝 문의 회전을 -90/90에서 90으로 통일해, 위치만 다르고 나머지는 완전히 같은 문 에셋으로 만들었습니다.",
+          "verbatim": true
+        },
+        {
+          "label": "결과",
+          "text": "방은 문 기준만 지켜 만들면 되고 사이는 통로가 이어 주므로, 이후로는 문 문제가 없었습니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "image",
+          "src": "images/door-rotation.jpg",
+          "w": 1082,
+          "h": 494,
+          "caption": {
+            "text": "문 에셋의 인스펙터. Rotation Y가 90으로 맞춰져 있음",
+            "verbatim": true
+          }
+        }
+      ],
+      "after": "modular",
+      "group": "split-modular-fix"
+    }
+  ],
+  "hide": []
+}

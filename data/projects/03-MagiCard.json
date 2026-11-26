@@ -167,55 +167,13 @@
   },
   "deck": {
     "chapters": [
-      {
-        "key": "overview",
-        "title": "개요",
-        "sectionPath": [
-          "1. 개요"
-        ]
-      },
-      {
-        "key": "play",
-        "title": "한 판의 흐름",
-        "sectionPath": [
-          "2. 한 판의 흐름"
-        ]
-      },
-      {
-        "key": "combo",
-        "title": "카드 조합: 쌓은 순서가 결과가 된다",
-        "sectionPath": [
-          "3. 카드 조합: 쌓은 순서가 결과가 된다"
-        ]
-      },
-      {
-        "key": "mass",
-        "title": "쏟아지는 카드 감당하기",
-        "sectionPath": [
-          "4. 쏟아지는 카드 감당하기"
-        ]
-      },
-      {
-        "key": "killgraph",
-        "title": "킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나",
-        "sectionPath": [
-          "5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나"
-        ]
-      },
-      {
-        "key": "map",
-        "title": "방과 통로를 이어 붙이는 맵",
-        "sectionPath": [
-          "6. 방과 통로를 이어 붙이는 맵"
-        ]
-      },
-      {
-        "key": "collab",
-        "title": "AI와 일한 방식",
-        "sectionPath": [
-          "7. AI와 일한 방식"
-        ]
-      }
+      {"key": "overview", "title": "개요", "sectionPath": ["1. 개요"]},
+      {"key": "play", "title": "한 판의 흐름", "sectionPath": ["2. 한 판의 흐름"]},
+      {"key": "combo", "title": "카드 조합: 쌓은 순서가 결과가 된다", "sectionPath": ["3. 카드 조합: 쌓은 순서가 결과가 된다"]},
+      {"key": "mass", "title": "쏟아지는 카드 감당하기", "sectionPath": ["4. 쏟아지는 카드 감당하기"]},
+      {"key": "killgraph", "title": "킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나", "sectionPath": ["5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나"]},
+      {"key": "map", "title": "방과 통로를 이어 붙이는 맵", "sectionPath": ["6. 방과 통로를 이어 붙이는 맵"]},
+      {"key": "collab", "title": "AI와 일한 방식", "sectionPath": ["7. AI와 일한 방식"]}
     ],
     "slides": [
       {
@@ -223,81 +181,37 @@
         "chapter": "overview",
         "layout": "overview",
         "tab": "개요",
-        "title": {
-          "text": "1. 개요",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "MagiCard는 총알 대신 카드를 쏘는 1인칭 슈터입니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "1. 개요"
-        ],
+        "title": {"text": "1. 개요", "verbatim": true},
+        "lead": {"text": "MagiCard는 총알 대신 카드를 쏘는 1인칭 슈터입니다.", "verbatim": true},
+        "sectionPath": ["1. 개요"],
         "points": [
-          {
-            "label": "목표한 경험",
-            "text": "플레이어가 한 번의 공격으로 여러 적을 한꺼번에 쓰러뜨리는 쾌감을 느끼기를 바랐습니다.",
-            "verbatim": true
-          },
+          {"label": "목표한 경험", "text": "플레이어가 한 번의 공격으로 여러 적을 한꺼번에 쓰러뜨리는 쾌감을 느끼기를 바랐습니다.", "verbatim": true},
           {
             "label": "플레이의 중심",
             "text": "정확히 조준하는 실력보다, 어떤 카드로 덱을 꾸리고 그 자리에서 어떤 순서로 쓸지 판단하는 것이 플레이의 중심이 되도록 했습니다.",
             "verbatim": true
           },
-          {
-            "label": "개인 목표",
-            "text": "AI와 함께 만들었을 때 제 역량을 어디까지 끌어낼 수 있는지 시험해 보기로 했습니다.",
-            "verbatim": true
-          }
+          {"label": "개인 목표", "text": "AI와 함께 만들었을 때 제 역량을 어디까지 끌어낼 수 있는지 시험해 보기로 했습니다.", "verbatim": true}
         ],
-        "visuals": [
-          {
-            "kind": "table",
-            "n": 1,
-            "fp": "핵심 기능|부딪힌 문제|이렇게 풀었다"
-          }
-        ]
+        "visuals": [{"kind": "table", "n": 1, "fp": "핵심 기능|부딪힌 문제|이렇게 풀었다"}]
       },
       {
         "key": "battle-loop",
         "chapter": "play",
         "layout": "visual",
         "tab": "흐름",
-        "title": {
-          "text": "2.1 방을 비우고 덱을 키우는 반복",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "한 판은 두 개의 반복으로 이루어집니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "2. 한 판의 흐름",
-          "2.1 방을 비우고 덱을 키우는 반복"
-        ],
-        "points": [
-          {
-            "label": "",
-            "text": "방은 작은 방, 중간 방, 큰 방을 거쳐 보스방으로 이어집니다.",
-            "verbatim": true
-          }
-        ],
+        "title": {"text": "2.1 방을 비우고 덱을 키우는 반복", "verbatim": true},
+        "lead": {"text": "한 판은 두 개의 반복으로 이루어집니다.", "verbatim": true},
+        "sectionPath": ["2. 한 판의 흐름", "2.1 방을 비우고 덱을 키우는 반복"],
+        "points": [{"label": "", "text": "방은 작은 방, 중간 방, 큰 방을 거쳐 보스방으로 이어집니다.", "verbatim": true}],
         "visuals": [
-          {
-            "kind": "mermaid",
-            "n": 1,
-            "fp": "flowchart TD"
-          },
+          {"kind": "mermaid", "n": 1, "fp": "flowchart TD"},
           {
             "kind": "image",
             "src": "images/reload.gif",
             "w": 544,
             "h": 306,
-            "caption": {
-              "text": "공격, 분열, 공격 카드를 차례로 쏘고 손패를 다 쓰자 저절로 재장전되는 장면",
-              "verbatim": true
-            }
+            "caption": {"text": "공격, 분열, 공격 카드를 차례로 쏘고 손패를 다 쓰자 저절로 재장전되는 장면", "verbatim": true}
           }
         ]
       },
@@ -306,44 +220,20 @@
         "chapter": "play",
         "layout": "full",
         "tab": "개요",
-        "title": {
-          "text": "2.4 참고한 게임",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "세 게임의 조작과 재미를 그대로 옮기지 않고, 덱빌딩의 조합을 1인칭 슈터의 발사체 하나에 모으는 쪽으로 합쳤습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "2. 한 판의 흐름",
-          "2.4 참고한 게임"
-        ],
+        "title": {"text": "2.4 참고한 게임", "verbatim": true},
+        "lead": {"text": "세 게임의 조작과 재미를 그대로 옮기지 않고, 덱빌딩의 조합을 1인칭 슈터의 발사체 하나에 모으는 쪽으로 합쳤습니다.", "verbatim": true},
+        "sectionPath": ["2. 한 판의 흐름", "2.4 참고한 게임"],
         "points": [],
-        "visuals": [
-          {
-            "kind": "table",
-            "n": 1,
-            "fp": "게임|가져온 것|MagiCard에서 바꾼 것"
-          }
-        ]
+        "visuals": [{"kind": "table", "n": 1, "fp": "게임|가져온 것|MagiCard에서 바꾼 것"}]
       },
       {
         "key": "stack-fire",
         "chapter": "combo",
         "layout": "visual",
         "tab": "구조",
-        "title": {
-          "text": "3.1 카드는 성질만, 남은 횟수는 발사체에",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "여러 발사체가 같은 카드 객체를 함께 씁니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "3. 카드 조합: 쌓은 순서가 결과가 된다",
-          "3.1 카드는 성질만, 남은 횟수는 발사체에"
-        ],
+        "title": {"text": "3.1 카드는 성질만, 남은 횟수는 발사체에", "verbatim": true},
+        "lead": {"text": "여러 발사체가 같은 카드 객체를 함께 씁니다.", "verbatim": true},
+        "sectionPath": ["3. 카드 조합: 쌓은 순서가 결과가 된다", "3.1 카드는 성질만, 남은 횟수는 발사체에"],
         "points": [
           {
             "label": "",
@@ -362,16 +252,9 @@
             "src": "images/enchant.gif",
             "w": 544,
             "h": 306,
-            "caption": {
-              "text": "강화 카드를 한 장씩 쏘아 강화를 쌓은 뒤 공격 카드로 한 번에 쏘는 장면",
-              "verbatim": true
-            }
+            "caption": {"text": "강화 카드를 한 장씩 쏘아 강화를 쌓은 뒤 공격 카드로 한 번에 쏘는 장면", "verbatim": true}
           },
-          {
-            "kind": "table",
-            "n": 1,
-            "fp": "|카드|맵"
-          }
+          {"kind": "table", "n": 1, "fp": "|카드|맵"}
         ]
       },
       {
@@ -379,104 +262,46 @@
         "chapter": "combo",
         "layout": "visual",
         "tab": "선택",
-        "title": {
-          "text": "3.2 관통과 반사를 함께 쌓을 수 있을까?",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "두 카드는 같은 면을 만났을 때 정반대로 움직입니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "3. 카드 조합: 쌓은 순서가 결과가 된다",
-          "3.2 관통과 반사를 함께 쌓을 수 있을까?"
-        ],
+        "title": {"text": "3.2 관통과 반사를 함께 쌓을 수 있을까?", "verbatim": true},
+        "lead": {"text": "두 카드는 같은 면을 만났을 때 정반대로 움직입니다.", "verbatim": true},
+        "sectionPath": ["3. 카드 조합: 쌓은 순서가 결과가 된다", "3.2 관통과 반사를 함께 쌓을 수 있을까?"],
         "points": [
-          {
-            "label": "",
-            "text": "다만 세 시도 모두 \"두 카드가 어떻게 다투지 않게 할까\"를 푸는 규칙이라, 시도할수록 막는 규칙만 늘었습니다.",
-            "verbatim": true
-          },
+          {"label": "", "text": "다만 세 시도 모두 \"두 카드가 어떻게 다투지 않게 할까\"를 푸는 규칙이라, 시도할수록 막는 규칙만 늘었습니다.", "verbatim": true},
           {
             "label": "다시 짚은 문제",
             "text": "지금 문제가 충돌 카드가 서로 경쟁하는 구조에 있는게 아니라 관통과 반사가 운동량의 변화가 정 반대라서 그런거 같아",
             "verbatim": true
           }
         ],
-        "visuals": [
-          {
-            "kind": "mermaid",
-            "n": 1,
-            "fp": "flowchart TB"
-          }
-        ]
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
       },
       {
         "key": "role-axis",
         "chapter": "combo",
         "layout": "full",
         "tab": "선택",
-        "title": {
-          "text": "3.2 관통과 반사를 함께 쌓을 수 있을까?",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "기준을 두 카드를 함께 쌓은 플레이어는 무엇을 기대할까? 로 두었습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "3. 카드 조합: 쌓은 순서가 결과가 된다",
-          "3.2 관통과 반사를 함께 쌓을 수 있을까?"
-        ],
-        "points": [
-          {
-            "label": "",
-            "text": "문제를 다시 정의한 것은 저였고, 그것을 구조로 옮긴 것은 AI였습니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [
-          {
-            "kind": "table",
-            "n": 1,
-            "fp": "|다툼을 규칙으로 조정 (시도 1–3)|역할로 나누기 ✓"
-          }
-        ]
+        "title": {"text": "3.2 관통과 반사를 함께 쌓을 수 있을까?", "verbatim": true},
+        "lead": {"text": "기준을 두 카드를 함께 쌓은 플레이어는 무엇을 기대할까? 로 두었습니다.", "verbatim": true},
+        "sectionPath": ["3. 카드 조합: 쌓은 순서가 결과가 된다", "3.2 관통과 반사를 함께 쌓을 수 있을까?"],
+        "points": [{"label": "", "text": "문제를 다시 정의한 것은 저였고, 그것을 구조로 옮긴 것은 AI였습니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|다툼을 규칙으로 조정 (시도 1–3)|역할로 나누기 ✓"}]
       },
       {
         "key": "claim",
         "chapter": "combo",
         "layout": "visual",
         "tab": "구현",
-        "title": {
-          "text": "3.3 충돌 한 번에 반응은 한 장",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "\"한 번의 충돌은 한 장만 맡는다\"는 규칙은 권리를 먼저 가져가는 방식으로 만들었습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "3. 카드 조합: 쌓은 순서가 결과가 된다",
-          "3.3 충돌 한 번에 반응은 한 장"
-        ],
-        "points": [
-          {
-            "label": "",
-            "text": "이런 구조로, 플레이어가 쌓은 순서가 분열한 자식까지 그대로 결과가 되는 발사체를 만들었습니다.",
-            "verbatim": true
-          }
-        ],
+        "title": {"text": "3.3 충돌 한 번에 반응은 한 장", "verbatim": true},
+        "lead": {"text": "\"한 번의 충돌은 한 장만 맡는다\"는 규칙은 권리를 먼저 가져가는 방식으로 만들었습니다.", "verbatim": true},
+        "sectionPath": ["3. 카드 조합: 쌓은 순서가 결과가 된다", "3.3 충돌 한 번에 반응은 한 장"],
+        "points": [{"label": "", "text": "이런 구조로, 플레이어가 쌓은 순서가 분열한 자식까지 그대로 결과가 되는 발사체를 만들었습니다.", "verbatim": true}],
         "visuals": [
           {
             "kind": "image",
             "src": "images/pierce-ricochet.gif",
             "w": 544,
             "h": 306,
-            "caption": {
-              "text": "관통 다음 반사를 쌓은 공격 카드가 몬스터를 뚫고 지나간 뒤, 뒤쪽 벽에 맞아 바닥 쪽으로 튕겨 나오는 장면 (푸른 꼬리선)",
-              "verbatim": true
-            }
+            "caption": {"text": "관통 다음 반사를 쌓은 공격 카드가 몬스터를 뚫고 지나간 뒤, 뒤쪽 벽에 맞아 바닥 쪽으로 튕겨 나오는 장면 (푸른 꼬리선)", "verbatim": true}
           }
         ]
       },
@@ -485,18 +310,9 @@
         "chapter": "mass",
         "layout": "visual",
         "tab": "선택",
-        "title": {
-          "text": "4.1 얼마나 많아야 충분할까?",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "퍼진 카드가 화면을 가득 채우면 충분히 많다고 봤고, 여기에 \"만든 내가 재미있는가\"를 함께 따졌습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "4. 쏟아지는 카드 감당하기",
-          "4.1 얼마나 많아야 충분할까?"
-        ],
+        "title": {"text": "4.1 얼마나 많아야 충분할까?", "verbatim": true},
+        "lead": {"text": "퍼진 카드가 화면을 가득 채우면 충분히 많다고 봤고, 여기에 \"만든 내가 재미있는가\"를 함께 따졌습니다.", "verbatim": true},
+        "sectionPath": ["4. 쏟아지는 카드 감당하기", "4.1 얼마나 많아야 충분할까?"],
         "points": [
           {
             "label": "문제",
@@ -510,10 +326,7 @@
             "src": "images/split50-fill.gif",
             "w": 720,
             "h": 405,
-            "caption": {
-              "text": "카드 약 50장을 쏘자 분열과 반사로 약 500장까지 늘어나 화면을 가득 채우는 장면",
-              "verbatim": true
-            }
+            "caption": {"text": "카드 약 50장을 쏘자 분열과 반사로 약 500장까지 늘어나 화면을 가득 채우는 장면", "verbatim": true}
           }
         ]
       },
@@ -522,71 +335,29 @@
         "chapter": "mass",
         "layout": "full",
         "tab": "선택",
-        "title": {
-          "text": "4.2 상한을 넘는 분열은 어떻게 할까?",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "만들지 못한 자식 수만큼 위력 × (1 + 흡수 수)로 키웁니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "4. 쏟아지는 카드 감당하기",
-          "4.2 상한을 넘는 분열은 어떻게 할까?"
-        ],
-        "points": [
-          {
-            "label": "",
-            "text": "500은 한 판에서 실제로 나올 수 있는 양과도 맞습니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [
-          {
-            "kind": "table",
-            "n": 1,
-            "fp": "|대안 A. 상한을 넘으면 만들지 않음|대안 B. 넘은 만큼을 위력으로 흡수 ✓"
-          }
-        ]
+        "title": {"text": "4.2 상한을 넘는 분열은 어떻게 할까?", "verbatim": true},
+        "lead": {"text": "만들지 못한 자식 수만큼 위력 × (1 + 흡수 수)로 키웁니다.", "verbatim": true},
+        "sectionPath": ["4. 쏟아지는 카드 감당하기", "4.2 상한을 넘는 분열은 어떻게 할까?"],
+        "points": [{"label": "", "text": "500은 한 판에서 실제로 나올 수 있는 양과도 맞습니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 상한을 넘으면 만들지 않음|대안 B. 넘은 만큼을 위력으로 흡수 ✓"}]
       },
       {
         "key": "effect-leak",
         "chapter": "mass",
         "layout": "problem",
         "tab": "문제 해결",
-        "title": {
-          "text": "4.4 AI의 진단을 확인으로 되묻기",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "AI의 진단은 그럴듯해도 실제 설정과 다를 수 있었습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "4. 쏟아지는 카드 감당하기",
-          "4.4 AI의 진단을 확인으로 되묻기"
-        ],
+        "title": {"text": "4.4 AI의 진단을 확인으로 되묻기", "verbatim": true},
+        "lead": {"text": "AI의 진단은 그럴듯해도 실제 설정과 다를 수 있었습니다.", "verbatim": true},
+        "sectionPath": ["4. 쏟아지는 카드 감당하기", "4.4 AI의 진단을 확인으로 되묻기"],
         "points": [
           {
             "label": "문제",
             "text": "예산을 넣고 시험하자, 발사체 100개 중 처음 40개만 폭발 이펙트가 나오고 그 뒤로는 이펙트가 꺼진 뒤에도 다시 나오지 않았습니다.",
             "verbatim": true
           },
-          {
-            "label": "제가 확인한 것",
-            "text": "Looping은 이미 꺼져 있었고, 재생 시간도 약 2초로 짧음",
-            "verbatim": true
-          },
-          {
-            "label": "원인",
-            "text": "파티클의 종료 동작이 Disable이라, 끝나는 순간 Unity가 오브젝트를 먼저 끔",
-            "verbatim": true
-          },
-          {
-            "label": "해결",
-            "text": "이펙트가 꺼질 때(OnDisable) 풀로 돌려보냄",
-            "verbatim": true
-          }
+          {"label": "제가 확인한 것", "text": "Looping은 이미 꺼져 있었고, 재생 시간도 약 2초로 짧음", "verbatim": true},
+          {"label": "원인", "text": "파티클의 종료 동작이 Disable이라, 끝나는 순간 Unity가 오브젝트를 먼저 끔", "verbatim": true},
+          {"label": "해결", "text": "이펙트가 꺼질 때(OnDisable) 풀로 돌려보냄", "verbatim": true}
         ],
         "visuals": [
           {
@@ -594,10 +365,7 @@
             "src": "images/particle-stop-action.png",
             "w": 337,
             "h": 706,
-            "caption": {
-              "text": "폭발 이펙트의 Particle System 설정: 종료 동작(Stop Action)이 Disable로 되어 있음",
-              "verbatim": true
-            }
+            "caption": {"text": "폭발 이펙트의 Particle System 설정: 종료 동작(Stop Action)이 Disable로 되어 있음", "verbatim": true}
           }
         ]
       },
@@ -606,18 +374,9 @@
         "chapter": "mass",
         "layout": "visual",
         "tab": "결과",
-        "title": {
-          "text": "4.5 상한과 예산을 넣은 뒤: 줄어든 것은 보이지 않았다",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "두 결정으로 감수한 것은 실제로는 드러나지 않았습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "4. 쏟아지는 카드 감당하기",
-          "4.5 상한과 예산을 넣은 뒤: 줄어든 것은 보이지 않았다"
-        ],
+        "title": {"text": "4.5 상한과 예산을 넣은 뒤: 줄어든 것은 보이지 않았다", "verbatim": true},
+        "lead": {"text": "두 결정으로 감수한 것은 실제로는 드러나지 않았습니다.", "verbatim": true},
+        "sectionPath": ["4. 쏟아지는 카드 감당하기", "4.5 상한과 예산을 넣은 뒤: 줄어든 것은 보이지 않았다"],
         "points": [
           {
             "label": "배운 점",
@@ -625,41 +384,19 @@
             "verbatim": true
           }
         ],
-        "visuals": [
-          {
-            "kind": "mermaid",
-            "n": 1,
-            "fp": "flowchart TD"
-          }
-        ]
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TD"}]
       },
       {
         "key": "kill-shot",
         "chapter": "killgraph",
         "layout": "visual",
         "tab": "개요",
-        "title": {
-          "text": "5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "MagiCard가 주려는 쾌감은 한 번의 공격으로 여러 적을 쓰러뜨리는 것입니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나"
-        ],
+        "title": {"text": "5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나", "verbatim": true},
+        "lead": {"text": "MagiCard가 주려는 쾌감은 한 번의 공격으로 여러 적을 쓰러뜨리는 것입니다.", "verbatim": true},
+        "sectionPath": ["5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나"],
         "points": [
-          {
-            "label": "참고",
-            "text": "참고한 것은 서든어택이나 리그 오브 레전드 같은 PvP 게임의 멀티킬 알림입니다.",
-            "verbatim": true
-          },
-          {
-            "label": "",
-            "text": "지금 공격이 얼마나 강했는지를 화면에서 바로 보여 주는 장치가 필요했습니다.",
-            "verbatim": true
-          }
+          {"label": "참고", "text": "참고한 것은 서든어택이나 리그 오브 레전드 같은 PvP 게임의 멀티킬 알림입니다.", "verbatim": true},
+          {"label": "", "text": "지금 공격이 얼마나 강했는지를 화면에서 바로 보여 주는 장치가 필요했습니다.", "verbatim": true}
         ],
         "visuals": [
           {
@@ -667,10 +404,7 @@
             "src": "images/kill-graph.gif",
             "w": 544,
             "h": 306,
-            "caption": {
-              "text": "공격할 때마다 오른쪽 위 킬 그래프에 처치 수가 막대로 쌓이고, 처치 수가 늘며 막대 색이 바뀌는 장면",
-              "verbatim": true
-            }
+            "caption": {"text": "공격할 때마다 오른쪽 위 킬 그래프에 처치 수가 막대로 쌓이고, 처치 수가 늘며 막대 색이 바뀌는 장면", "verbatim": true}
           }
         ]
       },
@@ -679,112 +413,41 @@
         "chapter": "killgraph",
         "layout": "visual",
         "tab": "선택",
-        "title": {
-          "text": "5.2 줄이 모자라면 무엇을 남길까?",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "무엇을, 언제까지 띄울지는 \"플레이어가 강한 공격을 확실히 확인할 수 있는가\"로 판단했습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나",
-          "5.2 줄이 모자라면 무엇을 남길까?"
-        ],
+        "title": {"text": "5.2 줄이 모자라면 무엇을 남길까?", "verbatim": true},
+        "lead": {"text": "무엇을, 언제까지 띄울지는 \"플레이어가 강한 공격을 확실히 확인할 수 있는가\"로 판단했습니다.", "verbatim": true},
+        "sectionPath": ["5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나", "5.2 줄이 모자라면 무엇을 남길까?"],
         "points": [
-          {
-            "label": "약하고 오래된 줄부터 비우기",
-            "text": "끝까지 가도 처치 수가 가장 낮을 가능성이 큽니다.",
-            "verbatim": true
-          },
-          {
-            "label": "밀려난 공격도 계속 세기",
-            "text": "소멸할 때 터지는 폭발처럼 늦게 끝나는 공격이 가장 많이 처치할 수도 있습니다.",
-            "verbatim": true
-          }
+          {"label": "약하고 오래된 줄부터 비우기", "text": "끝까지 가도 처치 수가 가장 낮을 가능성이 큽니다.", "verbatim": true},
+          {"label": "밀려난 공격도 계속 세기", "text": "소멸할 때 터지는 폭발처럼 늦게 끝나는 공격이 가장 많이 처치할 수도 있습니다.", "verbatim": true}
         ],
-        "visuals": [
-          {
-            "kind": "mermaid",
-            "n": 1,
-            "fp": "flowchart TB"
-          }
-        ]
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
       },
       {
         "key": "kill-count",
         "chapter": "killgraph",
         "layout": "visual",
         "tab": "구현",
-        "title": {
-          "text": "5.3 분열한 카드까지 어떻게 셀까?",
-          "verbatim": true
-        },
+        "title": {"text": "5.3 분열한 카드까지 어떻게 셀까?", "verbatim": true},
         "lead": null,
-        "sectionPath": [
-          "5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나",
-          "5.3 분열한 카드까지 어떻게 셀까?"
-        ],
+        "sectionPath": ["5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나", "5.3 분열한 카드까지 어떻게 셀까?"],
         "points": [
-          {
-            "label": "",
-            "text": "몇 번을 분열해도 같은 공격으로 셉니다.",
-            "verbatim": true
-          },
-          {
-            "label": "",
-            "text": "피해를 보내는 순간 공격 번호를 피해 이벤트에 적어 둡니다.",
-            "verbatim": true
-          },
-          {
-            "label": "",
-            "text": "이미 죽은 적은 걸러 냅니다.",
-            "verbatim": true
-          }
+          {"label": "", "text": "몇 번을 분열해도 같은 공격으로 셉니다.", "verbatim": true},
+          {"label": "", "text": "피해를 보내는 순간 공격 번호를 피해 이벤트에 적어 둡니다.", "verbatim": true},
+          {"label": "", "text": "이미 죽은 적은 걸러 냅니다.", "verbatim": true}
         ],
-        "visuals": [
-          {
-            "kind": "mermaid",
-            "n": 1,
-            "fp": "flowchart TB"
-          }
-        ]
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
       },
       {
         "key": "modular",
         "chapter": "map",
-        "layout": "problem",
+        "layout": "visual",
         "tab": "문제 해결",
-        "title": {
-          "text": "6.1 문 위치로 방 잇기",
-          "verbatim": true
-        },
+        "title": {"text": "6.1 문 위치로 방 잇기", "verbatim": true},
         "lead": null,
-        "sectionPath": [
-          "6. 방과 통로를 이어 붙이는 맵",
-          "6.1 문 위치로 방 잇기"
-        ],
+        "sectionPath": ["6. 방과 통로를 이어 붙이는 맵", "6.1 문 위치로 방 잇기"],
         "points": [
-          {
-            "label": "문제",
-            "text": "두 문의 회전값이 서로 달라서, 문이 아니라 방 전체가 겹쳐 버렸습니다",
-            "verbatim": true
-          },
-          {
-            "label": "기준",
-            "text": "코드가 방을 어떻게 돌리는지 몰라도 방을 만들 수 있는 기준이 필요하다고 봤습니다.",
-            "verbatim": true
-          },
-          {
-            "label": "해결",
-            "text": "시작 문과 끝 문의 회전을 -90/90에서 90으로 통일해, 위치만 다르고 나머지는 완전히 같은 문 에셋으로 만들었습니다.",
-            "verbatim": true
-          },
-          {
-            "label": "결과",
-            "text": "방은 문 기준만 지켜 만들면 되고 사이는 통로가 이어 주므로, 이후로는 문 문제가 없었습니다.",
-            "verbatim": true
-          }
+          {"label": "문제", "text": "두 문의 회전값이 서로 달라서, 문이 아니라 방 전체가 겹쳐 버렸습니다", "verbatim": true},
+          {"label": "기준", "text": "코드가 방을 어떻게 돌리는지 몰라도 방을 만들 수 있는 기준이 필요하다고 봤습니다.", "verbatim": true}
         ],
         "visuals": [
           {
@@ -792,23 +455,395 @@
             "src": "images/modular-overlap.jpg",
             "w": 1200,
             "h": 1095,
-            "caption": {
-              "text": "방 A와 방 B를 문 위치로 이었을 때 문이 아니라 방 전체가 겹친 모습",
-              "verbatim": true
-            },
-            "sectionPath": [
-              "6. 방과 통로를 이어 붙이는 맵"
-            ]
+            "caption": {"text": "방 A와 방 B를 문 위치로 이었을 때 문이 아니라 방 전체가 겹친 모습", "verbatim": true},
+            "sectionPath": ["6. 방과 통로를 이어 붙이는 맵"]
+          }
+        ],
+        "edited": true
+      },
+      {
+        "key": "modular-fix",
+        "chapter": "map",
+        "layout": "visual",
+        "tab": "문제 해결",
+        "title": {"text": "6.1 문 위치로 방 잇기", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["6. 방과 통로를 이어 붙이는 맵", "6.1 문 위치로 방 잇기"],
+        "points": [
+          {
+            "label": "해결",
+            "text": "시작 문과 끝 문의 회전을 -90/90에서 90으로 통일해, 위치만 다르고 나머지는 완전히 같은 문 에셋으로 만들었습니다.",
+            "verbatim": true
+          },
+          {"label": "결과", "text": "방은 문 기준만 지켜 만들면 되고 사이는 통로가 이어 주므로, 이후로는 문 문제가 없었습니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/door-rotation.jpg",
+            "w": 1082,
+            "h": 494,
+            "caption": {"text": "문 에셋의 인스펙터. Rotation Y가 90으로 맞춰져 있음", "verbatim": true}
+          }
+        ],
+        "edited": true
+      },
+      {
+        "key": "bookshelf-choice",
+        "chapter": "map",
+        "layout": "visual",
+        "tab": "선택",
+        "title": {"text": "6.2 책 1,574권을 어떻게 줄일까?", "verbatim": true},
+        "lead": {"text": "대안 B를 고르고, A의 GPU Instancing도 그대로 두었습니다.", "verbatim": true},
+        "sectionPath": ["6. 방과 통로를 이어 붙이는 맵", "6.2 책 1,574권을 어떻게 줄일까?"],
+        "points": [
+          {"label": "이유", "text": "그리기 호출만이 아니라, 방을 만들 때마다 생기는 책 오브젝트 자체를 없애고 싶었기 때문입니다.", "verbatim": true},
+          {"label": "결과", "text": "이 작업만의 효과로 확실히 말할 수 있는 것은 Renderer 1,652 → 78입니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/bookshelf-patterns.png",
+            "w": 1057,
+            "h": 654,
+            "caption": {"text": "책이 꽂힌 책장 패턴 5종 (머티리얼 없이 모델만 띄운 화면)", "verbatim": true}
+          }
+        ],
+        "edited": true
+      },
+      {
+        "key": "ai-split",
+        "chapter": "collab",
+        "layout": "full",
+        "tab": "",
+        "title": {"text": "7.1 카드 조합: 구조를 설계하고 구현을 맡긴 곳", "verbatim": true},
+        "lead": {"text": "이 네 장에서는 게임을 어떤 방향으로 만들지가 분명했고, 문제마다 그 방향에 비추어 고민한 뒤 그 고민을 AI와 나눠 해결했습니다.", "verbatim": true},
+        "sectionPath": ["7. AI와 일한 방식", "7.1 카드 조합: 구조를 설계하고 구현을 맡긴 곳"],
+        "points": [{"label": "", "text": "이 경험으로 AI를 쓰는 데 자신감이 붙었습니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|내용"}]
+      },
+      {
+        "key": "ai-path",
+        "chapter": "collab",
+        "layout": "visual",
+        "tab": "",
+        "title": {"text": "7.3 몬스터 길찾기: 설계의 주인 자리를 놓친 곳", "verbatim": true},
+        "lead": {"text": "몬스터는 카드가 어떻게 반응하는지 보여 주는 상대라, 플레이어를 쫓아오기만 하면 충분했습니다.", "verbatim": true},
+        "sectionPath": ["7. AI와 일한 방식", "7.3 몬스터 길찾기: 설계의 주인 자리를 놓친 곳"],
+        "points": [
+          {"label": "", "text": "그렇게 판단할 일이 하나씩 AI에게 넘어가면서, 길찾기의 전권이 점점 AI에게 넘어갔습니다.", "verbatim": true},
+          {"label": "", "text": "저는 \"이 부분이 문제다\"라고 먼저 짚지 못하고 \"어디가 문제일까?\"를 먼저 물었고, 원인은 AI가 찾았습니다.", "verbatim": true},
+          {"label": "", "text": "차이는 무엇을 기준으로 판단할지를 누가 먼저 정했는가에 있었습니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
+      },
+      {
+        "key": "ai-plan",
+        "chapter": "collab",
+        "layout": "full",
+        "tab": "",
+        "title": {"text": "7.4 앞으로의 기준과 2차 개발 계획", "verbatim": true},
+        "lead": {"text": "2차 개발은 진행 중이지만, 길찾기를 새로 만드는 일은 아직 시작하지 않았습니다.", "verbatim": true},
+        "sectionPath": ["7. AI와 일한 방식", "7.4 앞으로의 기준과 2차 개발 계획"],
+        "points": [{"label": "배운 점", "text": "AI가 구현을 맡더라도, 문제가 생겼을 때 어디를 봐야 하는지 제가 먼저 말할 수 있어야 그 설계는 제 것입니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 3, "fp": "|내용|이유"}]
+      }
+    ],
+    "base": [
+      {
+        "key": "intro",
+        "chapter": "overview",
+        "layout": "overview",
+        "tab": "개요",
+        "title": {"text": "1. 개요", "verbatim": true},
+        "lead": {"text": "MagiCard는 총알 대신 카드를 쏘는 1인칭 슈터입니다.", "verbatim": true},
+        "sectionPath": ["1. 개요"],
+        "points": [
+          {"label": "목표한 경험", "text": "플레이어가 한 번의 공격으로 여러 적을 한꺼번에 쓰러뜨리는 쾌감을 느끼기를 바랐습니다.", "verbatim": true},
+          {
+            "label": "플레이의 중심",
+            "text": "정확히 조준하는 실력보다, 어떤 카드로 덱을 꾸리고 그 자리에서 어떤 순서로 쓸지 판단하는 것이 플레이의 중심이 되도록 했습니다.",
+            "verbatim": true
+          },
+          {"label": "개인 목표", "text": "AI와 함께 만들었을 때 제 역량을 어디까지 끌어낼 수 있는지 시험해 보기로 했습니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "table", "n": 1, "fp": "핵심 기능|부딪힌 문제|이렇게 풀었다"}]
+      },
+      {
+        "key": "battle-loop",
+        "chapter": "play",
+        "layout": "visual",
+        "tab": "흐름",
+        "title": {"text": "2.1 방을 비우고 덱을 키우는 반복", "verbatim": true},
+        "lead": {"text": "한 판은 두 개의 반복으로 이루어집니다.", "verbatim": true},
+        "sectionPath": ["2. 한 판의 흐름", "2.1 방을 비우고 덱을 키우는 반복"],
+        "points": [{"label": "", "text": "방은 작은 방, 중간 방, 큰 방을 거쳐 보스방으로 이어집니다.", "verbatim": true}],
+        "visuals": [
+          {"kind": "mermaid", "n": 1, "fp": "flowchart TD"},
+          {
+            "kind": "image",
+            "src": "images/reload.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "공격, 분열, 공격 카드를 차례로 쏘고 손패를 다 쓰자 저절로 재장전되는 장면", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "references",
+        "chapter": "play",
+        "layout": "full",
+        "tab": "개요",
+        "title": {"text": "2.4 참고한 게임", "verbatim": true},
+        "lead": {"text": "세 게임의 조작과 재미를 그대로 옮기지 않고, 덱빌딩의 조합을 1인칭 슈터의 발사체 하나에 모으는 쪽으로 합쳤습니다.", "verbatim": true},
+        "sectionPath": ["2. 한 판의 흐름", "2.4 참고한 게임"],
+        "points": [],
+        "visuals": [{"kind": "table", "n": 1, "fp": "게임|가져온 것|MagiCard에서 바꾼 것"}]
+      },
+      {
+        "key": "stack-fire",
+        "chapter": "combo",
+        "layout": "visual",
+        "tab": "구조",
+        "title": {"text": "3.1 카드는 성질만, 남은 횟수는 발사체에", "verbatim": true},
+        "lead": {"text": "여러 발사체가 같은 카드 객체를 함께 씁니다.", "verbatim": true},
+        "sectionPath": ["3. 카드 조합: 쌓은 순서가 결과가 된다", "3.1 카드는 성질만, 남은 횟수는 발사체에"],
+        "points": [
+          {
+            "label": "",
+            "text": "카드에는 \"관통한다\", \"충돌할 때 발동한다\" 같은 성질만 두고, 남은 관통 횟수처럼 날아가는 동안 바뀌는 값은 발사체가 따로 들고 있게 했습니다.",
+            "verbatim": true
+          },
+          {
+            "label": "데이터",
+            "text": "카드를 계속 늘리고 고치려면 Unity를 열지 않고도 데이터만 받아 빠르게 편집할 수 있어야 한다고 보고, 카드를 표(TSV)로 옮겼습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/enchant.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "강화 카드를 한 장씩 쏘아 강화를 쌓은 뒤 공격 카드로 한 번에 쏘는 장면", "verbatim": true}
+          },
+          {"kind": "table", "n": 1, "fp": "|카드|맵"}
+        ]
+      },
+      {
+        "key": "clash-try",
+        "chapter": "combo",
+        "layout": "visual",
+        "tab": "선택",
+        "title": {"text": "3.2 관통과 반사를 함께 쌓을 수 있을까?", "verbatim": true},
+        "lead": {"text": "두 카드는 같은 면을 만났을 때 정반대로 움직입니다.", "verbatim": true},
+        "sectionPath": ["3. 카드 조합: 쌓은 순서가 결과가 된다", "3.2 관통과 반사를 함께 쌓을 수 있을까?"],
+        "points": [
+          {"label": "", "text": "다만 세 시도 모두 \"두 카드가 어떻게 다투지 않게 할까\"를 푸는 규칙이라, 시도할수록 막는 규칙만 늘었습니다.", "verbatim": true},
+          {
+            "label": "다시 짚은 문제",
+            "text": "지금 문제가 충돌 카드가 서로 경쟁하는 구조에 있는게 아니라 관통과 반사가 운동량의 변화가 정 반대라서 그런거 같아",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
+      },
+      {
+        "key": "role-axis",
+        "chapter": "combo",
+        "layout": "full",
+        "tab": "선택",
+        "title": {"text": "3.2 관통과 반사를 함께 쌓을 수 있을까?", "verbatim": true},
+        "lead": {"text": "기준을 두 카드를 함께 쌓은 플레이어는 무엇을 기대할까? 로 두었습니다.", "verbatim": true},
+        "sectionPath": ["3. 카드 조합: 쌓은 순서가 결과가 된다", "3.2 관통과 반사를 함께 쌓을 수 있을까?"],
+        "points": [{"label": "", "text": "문제를 다시 정의한 것은 저였고, 그것을 구조로 옮긴 것은 AI였습니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|다툼을 규칙으로 조정 (시도 1–3)|역할로 나누기 ✓"}]
+      },
+      {
+        "key": "claim",
+        "chapter": "combo",
+        "layout": "visual",
+        "tab": "구현",
+        "title": {"text": "3.3 충돌 한 번에 반응은 한 장", "verbatim": true},
+        "lead": {"text": "\"한 번의 충돌은 한 장만 맡는다\"는 규칙은 권리를 먼저 가져가는 방식으로 만들었습니다.", "verbatim": true},
+        "sectionPath": ["3. 카드 조합: 쌓은 순서가 결과가 된다", "3.3 충돌 한 번에 반응은 한 장"],
+        "points": [{"label": "", "text": "이런 구조로, 플레이어가 쌓은 순서가 분열한 자식까지 그대로 결과가 되는 발사체를 만들었습니다.", "verbatim": true}],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/pierce-ricochet.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "관통 다음 반사를 쌓은 공격 카드가 몬스터를 뚫고 지나간 뒤, 뒤쪽 벽에 맞아 바닥 쪽으로 튕겨 나오는 장면 (푸른 꼬리선)", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "enough",
+        "chapter": "mass",
+        "layout": "visual",
+        "tab": "선택",
+        "title": {"text": "4.1 얼마나 많아야 충분할까?", "verbatim": true},
+        "lead": {"text": "퍼진 카드가 화면을 가득 채우면 충분히 많다고 봤고, 여기에 \"만든 내가 재미있는가\"를 함께 따졌습니다.", "verbatim": true},
+        "sectionPath": ["4. 쏟아지는 카드 감당하기", "4.1 얼마나 많아야 충분할까?"],
+        "points": [
+          {
+            "label": "문제",
+            "text": "첫 프로토타입에서 분열만 15장 정도 강화해 시험해 보니, 카드가 5~6만 장 발사될 때 FPS가 한 자릿수로 떨어졌고 10만 장대에서는 게임이 동작하지 않았습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/split50-fill.gif",
+            "w": 720,
+            "h": 405,
+            "caption": {"text": "카드 약 50장을 쏘자 분열과 반사로 약 500장까지 늘어나 화면을 가득 채우는 장면", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "split-absorb",
+        "chapter": "mass",
+        "layout": "full",
+        "tab": "선택",
+        "title": {"text": "4.2 상한을 넘는 분열은 어떻게 할까?", "verbatim": true},
+        "lead": {"text": "만들지 못한 자식 수만큼 위력 × (1 + 흡수 수)로 키웁니다.", "verbatim": true},
+        "sectionPath": ["4. 쏟아지는 카드 감당하기", "4.2 상한을 넘는 분열은 어떻게 할까?"],
+        "points": [{"label": "", "text": "500은 한 판에서 실제로 나올 수 있는 양과도 맞습니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|대안 A. 상한을 넘으면 만들지 않음|대안 B. 넘은 만큼을 위력으로 흡수 ✓"}]
+      },
+      {
+        "key": "effect-leak",
+        "chapter": "mass",
+        "layout": "problem",
+        "tab": "문제 해결",
+        "title": {"text": "4.4 AI의 진단을 확인으로 되묻기", "verbatim": true},
+        "lead": {"text": "AI의 진단은 그럴듯해도 실제 설정과 다를 수 있었습니다.", "verbatim": true},
+        "sectionPath": ["4. 쏟아지는 카드 감당하기", "4.4 AI의 진단을 확인으로 되묻기"],
+        "points": [
+          {
+            "label": "문제",
+            "text": "예산을 넣고 시험하자, 발사체 100개 중 처음 40개만 폭발 이펙트가 나오고 그 뒤로는 이펙트가 꺼진 뒤에도 다시 나오지 않았습니다.",
+            "verbatim": true
+          },
+          {"label": "제가 확인한 것", "text": "Looping은 이미 꺼져 있었고, 재생 시간도 약 2초로 짧음", "verbatim": true},
+          {"label": "원인", "text": "파티클의 종료 동작이 Disable이라, 끝나는 순간 Unity가 오브젝트를 먼저 끔", "verbatim": true},
+          {"label": "해결", "text": "이펙트가 꺼질 때(OnDisable) 풀로 돌려보냄", "verbatim": true}
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/particle-stop-action.png",
+            "w": 337,
+            "h": 706,
+            "caption": {"text": "폭발 이펙트의 Particle System 설정: 종료 동작(Stop Action)이 Disable로 되어 있음", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "mass-result",
+        "chapter": "mass",
+        "layout": "visual",
+        "tab": "결과",
+        "title": {"text": "4.5 상한과 예산을 넣은 뒤: 줄어든 것은 보이지 않았다", "verbatim": true},
+        "lead": {"text": "두 결정으로 감수한 것은 실제로는 드러나지 않았습니다.", "verbatim": true},
+        "sectionPath": ["4. 쏟아지는 카드 감당하기", "4.5 상한과 예산을 넣은 뒤: 줄어든 것은 보이지 않았다"],
+        "points": [
+          {
+            "label": "배운 점",
+            "text": "카드가 충분히 많으면 그 개수가 다른 볼거리를 대신하고, 어디까지가 충분한지는 AI의 수치가 아니라 직접 해 본 화면으로 정해야 했습니다.",
+            "verbatim": true
+          }
+        ],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TD"}]
+      },
+      {
+        "key": "kill-shot",
+        "chapter": "killgraph",
+        "layout": "visual",
+        "tab": "개요",
+        "title": {"text": "5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나", "verbatim": true},
+        "lead": {"text": "MagiCard가 주려는 쾌감은 한 번의 공격으로 여러 적을 쓰러뜨리는 것입니다.", "verbatim": true},
+        "sectionPath": ["5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나"],
+        "points": [
+          {"label": "참고", "text": "참고한 것은 서든어택이나 리그 오브 레전드 같은 PvP 게임의 멀티킬 알림입니다.", "verbatim": true},
+          {"label": "", "text": "지금 공격이 얼마나 강했는지를 화면에서 바로 보여 주는 장치가 필요했습니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/kill-graph.gif",
+            "w": 544,
+            "h": 306,
+            "caption": {"text": "공격할 때마다 오른쪽 위 킬 그래프에 처치 수가 막대로 쌓이고, 처치 수가 늘며 막대 색이 바뀌는 장면", "verbatim": true}
+          }
+        ]
+      },
+      {
+        "key": "kill-rows",
+        "chapter": "killgraph",
+        "layout": "visual",
+        "tab": "선택",
+        "title": {"text": "5.2 줄이 모자라면 무엇을 남길까?", "verbatim": true},
+        "lead": {"text": "무엇을, 언제까지 띄울지는 \"플레이어가 강한 공격을 확실히 확인할 수 있는가\"로 판단했습니다.", "verbatim": true},
+        "sectionPath": ["5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나", "5.2 줄이 모자라면 무엇을 남길까?"],
+        "points": [
+          {"label": "약하고 오래된 줄부터 비우기", "text": "끝까지 가도 처치 수가 가장 낮을 가능성이 큽니다.", "verbatim": true},
+          {"label": "밀려난 공격도 계속 세기", "text": "소멸할 때 터지는 폭발처럼 늦게 끝나는 공격이 가장 많이 처치할 수도 있습니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
+      },
+      {
+        "key": "kill-count",
+        "chapter": "killgraph",
+        "layout": "visual",
+        "tab": "구현",
+        "title": {"text": "5.3 분열한 카드까지 어떻게 셀까?", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["5. 킬 그래프: 한 번의 공격으로 몇을 쓰러뜨렸나", "5.3 분열한 카드까지 어떻게 셀까?"],
+        "points": [
+          {"label": "", "text": "몇 번을 분열해도 같은 공격으로 셉니다.", "verbatim": true},
+          {"label": "", "text": "피해를 보내는 순간 공격 번호를 피해 이벤트에 적어 둡니다.", "verbatim": true},
+          {"label": "", "text": "이미 죽은 적은 걸러 냅니다.", "verbatim": true}
+        ],
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
+      },
+      {
+        "key": "modular",
+        "chapter": "map",
+        "layout": "problem",
+        "tab": "문제 해결",
+        "title": {"text": "6.1 문 위치로 방 잇기", "verbatim": true},
+        "lead": null,
+        "sectionPath": ["6. 방과 통로를 이어 붙이는 맵", "6.1 문 위치로 방 잇기"],
+        "points": [
+          {"label": "문제", "text": "두 문의 회전값이 서로 달라서, 문이 아니라 방 전체가 겹쳐 버렸습니다", "verbatim": true},
+          {"label": "기준", "text": "코드가 방을 어떻게 돌리는지 몰라도 방을 만들 수 있는 기준이 필요하다고 봤습니다.", "verbatim": true},
+          {
+            "label": "해결",
+            "text": "시작 문과 끝 문의 회전을 -90/90에서 90으로 통일해, 위치만 다르고 나머지는 완전히 같은 문 에셋으로 만들었습니다.",
+            "verbatim": true
+          },
+          {"label": "결과", "text": "방은 문 기준만 지켜 만들면 되고 사이는 통로가 이어 주므로, 이후로는 문 문제가 없었습니다.", "verbatim": true}
+        ],
+        "visuals": [
+          {
+            "kind": "image",
+            "src": "images/modular-overlap.jpg",
+            "w": 1200,
+            "h": 1095,
+            "caption": {"text": "방 A와 방 B를 문 위치로 이었을 때 문이 아니라 방 전체가 겹친 모습", "verbatim": true},
+            "sectionPath": ["6. 방과 통로를 이어 붙이는 맵"]
           },
           {
             "kind": "image",
             "src": "images/door-rotation.jpg",
             "w": 1082,
             "h": 494,
-            "caption": {
-              "text": "문 에셋의 인스펙터. Rotation Y가 90으로 맞춰져 있음",
-              "verbatim": true
-            }
+            "caption": {"text": "문 에셋의 인스펙터. Rotation Y가 90으로 맞춰져 있음", "verbatim": true}
           }
         ]
       },
@@ -817,29 +852,12 @@
         "chapter": "map",
         "layout": "visual",
         "tab": "선택",
-        "title": {
-          "text": "6.2 책 1,574권을 어떻게 줄일까?",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "대안 B를 고르고, A의 GPU Instancing도 그대로 두었습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "6. 방과 통로를 이어 붙이는 맵",
-          "6.2 책 1,574권을 어떻게 줄일까?"
-        ],
+        "title": {"text": "6.2 책 1,574권을 어떻게 줄일까?", "verbatim": true},
+        "lead": {"text": "대안 B를 고르고, A의 GPU Instancing도 그대로 두었습니다.", "verbatim": true},
+        "sectionPath": ["6. 방과 통로를 이어 붙이는 맵", "6.2 책 1,574권을 어떻게 줄일까?"],
         "points": [
-          {
-            "label": "이유",
-            "text": "그리기 호출만이 아니라, 방을 만들 때마다 생기는 책 오브젝트 자체를 없애고 싶었기 때문입니다.",
-            "verbatim": true
-          },
-          {
-            "label": "결과",
-            "text": "이 작업만의 효과로 확실히 말할 수 있는 것은 Renderer 1,652 → 78입니다.",
-            "verbatim": true
-          }
+          {"label": "이유", "text": "그리기 호출만이 아니라, 방을 만들 때마다 생기는 책 오브젝트 자체를 없애고 싶었기 때문입니다.", "verbatim": true},
+          {"label": "결과", "text": "이 작업만의 효과로 확실히 말할 수 있는 것은 Renderer 1,652 → 78입니다.", "verbatim": true}
         ],
         "visuals": [
           {
@@ -847,16 +865,9 @@
             "src": "images/bookshelf-patterns.png",
             "w": 1057,
             "h": 654,
-            "caption": {
-              "text": "책이 꽂힌 책장 패턴 5종 (머티리얼 없이 모델만 띄운 화면)",
-              "verbatim": true
-            }
+            "caption": {"text": "책이 꽂힌 책장 패턴 5종 (머티리얼 없이 모델만 띄운 화면)", "verbatim": true}
           },
-          {
-            "kind": "table",
-            "n": 2,
-            "fp": "항목|이전|이후"
-          }
+          {"kind": "table", "n": 2, "fp": "항목|이전|이후"}
         ]
       },
       {
@@ -864,107 +875,39 @@
         "chapter": "collab",
         "layout": "full",
         "tab": "",
-        "title": {
-          "text": "7.1 카드 조합: 구조를 설계하고 구현을 맡긴 곳",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "이 네 장에서는 게임을 어떤 방향으로 만들지가 분명했고, 문제마다 그 방향에 비추어 고민한 뒤 그 고민을 AI와 나눠 해결했습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "7. AI와 일한 방식",
-          "7.1 카드 조합: 구조를 설계하고 구현을 맡긴 곳"
-        ],
-        "points": [
-          {
-            "label": "",
-            "text": "이 경험으로 AI를 쓰는 데 자신감이 붙었습니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [
-          {
-            "kind": "table",
-            "n": 1,
-            "fp": "|내용"
-          }
-        ]
+        "title": {"text": "7.1 카드 조합: 구조를 설계하고 구현을 맡긴 곳", "verbatim": true},
+        "lead": {"text": "이 네 장에서는 게임을 어떤 방향으로 만들지가 분명했고, 문제마다 그 방향에 비추어 고민한 뒤 그 고민을 AI와 나눠 해결했습니다.", "verbatim": true},
+        "sectionPath": ["7. AI와 일한 방식", "7.1 카드 조합: 구조를 설계하고 구현을 맡긴 곳"],
+        "points": [{"label": "", "text": "이 경험으로 AI를 쓰는 데 자신감이 붙었습니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 1, "fp": "|내용"}]
       },
       {
         "key": "ai-path",
         "chapter": "collab",
         "layout": "visual",
         "tab": "",
-        "title": {
-          "text": "7.3 몬스터 길찾기: 설계의 주인 자리를 놓친 곳",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "몬스터는 카드가 어떻게 반응하는지 보여 주는 상대라, 플레이어를 쫓아오기만 하면 충분했습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "7. AI와 일한 방식",
-          "7.3 몬스터 길찾기: 설계의 주인 자리를 놓친 곳"
-        ],
+        "title": {"text": "7.3 몬스터 길찾기: 설계의 주인 자리를 놓친 곳", "verbatim": true},
+        "lead": {"text": "몬스터는 카드가 어떻게 반응하는지 보여 주는 상대라, 플레이어를 쫓아오기만 하면 충분했습니다.", "verbatim": true},
+        "sectionPath": ["7. AI와 일한 방식", "7.3 몬스터 길찾기: 설계의 주인 자리를 놓친 곳"],
         "points": [
-          {
-            "label": "",
-            "text": "그렇게 판단할 일이 하나씩 AI에게 넘어가면서, 길찾기의 전권이 점점 AI에게 넘어갔습니다.",
-            "verbatim": true
-          },
-          {
-            "label": "",
-            "text": "저는 \"이 부분이 문제다\"라고 먼저 짚지 못하고 \"어디가 문제일까?\"를 먼저 물었고, 원인은 AI가 찾았습니다.",
-            "verbatim": true
-          },
-          {
-            "label": "",
-            "text": "차이는 무엇을 기준으로 판단할지를 누가 먼저 정했는가에 있었습니다.",
-            "verbatim": true
-          }
+          {"label": "", "text": "그렇게 판단할 일이 하나씩 AI에게 넘어가면서, 길찾기의 전권이 점점 AI에게 넘어갔습니다.", "verbatim": true},
+          {"label": "", "text": "저는 \"이 부분이 문제다\"라고 먼저 짚지 못하고 \"어디가 문제일까?\"를 먼저 물었고, 원인은 AI가 찾았습니다.", "verbatim": true},
+          {"label": "", "text": "차이는 무엇을 기준으로 판단할지를 누가 먼저 정했는가에 있었습니다.", "verbatim": true}
         ],
-        "visuals": [
-          {
-            "kind": "mermaid",
-            "n": 1,
-            "fp": "flowchart TB"
-          }
-        ]
+        "visuals": [{"kind": "mermaid", "n": 1, "fp": "flowchart TB"}]
       },
       {
         "key": "ai-plan",
         "chapter": "collab",
         "layout": "full",
         "tab": "",
-        "title": {
-          "text": "7.4 앞으로의 기준과 2차 개발 계획",
-          "verbatim": true
-        },
-        "lead": {
-          "text": "2차 개발은 진행 중이지만, 길찾기를 새로 만드는 일은 아직 시작하지 않았습니다.",
-          "verbatim": true
-        },
-        "sectionPath": [
-          "7. AI와 일한 방식",
-          "7.4 앞으로의 기준과 2차 개발 계획"
-        ],
-        "points": [
-          {
-            "label": "배운 점",
-            "text": "AI가 구현을 맡더라도, 문제가 생겼을 때 어디를 봐야 하는지 제가 먼저 말할 수 있어야 그 설계는 제 것입니다.",
-            "verbatim": true
-          }
-        ],
-        "visuals": [
-          {
-            "kind": "table",
-            "n": 3,
-            "fp": "|내용|이유"
-          }
-        ]
+        "title": {"text": "7.4 앞으로의 기준과 2차 개발 계획", "verbatim": true},
+        "lead": {"text": "2차 개발은 진행 중이지만, 길찾기를 새로 만드는 일은 아직 시작하지 않았습니다.", "verbatim": true},
+        "sectionPath": ["7. AI와 일한 방식", "7.4 앞으로의 기준과 2차 개발 계획"],
+        "points": [{"label": "배운 점", "text": "AI가 구현을 맡더라도, 문제가 생겼을 때 어디를 봐야 하는지 제가 먼저 말할 수 있어야 그 설계는 제 것입니다.", "verbatim": true}],
+        "visuals": [{"kind": "table", "n": 3, "fp": "|내용|이유"}]
       }
-    ]
+    ],
+    "applied": "e848cf5f852f0afb"
   }
 }

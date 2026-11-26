@@ -1,5 +1,160 @@
 {
   "schemaVersion": 1,
-  "pin": [],
+  "pin": [
+    {
+      "key": "sync-result",
+      "chapter": "sync",
+      "layout": "visual",
+      "tab": "결과",
+      "title": {
+        "text": "6.2 다섯 조각을 보내자 맞은 손",
+        "verbatim": true
+      },
+      "lead": {
+        "text": "다섯 조각을 모두 보내도록 바꾼 뒤 클라이언트 사이의 손 위치가 맞았습니다.",
+        "verbatim": true
+      },
+      "sectionPath": [
+        "6. 모든 화면에 같은 몸 보이기",
+        "6.2 다섯 조각을 보내자 맞은 손"
+      ],
+      "points": [
+        {
+          "label": "",
+          "text": "걱정했던 게스트의 딜레이도 학원에서, 그리고 팀원들이 각자 집에서 테스트했을 때 느껴지지 않았습니다.",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "mermaid",
+          "n": 1,
+          "fp": "flowchart TB"
+        },
+        {
+          "kind": "image",
+          "src": "images/network-wide.gif",
+          "w": 544,
+          "h": 154,
+          "caption": {
+            "text": "두 클라이언트 화면에서 같은 플레이어가 함께 움직이는 장면",
+            "verbatim": true
+          }
+        }
+      ],
+      "from": {
+        "key": "sync-result",
+        "sectionPath": [
+          "6. 모든 화면에 같은 몸 보이기",
+          "6.2 다섯 조각을 보내자 맞은 손"
+        ],
+        "sig": [
+          "6.2 다섯 조각을 보내자 맞은 손|image|images/network-crop.gif|1",
+          "6.2 다섯 조각을 보내자 맞은 손|mermaid|1|flowchart TB"
+        ]
+      }
+    },
+    {
+      "key": "food-states",
+      "chapter": "foodchain",
+      "layout": "full",
+      "tab": "흐름",
+      "title": {
+        "text": "7.2 물고기 먹이사슬",
+        "verbatim": true
+      },
+      "lead": {
+        "text": "모든 물고기는 먹이사슬에 속하지만, 하는 일은 종류마다 다릅니다.",
+        "verbatim": true
+      },
+      "sectionPath": [
+        "7. 물고기 잡기와 먹이사슬",
+        "7.2 물고기 먹이사슬"
+      ],
+      "points": [],
+      "visuals": [
+        {
+          "kind": "mermaid",
+          "n": 1,
+          "fp": "flowchart TB"
+        },
+        {
+          "kind": "table",
+          "n": 1,
+          "fp": "종류|예|먹이사슬에서 하는 일"
+        }
+      ],
+      "from": {
+        "key": "food-states",
+        "sectionPath": [
+          "7. 물고기 잡기와 먹이사슬",
+          "7.2 물고기 먹이사슬"
+        ],
+        "sig": [
+          "7.2 물고기 먹이사슬|mermaid|1|flowchart TB",
+          "7.2 물고기 먹이사슬|table|1|종류|예|먹이사슬에서 하는 일"
+        ]
+      }
+    },
+    {
+      "key": "multi-grab",
+      "chapter": "lift",
+      "layout": "problem",
+      "tab": "문제 해결",
+      "title": {
+        "text": "5.2 함께 잡으면 못 움직이던 문제",
+        "verbatim": true
+      },
+      "lead": null,
+      "sectionPath": [
+        "5. 서로 붙잡고 끌어올리기",
+        "5.2 함께 잡으면 못 움직이던 문제"
+      ],
+      "points": [
+        {
+          "label": "문제",
+          "text": "한 플레이어가 판자를 잡고 있을 때 다른 플레이어가 같은 판자를 잡으면, 바닥을 잡아도 움직이지 못함",
+          "verbatim": true
+        },
+        {
+          "label": "원인",
+          "text": "두 번째 플레이어에게 그 판자의 무게는 이미 '플레이어 + 판자'",
+          "verbatim": true
+        },
+        {
+          "label": "해결",
+          "text": "바닥을 잡은 플레이어가 강한 힘을 쓰고, 그 강한 힘이 잡고 있는 물체와 플레이어를 타고 차례로 전달되게 함 (사다리형 힘 전달)",
+          "verbatim": true
+        },
+        {
+          "label": "결과",
+          "text": "멀티플레이에서도 움직일 수 있는 구조가 됨",
+          "verbatim": true
+        }
+      ],
+      "visuals": [
+        {
+          "kind": "image",
+          "src": "images/throw.gif",
+          "w": 544,
+          "h": 306,
+          "caption": {
+            "text": "다른 플레이어를 잡아 날리는 장면",
+            "verbatim": true
+          }
+        }
+      ],
+      "from": {
+        "key": "multi-grab",
+        "sectionPath": [
+          "5. 서로 붙잡고 끌어올리기",
+          "5.2 함께 잡으면 못 움직이던 문제"
+        ],
+        "sig": [
+          "5.2 함께 잡으면 못 움직이던 문제|mermaid|1|flowchart TB"
+        ]
+      }
+    }
+  ],
   "hide": []
 }
